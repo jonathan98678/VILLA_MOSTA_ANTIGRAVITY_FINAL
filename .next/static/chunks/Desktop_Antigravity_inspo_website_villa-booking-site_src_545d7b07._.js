@@ -260,6 +260,7 @@ function HeroSection(param) {
     let { title = "VILLA MOSTA", subtitle = "A Traditional Maltese Home", description = "Experience authentic Maltese hospitality in the heart of Mosta.", videoId = "9mg8FOQi6bI", videoStart = 121, videoEnd = 124.5, showScrollIndicator = true, className } = param;
     _s();
     const [isLoaded, setIsLoaded] = __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Antigravity_inspo_website$2f$villa$2d$booking$2d$site$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"](false);
+    const [videoReady, setVideoReady] = __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Antigravity_inspo_website$2f$villa$2d$booking$2d$site$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"](false);
     const [showFreezeFrame, setShowFreezeFrame] = __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Antigravity_inspo_website$2f$villa$2d$booking$2d$site$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"](false);
     const playerRef = __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Antigravity_inspo_website$2f$villa$2d$booking$2d$site$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"](null);
     const intervalRef = __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Antigravity_inspo_website$2f$villa$2d$booking$2d$site$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"](null);
@@ -323,7 +324,12 @@ function HeroSection(param) {
                                 }
                             }["HeroSection.useEffect"],
                             onStateChange: {
-                                "HeroSection.useEffect": ()=>{}
+                                "HeroSection.useEffect": (event)=>{
+                                    // Video is playing (state 1)
+                                    if (event.data === 1) {
+                                        setVideoReady(true);
+                                    }
+                                }
                             }["HeroSection.useEffect"]
                         }
                     });
@@ -367,35 +373,47 @@ function HeroSection(param) {
                         className: "w-full h-full"
                     }, void 0, false, {
                         fileName: "[project]/Desktop/Antigravity_inspo_website/villa-booking-site/src/components/sections/HeroSection.tsx",
-                        lineNumber: 155,
+                        lineNumber: 161,
                         columnNumber: 21
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/Desktop/Antigravity_inspo_website/villa-booking-site/src/components/sections/HeroSection.tsx",
-                    lineNumber: 147,
+                    lineNumber: 153,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/Desktop/Antigravity_inspo_website/villa-booking-site/src/components/sections/HeroSection.tsx",
-                lineNumber: 143,
+                lineNumber: 149,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Antigravity_inspo_website$2f$villa$2d$booking$2d$site$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Antigravity_inspo_website$2f$villa$2d$booking$2d$site$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("absolute inset-0 transition-opacity duration-300", showFreezeFrame ? "opacity-100" : "opacity-0"),
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Antigravity_inspo_website$2f$villa$2d$booking$2d$site$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Antigravity_inspo_website$2f$villa$2d$booking$2d$site$2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                    src: "/images/villa/hero-freeze.png",
-                    alt: "Mosta Rotunda",
-                    fill: true,
-                    className: "object-cover object-bottom",
-                    priority: true
+                className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Antigravity_inspo_website$2f$villa$2d$booking$2d$site$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("absolute inset-0 transition-opacity duration-500", showFreezeFrame || !videoReady ? "opacity-100" : "opacity-0"),
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Antigravity_inspo_website$2f$villa$2d$booking$2d$site$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "absolute left-1/2 w-[177.78vh] min-w-full",
+                    style: {
+                        aspectRatio: "16/9",
+                        bottom: "-50px",
+                        transform: "translate(-50%, 0)"
+                    },
+                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Antigravity_inspo_website$2f$villa$2d$booking$2d$site$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Antigravity_inspo_website$2f$villa$2d$booking$2d$site$2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                        src: "/images/villa/hero-freeze.png",
+                        alt: "Mosta Rotunda",
+                        fill: true,
+                        className: "object-cover",
+                        priority: true
+                    }, void 0, false, {
+                        fileName: "[project]/Desktop/Antigravity_inspo_website/villa-booking-site/src/components/sections/HeroSection.tsx",
+                        lineNumber: 178,
+                        columnNumber: 21
+                    }, this)
                 }, void 0, false, {
                     fileName: "[project]/Desktop/Antigravity_inspo_website/villa-booking-site/src/components/sections/HeroSection.tsx",
-                    lineNumber: 164,
+                    lineNumber: 170,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/Desktop/Antigravity_inspo_website/villa-booking-site/src/components/sections/HeroSection.tsx",
-                lineNumber: 160,
+                lineNumber: 166,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Antigravity_inspo_website$2f$villa$2d$booking$2d$site$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -405,7 +423,7 @@ function HeroSection(param) {
                 }
             }, void 0, false, {
                 fileName: "[project]/Desktop/Antigravity_inspo_website/villa-booking-site/src/components/sections/HeroSection.tsx",
-                lineNumber: 174,
+                lineNumber: 189,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Antigravity_inspo_website$2f$villa$2d$booking$2d$site$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -419,7 +437,7 @@ function HeroSection(param) {
                         children: title
                     }, void 0, false, {
                         fileName: "[project]/Desktop/Antigravity_inspo_website/villa-booking-site/src/components/sections/HeroSection.tsx",
-                        lineNumber: 178,
+                        lineNumber: 193,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Antigravity_inspo_website$2f$villa$2d$booking$2d$site$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -427,7 +445,7 @@ function HeroSection(param) {
                         children: subtitle
                     }, void 0, false, {
                         fileName: "[project]/Desktop/Antigravity_inspo_website/villa-booking-site/src/components/sections/HeroSection.tsx",
-                        lineNumber: 188,
+                        lineNumber: 203,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Antigravity_inspo_website$2f$villa$2d$booking$2d$site$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -435,7 +453,7 @@ function HeroSection(param) {
                         children: description
                     }, void 0, false, {
                         fileName: "[project]/Desktop/Antigravity_inspo_website/villa-booking-site/src/components/sections/HeroSection.tsx",
-                        lineNumber: 198,
+                        lineNumber: 213,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Antigravity_inspo_website$2f$villa$2d$booking$2d$site$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -446,18 +464,18 @@ function HeroSection(param) {
                             children: "Book Your Stay"
                         }, void 0, false, {
                             fileName: "[project]/Desktop/Antigravity_inspo_website/villa-booking-site/src/components/sections/HeroSection.tsx",
-                            lineNumber: 214,
+                            lineNumber: 229,
                             columnNumber: 21
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/Desktop/Antigravity_inspo_website/villa-booking-site/src/components/sections/HeroSection.tsx",
-                        lineNumber: 208,
+                        lineNumber: 223,
                         columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/Desktop/Antigravity_inspo_website/villa-booking-site/src/components/sections/HeroSection.tsx",
-                lineNumber: 177,
+                lineNumber: 192,
                 columnNumber: 13
             }, this),
             showScrollIndicator && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Antigravity_inspo_website$2f$villa$2d$booking$2d$site$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -473,30 +491,30 @@ function HeroSection(param) {
                         children: "Discover"
                     }, void 0, false, {
                         fileName: "[project]/Desktop/Antigravity_inspo_website/villa-booking-site/src/components/sections/HeroSection.tsx",
-                        lineNumber: 232,
+                        lineNumber: 247,
                         columnNumber: 21
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Antigravity_inspo_website$2f$villa$2d$booking$2d$site$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Antigravity_inspo_website$2f$villa$2d$booking$2d$site$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__["ChevronDown"], {
                         className: "w-4 h-4 animate-bounce"
                     }, void 0, false, {
                         fileName: "[project]/Desktop/Antigravity_inspo_website/villa-booking-site/src/components/sections/HeroSection.tsx",
-                        lineNumber: 233,
+                        lineNumber: 248,
                         columnNumber: 21
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/Desktop/Antigravity_inspo_website/villa-booking-site/src/components/sections/HeroSection.tsx",
-                lineNumber: 222,
+                lineNumber: 237,
                 columnNumber: 17
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/Desktop/Antigravity_inspo_website/villa-booking-site/src/components/sections/HeroSection.tsx",
-        lineNumber: 134,
+        lineNumber: 140,
         columnNumber: 9
     }, this);
 }
-_s(HeroSection, "x6Z/PkAS5nw5uIiOJb5aLqbYpAM=");
+_s(HeroSection, "2+juGZBzyLCqUkjaIC4PvzTU1Hk=");
 _c = HeroSection;
 var _c;
 __turbopack_context__.k.register(_c, "HeroSection");

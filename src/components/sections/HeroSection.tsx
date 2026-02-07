@@ -55,6 +55,7 @@ export function HeroSection({
     className,
 }: HeroSectionProps) {
     const [isLoaded, setIsLoaded] = React.useState(false);
+    const [videoReady, setVideoReady] = React.useState(false);
     const [showFreezeFrame, setShowFreezeFrame] = React.useState(false);
     const playerRef = React.useRef<YouTubePlayer | null>(null);
     const intervalRef = React.useRef<NodeJS.Timeout | null>(null);
@@ -111,7 +112,12 @@ export function HeroSection({
                             }
                         }, 100);
                     },
-                    onStateChange: () => { },
+                    onStateChange: (event) => {
+                        // Video is playing (state 1)
+                        if (event.data === 1) {
+                            setVideoReady(true);
+                        }
+                    },
                 },
             });
         };
@@ -156,18 +162,27 @@ export function HeroSection({
                 </div>
             </div>
 
-            {/* Freeze frame screenshot - shows after video ends */}
+            {/* Fallback image - shows while video loads AND after video ends */}
             <div className={cn(
-                "absolute inset-0 transition-opacity duration-300",
-                showFreezeFrame ? "opacity-100" : "opacity-0"
+                "absolute inset-0 transition-opacity duration-500",
+                (showFreezeFrame || !videoReady) ? "opacity-100" : "opacity-0"
             )}>
-                <Image
-                    src="/images/villa/hero-freeze.png"
-                    alt="Mosta Rotunda"
-                    fill
-                    className="object-cover object-bottom"
-                    priority
-                />
+                <div
+                    className="absolute left-1/2 w-[177.78vh] min-w-full"
+                    style={{
+                        aspectRatio: "16/9",
+                        bottom: "-50px",
+                        transform: "translate(-50%, 0)"
+                    }}
+                >
+                    <Image
+                        src="/images/villa/hero-freeze.png"
+                        alt="Mosta Rotunda"
+                        fill
+                        className="object-cover"
+                        priority
+                    />
+                </div>
             </div>
 
             {/* Light overlay for text readability */}

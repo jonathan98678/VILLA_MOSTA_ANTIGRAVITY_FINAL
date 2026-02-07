@@ -1,10 +1,1 @@
-{
-  "/admin/bookings/page": "app/admin/bookings/page.js",
-  "/admin/gallery/page": "app/admin/gallery/page.js",
-  "/admin/page": "app/admin/page.js",
-  "/admin/reviews/page": "app/admin/reviews/page.js",
-  "/admin/rooms/page": "app/admin/rooms/page.js",
-  "/api/admin/reviews/route": "app/api/admin/reviews/route.js",
-  "/api/admin/rooms/route": "app/api/admin/rooms/route.js",
-  "/page": "app/page.js"
-}
+{}
