@@ -71,9 +71,8 @@ export default function RoomsPage() {
 
                 {/* Rooms Grid */}
                 <RoomsSection
-                    overline=""
                     title=""
-                    description=""
+                    subtitle=""
                     rooms={rooms}
                 />
 
