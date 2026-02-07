@@ -216,11 +216,10 @@ export default function LocationPage() {
 
                 {/* CTA */}
                 <CTASection
-                    overline="PLAN YOUR VISIT"
                     title="Ready to explore Malta?"
-                    description="Book your stay at Villa Mosta and experience the best of Maltese hospitality."
-                    ctaText="Check Availability"
-                    ctaHref="/book"
+                    subtitle="Book your stay at Villa Mosta and experience the best of Maltese hospitality."
+                    buttonText="Check Availability"
+                    buttonHref="/book"
                 />
             </main>
             <Footer />
