@@ -20,10 +20,7 @@ export default function VillaPage() {
                     title="The Villa"
                     subtitle="Our Story"
                     description="A passion project born from a love of Mediterranean beauty, thoughtful design, and the art of true hospitality."
-                    backgroundImage="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1920&q=80"
                     showScrollIndicator={true}
-                    ctaText="Discover"
-                    ctaHref="#story"
                 />
 
                 {/* The Story */}
@@ -101,11 +98,10 @@ export default function VillaPage() {
 
                 {/* CTA */}
                 <CTASection
-                    overline="YOUR STAY AWAITS"
                     title="Ready to experience the villa?"
-                    description="Book your room and become part of the Villa Mosta story."
-                    ctaText="View Rooms"
-                    ctaHref="/rooms"
+                    subtitle="Book your room and become part of the Villa Mosta story."
+                    buttonText="View Rooms"
+                    buttonHref="/rooms"
                 />
             </main>
             <Footer />

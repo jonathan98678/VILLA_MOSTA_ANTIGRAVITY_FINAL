@@ -135,8 +135,8 @@ export default function ReviewsPage() {
                                             <Star
                                                 key={i}
                                                 className={`w-4 h-4 ${i < review.rating
-                                                        ? "text-accent fill-accent"
-                                                        : "text-cream-400"
+                                                    ? "text-accent fill-accent"
+                                                    : "text-cream-400"
                                                     }`}
                                             />
                                         ))}
@@ -174,11 +174,10 @@ export default function ReviewsPage() {
 
                 {/* CTA */}
                 <CTASection
-                    overline="EXPERIENCE IT YOURSELF"
                     title="Ready to create your own memories?"
-                    description="Book your stay at Villa Mosta and see why our guests keep coming back."
-                    ctaText="Book Now"
-                    ctaHref="/book"
+                    subtitle="Book your stay at Villa Mosta and see why our guests keep coming back."
+                    buttonText="Book Now"
+                    buttonHref="/book"
                 />
             </main>
             <Footer />
