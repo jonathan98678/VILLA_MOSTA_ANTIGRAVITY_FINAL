@@ -17,7 +17,7 @@ interface CTASectionProps {
 export function CTASection({
     title = "Begin Your Maltese Adventure",
     subtitle = "Book your stay at Villa Mosta and experience traditional Maltese hospitality.",
-    buttonText = "Check Availability",
+    buttonText = "Book Your Stay",
     buttonHref = "/book",
     backgroundImage = "/images/villa/terrace.jpg",
     className,
@@ -30,6 +30,7 @@ export function CTASection({
             ([entry]) => {
                 if (entry.isIntersecting) {
                     setIsVisible(true);
+                    observer.disconnect();
                 }
             },
             { threshold: 0.2 }
@@ -45,50 +46,45 @@ export function CTASection({
     return (
         <section
             ref={sectionRef}
-            className={cn(
-                "relative min-h-[55vh] flex items-center justify-center overflow-hidden",
-                className
-            )}
+            className={cn("relative py-20 sm:py-28 md:py-36 overflow-hidden", className)}
         >
-            {/* Background with slow zoom */}
-            <div className="absolute inset-0 hero-image-zoom">
+            {/* Background */}
+            <div className="absolute inset-0">
                 <Image
                     src={backgroundImage}
-                    alt="Villa Mosta"
+                    alt="Villa Mosta terrace"
                     fill
-                    className="object-cover"
+                    className="object-cover transition-transform duration-[15000ms] ease-out scale-100 hover:scale-105"
                     sizes="100vw"
+                    quality={85}
+                />
+                <div
+                    className="absolute inset-0"
+                    style={{
+                        background: "linear-gradient(to bottom, rgba(44,37,32,0.65) 0%, rgba(44,37,32,0.5) 50%, rgba(44,37,32,0.7) 100%)",
+                    }}
                 />
             </div>
 
-            {/* Gradient overlay — cinematic warm */}
-            <div
-                className="absolute inset-0"
-                style={{
-                    background:
-                        "linear-gradient(to bottom, rgba(44,37,32,0.5) 0%, rgba(44,37,32,0.65) 50%, rgba(44,37,32,0.8) 100%)",
-                }}
-            />
-
             {/* Content */}
-            <div className="relative z-10 text-center px-6 py-20 max-w-3xl mx-auto">
-                {/* Decorative overline */}
+            <div className="relative z-10 container text-center px-4 sm:px-6">
+                {/* Divider */}
                 <div
                     className={cn(
-                        "flex items-center justify-center gap-4 mb-8 transition-all duration-1000",
+                        "flex items-center justify-center gap-3 sm:gap-4 mb-6 sm:mb-8 transition-all duration-700",
                         isVisible ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"
                     )}
                 >
-                    <div className="h-px w-10 bg-gradient-to-r from-transparent to-amber-400/60" />
+                    <div className="h-px w-8 sm:w-12 bg-gradient-to-r from-transparent to-amber-400/60" />
                     <div className="w-1.5 h-1.5 rotate-45 border border-amber-400/60" />
-                    <div className="h-px w-10 bg-gradient-to-l from-transparent to-amber-400/60" />
+                    <div className="h-px w-8 sm:w-12 bg-gradient-to-l from-transparent to-amber-400/60" />
                 </div>
 
                 <h2
                     className={cn(
-                        "font-serif text-3xl md:text-4xl lg:text-5xl text-white mb-5 tracking-wide",
-                        "transition-all duration-1000 delay-100",
-                        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                        "font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white mb-4 sm:mb-6 max-w-3xl mx-auto",
+                        "transition-all duration-700 delay-100",
+                        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
                     )}
                 >
                     {title}
@@ -96,25 +92,24 @@ export function CTASection({
 
                 <p
                     className={cn(
-                        "text-white/75 text-lg mb-10 max-w-lg mx-auto leading-relaxed",
-                        "transition-all duration-1000 delay-200",
+                        "text-sm sm:text-base md:text-lg text-white/80 max-w-xl mx-auto mb-8 sm:mb-10",
+                        "transition-all duration-700 delay-200",
                         isVisible ? "opacity-100" : "opacity-0"
                     )}
                 >
                     {subtitle}
                 </p>
 
-                <div className={cn(
-                    "transition-all duration-1000 delay-300",
-                    isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                )}>
-                    <Link
-                        href={buttonHref}
-                        className="group inline-flex items-center justify-center px-10 py-4 border border-white/30 text-white text-xs font-medium tracking-[0.2em] uppercase backdrop-blur-sm bg-white/5 hover:bg-white/15 hover:border-white/50 transition-all duration-500"
-                    >
-                        <span>{buttonText}</span>
-                    </Link>
-                </div>
+                <Link
+                    href={buttonHref}
+                    className={cn(
+                        "inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-3.5 border border-white/30 text-white text-[11px] sm:text-xs font-medium tracking-[0.2em] uppercase backdrop-blur-sm bg-white/5 hover:bg-white/15 hover:border-white/50 transition-all duration-500",
+                        "transition-all duration-700 delay-300",
+                        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                    )}
+                >
+                    {buttonText}
+                </Link>
             </div>
         </section>
     );

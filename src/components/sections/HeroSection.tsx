@@ -40,7 +40,7 @@ export function HeroSection({
     return (
         <section
             className={cn(
-                "relative flex items-center justify-center overflow-hidden bg-stone-900",
+                "relative flex items-start overflow-hidden bg-stone-900",
                 "h-screen min-h-[600px]",
                 className
             )}
@@ -49,7 +49,7 @@ export function HeroSection({
             <div className="absolute inset-0 hero-image-zoom">
                 <Image
                     src={heroImage}
-                    alt="Mosta Rotunda, Malta"
+                    alt="Villa Mosta, Malta"
                     fill
                     className="object-cover"
                     priority
@@ -63,24 +63,16 @@ export function HeroSection({
                 className="absolute inset-0"
                 style={{
                     background:
-                        "linear-gradient(to bottom, rgba(15,12,8,0.35) 0%, rgba(15,12,8,0.15) 40%, rgba(15,12,8,0.55) 100%)",
+                        "linear-gradient(to bottom, rgba(15,12,8,0.4) 0%, rgba(15,12,8,0.1) 40%, rgba(15,12,8,0.6) 100%)",
                 }}
             />
 
-            {/* Decorative top line */}
-            <div
-                className={cn(
-                    "absolute top-0 left-1/2 -translate-x-1/2 w-px bg-gradient-to-b from-transparent via-white/40 to-transparent transition-all duration-[2000ms] ease-out",
-                    isLoaded ? "h-20 opacity-100" : "h-0 opacity-0"
-                )}
-            />
-
-            {/* Content */}
-            <div className="relative z-10 text-center px-6 w-full max-w-6xl mx-auto">
+            {/* Content — pushed higher */}
+            <div className="relative z-10 text-center px-4 sm:px-6 w-full max-w-6xl mx-auto pt-[28vh] sm:pt-[30vh]">
                 {/* Overline */}
                 <span
                     className={cn(
-                        "block text-[10px] md:text-xs font-medium tracking-[0.35em] uppercase text-white/60 mb-6",
+                        "block text-[10px] sm:text-xs font-medium tracking-[0.35em] uppercase text-white/60 mb-4 sm:mb-6",
                         "transition-all duration-1000 ease-out delay-300",
                         isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                     )}
@@ -88,11 +80,11 @@ export function HeroSection({
                     Est. Mosta, Malta
                 </span>
 
-                {/* Main Title — ultra-wide luxury typography */}
+                {/* Main Title — single line, lighter weight */}
                 <h1
                     className={cn(
-                        "hero-title font-serif font-bold text-white",
-                        "text-[clamp(3rem,10vw,8rem)] leading-[0.9] tracking-[0.15em] md:tracking-[0.25em]",
+                        "hero-title font-serif text-white whitespace-nowrap",
+                        "text-[clamp(2.2rem,8vw,7rem)] font-light leading-[1] tracking-[0.18em] sm:tracking-[0.25em]",
                         "transition-all duration-[1400ms] ease-out delay-500",
                         isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
                     )}
@@ -103,19 +95,19 @@ export function HeroSection({
                 {/* Decorative divider */}
                 <div
                     className={cn(
-                        "mx-auto my-6 md:my-8 flex items-center justify-center gap-4 transition-all duration-1000 ease-out delay-700",
+                        "mx-auto my-5 sm:my-7 flex items-center justify-center gap-3 sm:gap-4 transition-all duration-1000 ease-out delay-700",
                         isLoaded ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"
                     )}
                 >
-                    <div className="h-px w-12 md:w-20 bg-gradient-to-r from-transparent to-amber-400/60" />
+                    <div className="h-px w-10 sm:w-16 md:w-20 bg-gradient-to-r from-transparent to-amber-400/60" />
                     <div className="w-1.5 h-1.5 rotate-45 border border-amber-400/60" />
-                    <div className="h-px w-12 md:w-20 bg-gradient-to-l from-transparent to-amber-400/60" />
+                    <div className="h-px w-10 sm:w-16 md:w-20 bg-gradient-to-l from-transparent to-amber-400/60" />
                 </div>
 
                 {/* Subtitle */}
                 <p
                     className={cn(
-                        "text-white/80 text-base md:text-lg font-light tracking-wide max-w-lg mx-auto",
+                        "text-white/80 text-sm sm:text-base md:text-lg font-light tracking-wide max-w-md mx-auto",
                         "transition-all duration-1000 ease-out delay-[900ms]",
                         isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
                     )}
@@ -126,7 +118,7 @@ export function HeroSection({
                 {/* Address */}
                 <p
                     className={cn(
-                        "text-white/50 text-xs md:text-sm tracking-[0.15em] uppercase mt-3",
+                        "text-white/50 text-[10px] sm:text-xs md:text-sm tracking-[0.12em] sm:tracking-[0.15em] uppercase mt-2 sm:mt-3",
                         "transition-all duration-1000 ease-out delay-[1100ms]",
                         isLoaded ? "opacity-100" : "opacity-0"
                     )}
@@ -137,13 +129,13 @@ export function HeroSection({
                 {/* CTA Button */}
                 <div
                     className={cn(
-                        "mt-10 md:mt-12 transition-all duration-1000 ease-out delay-[1300ms]",
+                        "mt-8 sm:mt-10 md:mt-12 transition-all duration-1000 ease-out delay-[1300ms]",
                         isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
                     )}
                 >
                     <Link
                         href="/book"
-                        className="group inline-flex items-center justify-center px-8 py-3.5 border border-white/30 text-white text-xs font-medium tracking-[0.2em] uppercase backdrop-blur-sm bg-white/5 hover:bg-white/15 hover:border-white/50 transition-all duration-500"
+                        className="group inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-3.5 border border-white/30 text-white text-[11px] sm:text-xs font-medium tracking-[0.2em] uppercase backdrop-blur-sm bg-white/5 hover:bg-white/15 hover:border-white/50 transition-all duration-500"
                     >
                         <span>Book Your Stay</span>
                     </Link>
@@ -155,7 +147,7 @@ export function HeroSection({
                 <button
                     onClick={scrollToContent}
                     className={cn(
-                        "absolute bottom-8 left-1/2 -translate-x-1/2 text-white/50 hover:text-white",
+                        "absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 text-white/50 hover:text-white",
                         "transition-all duration-700 ease-out cursor-pointer",
                         "flex flex-col items-center gap-2",
                         isLoaded ? "opacity-100 delay-[1600ms]" : "opacity-0"
@@ -163,7 +155,7 @@ export function HeroSection({
                     style={{ zIndex: 10 }}
                     aria-label="Scroll to content"
                 >
-                    <span className="text-[10px] tracking-[0.3em] uppercase">Discover</span>
+                    <span className="text-[9px] sm:text-[10px] tracking-[0.3em] uppercase">Discover</span>
                     <ChevronDown className="w-4 h-4 animate-bounce" />
                 </button>
             )}

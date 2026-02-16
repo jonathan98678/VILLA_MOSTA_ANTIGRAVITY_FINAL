@@ -5,13 +5,12 @@ import { getRooms } from "@/lib/db";
 
 export const metadata = {
     title: "Our Rooms",
-    description: "Explore our thoughtfully designed accommodations at Villa Mosta. Each room offers a unique Mediterranean experience.",
+    description: "Explore our three unique rooms at Villa Mosta — a Family Room with Terrace, Deluxe Double with Shower, and Double/Twin with Garden View.",
 };
 
 export default async function RoomsPage() {
     const dbRooms = await getRooms();
 
-    // Map DB rooms to component expected format
     const rooms = dbRooms.map(room => ({
         id: room.id,
         name: room.name,
@@ -28,14 +27,14 @@ export default async function RoomsPage() {
             <Header />
             <main>
                 {/* Hero Section */}
-                <section className="relative h-[50vh] min-h-[400px] flex items-center justify-center bg-stone">
-                    <div className="container text-center text-cream-100">
-                        <span className="text-overline text-cream-300 block mb-4">
+                <section className="relative h-[40vh] sm:h-[45vh] md:h-[50vh] min-h-[300px] sm:min-h-[400px] flex items-center justify-center bg-stone-800">
+                    <div className="container text-center text-white px-4 sm:px-6">
+                        <span className="text-[10px] sm:text-xs font-medium tracking-[0.3em] uppercase text-stone-400 block mb-3 sm:mb-4">
                             ACCOMMODATIONS
                         </span>
-                        <h1 className="font-serif text-display mb-4">Our Rooms</h1>
-                        <p className="text-body-lg text-cream-200 max-w-2xl mx-auto">
-                            Three unique spaces, each designed with intention. Choose your sanctuary.
+                        <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-3 sm:mb-4">Our Rooms</h1>
+                        <p className="text-sm sm:text-base md:text-lg text-stone-300 max-w-2xl mx-auto">
+                            Three unique spaces, each designed with comfort and authentic Maltese character.
                         </p>
                     </div>
                 </section>
@@ -48,27 +47,32 @@ export default async function RoomsPage() {
                 />
 
                 {/* Info Section */}
-                <section className="section bg-cream-100">
-                    <div className="container max-w-3xl text-center">
-                        <h2 className="font-serif text-heading-2 text-text mb-6">
+                <section className="section bg-[var(--color-warm-cream)]">
+                    <div className="container max-w-3xl text-center px-4 sm:px-6">
+                        <h2 className="font-serif text-xl sm:text-2xl md:text-3xl text-stone-800 mb-4 sm:mb-6">
                             What&apos;s included
                         </h2>
-                        <p className="text-body-lg text-text-muted mb-8">
-                            Every stay at Villa Mosta includes complimentary breakfast featuring
-                            local and homemade products, daily housekeeping, high-speed WiFi,
-                            access to our pool and gardens, and our dedicated concierge service.
+                        <p className="text-sm sm:text-base md:text-lg text-stone-500 mb-6 sm:mb-8 leading-relaxed">
+                            Every room at Villa Mosta includes free WiFi, air conditioning (coin-operated),
+                            flat-screen TV with streaming, electric kettle with complimentary coffee and sugar,
+                            microwave, refrigerator, and access to our beautiful sun terrace.
                         </p>
-                        <div className="flex flex-wrap justify-center gap-4">
+                        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4">
                             {[
-                                "Breakfast Included",
                                 "Free WiFi",
-                                "Pool Access",
-                                "Daily Housekeeping",
-                                "Concierge",
+                                "Air Conditioning",
+                                "Flat-screen TV",
+                                "Streaming",
+                                "Electric Kettle",
+                                "Microwave",
+                                "Refrigerator",
+                                "Sun Terrace",
+                                "Toiletries",
+                                "Hairdryer",
                             ].map((item) => (
                                 <span
                                     key={item}
-                                    className="bg-cream-200 text-text px-4 py-2 rounded-full text-body-sm"
+                                    className="bg-white text-stone-700 border border-stone-100 px-3 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-xs font-medium tracking-wide"
                                 >
                                     {item}
                                 </span>

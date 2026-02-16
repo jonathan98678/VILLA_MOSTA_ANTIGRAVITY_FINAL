@@ -1,167 +1,189 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
 import { CTASection } from "@/components/sections/CTASection";
 import { Star } from "lucide-react";
 
 export const metadata = {
     title: "Guest Reviews",
-    description: "Read what our guests have to say about their stay at Villa Mosta. Real reviews from real travelers.",
+    description: "Read what our guests say about Villa Mosta. Real reviews from Booking.com — rated 9.4 from 90+ reviews.",
 };
 
-// This would be fetched from Supabase in production
 const reviews = [
     {
         id: "1",
-        guestName: "Sarah & Michael",
+        guestName: "Elizabeth",
         country: "United Kingdom",
         source: "Booking.com",
-        rating: 5,
-        reviewText: "An absolutely magical experience. From the moment we arrived, we felt completely at home. The attention to detail is extraordinary—fresh flowers in every room, handmade soaps, and the most incredible breakfast we've ever had. We've already booked our return.",
+        rating: 10,
+        reviewText: "Very welcoming host. Well equipped. Great location. Quiet.",
         stayType: "Couple",
-        isFeatured: true,
-        reviewDate: "December 2023",
+        reviewDate: "January 2025",
     },
     {
         id: "2",
-        guestName: "Marco Rossi",
-        country: "Italy",
-        source: "Google",
-        rating: 5,
-        reviewText: "Villa Mosta exceeded all expectations. The hosts are warm and attentive without being intrusive. Perfect for anyone seeking a peaceful retreat with stunning views.",
-        stayType: "Solo traveler",
-        reviewDate: "November 2023",
+        guestName: "Inge",
+        country: "Belgium",
+        source: "Booking.com",
+        rating: 10,
+        reviewText: "Wonderful hospitable owners! Beautiful rooms with a lovely terrace. Mosta is a charming town. We can only praise our stay highly.",
+        stayType: "Couple",
+        reviewDate: "January 2025",
     },
     {
         id: "3",
-        guestName: "Emma Thompson",
-        country: "Australia",
-        source: "Airbnb",
-        rating: 5,
-        reviewText: "We celebrated our anniversary here and couldn't have chosen a more romantic setting. The terrace suite offered breathtaking sunsets, and the local wine recommendations were perfect.",
-        stayType: "Couple",
-        reviewDate: "October 2023",
+        guestName: "Julie",
+        country: "United Kingdom",
+        source: "Booking.com",
+        rating: 10,
+        reviewText: "Location very central and easy to catch buses. The rooftop is perfect for chilling and relaxing. A beautiful traditional Maltese villa.",
+        stayType: "Solo traveler",
+        reviewDate: "December 2024",
     },
     {
         id: "4",
-        guestName: "Pierre & Marie Dubois",
-        country: "France",
+        guestName: "Bridie",
+        country: "Australia",
         source: "Booking.com",
-        rating: 5,
-        reviewText: "Exceptional in every way. The breakfast alone is worth the trip—fresh local ingredients prepared with such care. The villa itself is a perfect blend of history and modern comfort.",
-        stayType: "Couple",
-        reviewDate: "September 2023",
+        rating: 10,
+        reviewText: "Great location. Really friendly and helpful hosts. I would definitely stay again.",
+        stayType: "Solo traveler",
+        reviewDate: "December 2024",
     },
     {
         id: "5",
-        guestName: "Hans Mueller",
-        country: "Germany",
-        source: "Direct",
-        rating: 5,
-        reviewText: "Third visit and it keeps getting better. The team remembers our preferences, our favorite room was ready, and they'd even stocked our preferred wine. This is what true hospitality looks like.",
+        guestName: "Shane",
+        country: "Canada",
+        source: "Booking.com",
+        rating: 10,
+        reviewText: "The hosts were amazing. Great restaurant recommendations with authentic Maltese cuisine. Friendliness was more than expected.",
         stayType: "Couple",
-        reviewDate: "August 2023",
+        reviewDate: "November 2024",
     },
     {
         id: "6",
-        guestName: "The Williams Family",
-        country: "USA",
-        source: "Airbnb",
-        rating: 5,
-        reviewText: "Traveled with our two teenagers who are usually hard to impress. They loved the pool, the gardens, and even put their phones down at dinner! A rare family vacation where everyone was happy.",
+        guestName: "Jamie",
+        country: "United Kingdom",
+        source: "Booking.com",
+        rating: 10,
+        reviewText: "Hosts were very friendly, hospitable and extremely helpful.",
+        stayType: "Couple",
+        reviewDate: "November 2024",
+    },
+    {
+        id: "7",
+        guestName: "Olivera",
+        country: "Serbia",
+        source: "Booking.com",
+        rating: 10,
+        reviewText: "Great location to explore everything. The house is lovely, very clean, had a great view from my room and the owner is amazing!",
+        stayType: "Solo traveler",
+        reviewDate: "October 2024",
+    },
+    {
+        id: "8",
+        guestName: "Tamara",
+        country: "Slovakia",
+        source: "Booking.com",
+        rating: 10,
+        reviewText: "We loved everything! Host was kind and helpful with great recommendations. The room is spacious and terrace is outstanding.",
+        stayType: "Couple",
+        reviewDate: "October 2024",
+    },
+    {
+        id: "9",
+        guestName: "Agnė",
+        country: "Lithuania",
+        source: "Booking.com",
+        rating: 10,
+        reviewText: "The host was incredibly nice, offered guidance and accommodated our needs. The place was clean and spacious.",
         stayType: "Family",
-        reviewDate: "July 2023",
+        reviewDate: "September 2024",
+    },
+    {
+        id: "10",
+        guestName: "Emmanouil",
+        country: "United Kingdom",
+        source: "Booking.com",
+        rating: 10,
+        reviewText: "Host was really friendly, providing recommendations and proactively communicating throughout the process.",
+        stayType: "Couple",
+        reviewDate: "September 2024",
     },
 ];
 
 export default function ReviewsPage() {
-    const averageRating = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
+    const totalReviews = 90;
+    const overallRating = 9.4;
 
     return (
         <>
             <Header />
             <main className="pt-20">
                 {/* Hero */}
-                <section className="section bg-stone text-cream-100">
+                <section className="section bg-stone-800 text-white">
                     <div className="container text-center">
-                        <span className="text-overline text-cream-300 block mb-4">
+                        <span className="text-[10px] sm:text-xs font-medium tracking-[0.3em] uppercase text-stone-400 block mb-3 sm:mb-4">
                             GUEST REVIEWS
                         </span>
-                        <h1 className="font-serif text-display mb-6">What Our Guests Say</h1>
+                        <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-5 sm:mb-6">What Our Guests Say</h1>
 
                         {/* Rating Summary */}
-                        <div className="flex items-center justify-center gap-4 mb-4">
-                            <div className="flex gap-1">
+                        <div className="flex items-center justify-center gap-3 sm:gap-4 mb-3 sm:mb-4">
+                            <div className="flex gap-0.5 sm:gap-1">
                                 {[...Array(5)].map((_, i) => (
                                     <Star
                                         key={i}
-                                        className="w-6 h-6 text-accent fill-accent"
+                                        className="w-5 h-5 sm:w-6 sm:h-6 text-amber-400 fill-amber-400"
                                     />
                                 ))}
                             </div>
-                            <span className="text-heading-3 font-serif">{averageRating.toFixed(1)}</span>
+                            <span className="text-2xl sm:text-3xl font-serif">{overallRating}</span>
                         </div>
-                        <p className="text-body text-cream-200">
-                            Based on {reviews.length} reviews
+                        <p className="text-sm sm:text-base text-stone-300">
+                            Based on {totalReviews} reviews on Booking.com
                         </p>
                     </div>
                 </section>
 
-                {/* Featured Testimonials Carousel */}
-                <TestimonialsSection
-                    overline="FEATURED REVIEWS"
-                    title="Our guests' favorite moments"
-                    reviews={reviews.filter(r => r.isFeatured || r.rating === 5).slice(0, 3)}
-                />
-
                 {/* All Reviews */}
-                <section className="section bg-cream-100">
+                <section className="section bg-[var(--color-warm-cream)]">
                     <div className="container">
-                        <div className="text-center mb-12">
-                            <h2 className="font-serif text-heading-1 text-text">
+                        <div className="text-center mb-8 sm:mb-12">
+                            <h2 className="font-serif text-xl sm:text-2xl md:text-3xl text-stone-800">
                                 All Reviews
                             </h2>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 max-w-5xl mx-auto">
                             {reviews.map((review) => (
                                 <article
                                     key={review.id}
-                                    className="bg-cream-200 rounded-lg p-6"
+                                    className="bg-white border border-stone-100 p-5 sm:p-7 hover:shadow-md transition-shadow duration-300"
                                 >
-                                    {/* Rating */}
-                                    <div className="flex gap-1 mb-4">
-                                        {[...Array(5)].map((_, i) => (
-                                            <Star
-                                                key={i}
-                                                className={`w-4 h-4 ${i < review.rating
-                                                    ? "text-accent fill-accent"
-                                                    : "text-cream-400"
-                                                    }`}
-                                            />
-                                        ))}
-                                    </div>
+                                    {/* Quote */}
+                                    <span className="block font-serif text-3xl text-[var(--color-honey)] leading-none mb-2">&ldquo;</span>
 
                                     {/* Review Text */}
-                                    <p className="text-body text-text mb-4 leading-relaxed">
-                                        &ldquo;{review.reviewText}&rdquo;
+                                    <p className="text-sm sm:text-[15px] text-stone-700 mb-4 sm:mb-5 leading-relaxed">
+                                        {review.reviewText}
                                     </p>
 
                                     {/* Guest Info */}
-                                    <div className="flex items-center justify-between">
+                                    <div className="flex items-center justify-between pt-3 sm:pt-4 border-t border-stone-100">
                                         <div>
-                                            <p className="text-body font-medium text-text">
+                                            <p className="text-xs sm:text-sm font-medium text-stone-800">
                                                 {review.guestName}
                                             </p>
-                                            <p className="text-body-sm text-text-muted">
+                                            <p className="text-[10px] sm:text-xs text-stone-400">
                                                 {review.stayType} • {review.country}
                                             </p>
                                         </div>
                                         <div className="text-right">
-                                            <p className="text-caption text-text-muted">
-                                                {review.source}
-                                            </p>
-                                            <p className="text-caption text-text-light">
+                                            <div className="inline-flex items-center gap-1.5 bg-stone-50 px-2.5 py-1">
+                                                <span className="font-serif text-base sm:text-lg text-stone-800">{review.rating}</span>
+                                                <span className="text-[10px] sm:text-xs text-stone-400">/10</span>
+                                            </div>
+                                            <p className="text-[10px] sm:text-xs text-stone-400 mt-1">
                                                 {review.reviewDate}
                                             </p>
                                         </div>

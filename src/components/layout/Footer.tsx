@@ -20,31 +20,25 @@ export function Footer() {
     return (
         <footer className="bg-stone-800 text-white">
             {/* Main */}
-            <div className="container py-14 lg:py-16">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
+            <div className="container py-12 sm:py-14 lg:py-16">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-8">
                     {/* Brand */}
-                    <div className="lg:col-span-2">
-                        <Link href="/" className="font-serif text-2xl block mb-5">
+                    <div className="sm:col-span-2">
+                        <Link href="/" className="font-serif text-xl sm:text-2xl block mb-4 sm:mb-5">
                             Villa Mosta
                         </Link>
-                        <p className="text-stone-300 max-w-md mb-6 leading-relaxed">
-                            A charming Maltese home offering elegant accommodations with
-                            stunning terraces and personalized service.
+                        <p className="text-stone-300 text-sm sm:text-base max-w-md mb-5 sm:mb-6 leading-relaxed">
+                            A spacious traditional Maltese home with beautiful terraces,
+                            central location, and genuine hospitality. Hosted by Andreas.
                         </p>
-                        <p className="text-stone-400 text-sm mb-4">
+                        <p className="text-stone-400 text-xs sm:text-sm mb-4">
                             51 Triq Il-Kungress Ewkaristiku, Mosta, Malta
                         </p>
-                        <div className="space-y-1.5 text-sm text-stone-300">
+                        <div className="text-sm text-stone-300">
                             <p>
                                 <span className="text-white">Email:</span>{" "}
-                                <a href="mailto:info@villamosta.com" className="hover:text-white transition-colors">
+                                <a href="mailto:info@villamosta.com" className="hover:text-amber-400 transition-colors">
                                     info@villamosta.com
-                                </a>
-                            </p>
-                            <p>
-                                <span className="text-white">Phone:</span>{" "}
-                                <a href="tel:+35699123456" className="hover:text-white transition-colors">
-                                    +356 99 123 456
                                 </a>
                             </p>
                         </div>
@@ -52,10 +46,10 @@ export function Footer() {
 
                     {/* Explore */}
                     <div>
-                        <h4 className="text-xs font-semibold tracking-[0.2em] uppercase text-stone-400 mb-5">
+                        <h4 className="text-[10px] sm:text-xs font-semibold tracking-[0.2em] uppercase text-stone-400 mb-4 sm:mb-5">
                             Explore
                         </h4>
-                        <ul className="space-y-2.5">
+                        <ul className="space-y-2 sm:space-y-2.5">
                             {footerLinks.explore.map((link) => (
                                 <li key={link.href}>
                                     <Link
@@ -71,10 +65,10 @@ export function Footer() {
 
                     {/* Info */}
                     <div>
-                        <h4 className="text-xs font-semibold tracking-[0.2em] uppercase text-stone-400 mb-5">
+                        <h4 className="text-[10px] sm:text-xs font-semibold tracking-[0.2em] uppercase text-stone-400 mb-4 sm:mb-5">
                             Information
                         </h4>
-                        <ul className="space-y-2.5">
+                        <ul className="space-y-2 sm:space-y-2.5">
                             {footerLinks.info.map((link) => (
                                 <li key={link.href}>
                                     <Link
@@ -92,8 +86,8 @@ export function Footer() {
 
             {/* Bottom */}
             <div className="border-t border-stone-700">
-                <div className="container py-5 flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-stone-400">
-                    <p>© {currentYear} Villa Mosta. All rights reserved.</p>
+                <div className="container py-4 sm:py-5 flex flex-col sm:flex-row justify-between items-center gap-3 text-[10px] sm:text-xs text-stone-400">
+                    <p>© {currentYear} Villa Mosta. All rights reserved. License: 61700A</p>
                     <div className="flex gap-5">
                         <Link href="/privacy" className="hover:text-white transition-colors">
                             Privacy Policy

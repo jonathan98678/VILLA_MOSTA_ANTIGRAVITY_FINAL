@@ -14,10 +14,15 @@ const navLinks = [
     { label: "Contact", href: "/contact" },
 ];
 
+// Pages that have a dark hero image (header stays transparent white text)
+const darkHeroPages = ["/", "/villa"];
+
 export function Header() {
     const pathname = usePathname();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
     const [scrolled, setScrolled] = React.useState(false);
+
+    const hasDarkHero = darkHeroPages.includes(pathname);
 
     React.useEffect(() => {
         const handleScroll = () => {
@@ -33,14 +38,20 @@ export function Header() {
         setIsMobileMenuOpen(false);
     }, [pathname]);
 
+    // Determine header style based on scroll + page type
+    const headerBg = scrolled
+        ? "bg-stone-900/95 backdrop-blur-lg shadow-lg shadow-black/10"
+        : hasDarkHero
+            ? "bg-transparent"
+            : "bg-stone-900/90 backdrop-blur-md";
+
     return (
         <>
             <header
                 className={cn(
                     "fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out",
-                    scrolled
-                        ? "bg-stone-900/90 backdrop-blur-lg py-3 shadow-lg shadow-black/10"
-                        : "bg-transparent py-5"
+                    headerBg,
+                    scrolled ? "py-2 sm:py-3" : "py-3 sm:py-5"
                 )}
             >
                 <div className="container flex items-center justify-between">
@@ -49,7 +60,7 @@ export function Header() {
                         href="/"
                         className={cn(
                             "font-serif text-white transition-all duration-500",
-                            scrolled ? "text-lg md:text-xl" : "text-xl md:text-2xl"
+                            scrolled ? "text-base sm:text-lg md:text-xl" : "text-lg sm:text-xl md:text-2xl"
                         )}
                     >
                         <span className="tracking-[0.15em] font-semibold">Villa</span>{" "}
@@ -65,7 +76,7 @@ export function Header() {
                                     key={link.href}
                                     href={link.href}
                                     className={cn(
-                                        "relative px-4 py-2 text-[13px] tracking-[0.08em] uppercase transition-colors duration-300 group",
+                                        "relative px-3 xl:px-4 py-2 text-[12px] xl:text-[13px] tracking-[0.08em] uppercase transition-colors duration-300 group",
                                         isActive
                                             ? "text-white"
                                             : "text-white/70 hover:text-white"
@@ -75,7 +86,7 @@ export function Header() {
                                     {/* Animated underline */}
                                     <span
                                         className={cn(
-                                            "absolute bottom-0.5 left-4 right-4 h-px bg-amber-400 transition-transform duration-300 origin-left",
+                                            "absolute bottom-0.5 left-3 right-3 xl:left-4 xl:right-4 h-px bg-amber-400 transition-transform duration-300 origin-left",
                                             isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
                                         )}
                                     />
@@ -89,7 +100,7 @@ export function Header() {
                         <Link
                             href="/book"
                             className={cn(
-                                "text-xs font-medium tracking-[0.15em] uppercase px-6 py-2.5 border transition-all duration-500",
+                                "text-[11px] xl:text-xs font-medium tracking-[0.15em] uppercase px-5 xl:px-6 py-2 xl:py-2.5 border transition-all duration-500",
                                 scrolled
                                     ? "bg-amber-600 border-amber-600 text-white hover:bg-amber-700 hover:border-amber-700"
                                     : "border-white/40 text-white bg-white/5 backdrop-blur-sm hover:bg-white/15 hover:border-white/60"
@@ -105,7 +116,7 @@ export function Header() {
                         className="lg:hidden p-2 text-white"
                         aria-label="Open menu"
                     >
-                        <Menu className="w-6 h-6" />
+                        <Menu className="w-5 h-5 sm:w-6 sm:h-6" />
                     </button>
                 </div>
             </header>
@@ -119,10 +130,10 @@ export function Header() {
                         : "opacity-0 pointer-events-none"
                 )}
             >
-                <div className="container py-5 flex justify-between items-center">
+                <div className="container py-3 sm:py-5 flex justify-between items-center">
                     <Link
                         href="/"
-                        className="font-serif text-xl text-white tracking-[0.15em]"
+                        className="font-serif text-lg sm:text-xl text-white tracking-[0.15em]"
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
                         Villa Mosta
@@ -132,18 +143,18 @@ export function Header() {
                         className="p-2 text-white"
                         aria-label="Close menu"
                     >
-                        <X className="w-6 h-6" />
+                        <X className="w-5 h-5 sm:w-6 sm:h-6" />
                     </button>
                 </div>
 
-                <nav className="container flex flex-col gap-1 mt-8">
+                <nav className="container flex flex-col gap-1 mt-6 sm:mt-8">
                     {navLinks.map((link, index) => (
                         <Link
                             key={link.href}
                             href={link.href}
                             onClick={() => setIsMobileMenuOpen(false)}
                             className={cn(
-                                "font-serif text-3xl text-white py-3 border-b border-white/10 transition-all duration-500",
+                                "font-serif text-2xl sm:text-3xl text-white py-2.5 sm:py-3 border-b border-white/10 transition-all duration-500",
                                 isMobileMenuOpen
                                     ? "opacity-100 translate-x-0"
                                     : "opacity-0 translate-x-8"
@@ -157,7 +168,7 @@ export function Header() {
                     ))}
                     <div
                         className={cn(
-                            "mt-8 transition-all duration-500",
+                            "mt-6 sm:mt-8 transition-all duration-500",
                             isMobileMenuOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                         )}
                         style={{ transitionDelay: isMobileMenuOpen ? "600ms" : "0ms" }}
@@ -165,7 +176,7 @@ export function Header() {
                         <Link
                             href="/book"
                             onClick={() => setIsMobileMenuOpen(false)}
-                            className="inline-flex items-center justify-center w-full py-4 bg-amber-600 text-white font-medium text-sm uppercase tracking-[0.15em]"
+                            className="inline-flex items-center justify-center w-full py-3.5 sm:py-4 bg-amber-600 text-white font-medium text-sm uppercase tracking-[0.15em]"
                         >
                             Book Your Stay
                         </Link>
