@@ -4,6 +4,7 @@ import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 interface CTASectionProps {
     title?: string;
@@ -22,42 +23,51 @@ export function CTASection({
     backgroundImage = "/images/villa/terrace.jpg",
     className,
 }: CTASectionProps) {
-    const sectionRef = React.useRef<HTMLElement>(null);
-    const [isVisible, setIsVisible] = React.useState(false);
+    const ref = React.useRef(null);
+    const { scrollYProgress } = useScroll({
+        target: ref,
+        offset: ["start end", "end start"],
+    });
 
-    React.useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                    observer.disconnect();
-                }
+    const y = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
+
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.2,
+                delayChildren: 0.1,
             },
-            { threshold: 0.2 }
-        );
+        },
+    };
 
-        if (sectionRef.current) {
-            observer.observe(sectionRef.current);
-        }
-
-        return () => observer.disconnect();
-    }, []);
+    const itemVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.8, ease: "easeOut" },
+        },
+    };
 
     return (
         <section
-            ref={sectionRef}
+            ref={ref}
             className={cn("relative py-20 sm:py-28 md:py-36 overflow-hidden", className)}
         >
             {/* Background */}
-            <div className="absolute inset-0">
-                <Image
-                    src={backgroundImage}
-                    alt="Villa Mosta terrace"
-                    fill
-                    className="object-cover transition-transform duration-[15000ms] ease-out scale-100 hover:scale-105"
-                    sizes="100vw"
-                    quality={85}
-                />
+            <div className="absolute inset-0 z-0 overflow-hidden">
+                <motion.div style={{ y, scale: 1.1 }} className="absolute inset-0">
+                    <Image
+                        src={backgroundImage}
+                        alt="Villa Mosta terrace"
+                        fill
+                        className="object-cover"
+                        sizes="100vw"
+                        quality={85}
+                    />
+                </motion.div>
                 <div
                     className="absolute inset-0"
                     style={{
@@ -67,50 +77,48 @@ export function CTASection({
             </div>
 
             {/* Content */}
-            <div className="relative z-10 container text-center px-4 sm:px-6">
+            <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+                className="relative z-10 container text-center px-4 sm:px-6"
+            >
                 {/* Divider */}
-                <div
-                    className={cn(
-                        "flex items-center justify-center gap-3 sm:gap-4 mb-6 sm:mb-8 transition-all duration-700",
-                        isVisible ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"
-                    )}
+                <motion.div
+                    variants={{
+                        hidden: { scaleX: 0, opacity: 0 },
+                        visible: { scaleX: 1, opacity: 1, transition: { duration: 0.8 } }
+                    }}
+                    className="flex items-center justify-center gap-3 sm:gap-4 mb-6 sm:mb-8"
                 >
                     <div className="h-px w-8 sm:w-12 bg-gradient-to-r from-transparent to-amber-400/60" />
                     <div className="w-1.5 h-1.5 rotate-45 border border-amber-400/60" />
                     <div className="h-px w-8 sm:w-12 bg-gradient-to-l from-transparent to-amber-400/60" />
-                </div>
+                </motion.div>
 
-                <h2
-                    className={cn(
-                        "font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white mb-4 sm:mb-6 max-w-3xl mx-auto",
-                        "transition-all duration-700 delay-100",
-                        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-                    )}
-                >
-                    {title}
-                </h2>
+                <motion.div variants={itemVariants}>
+                    <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white mb-4 sm:mb-6 max-w-3xl mx-auto">
+                        {title}
+                    </h2>
+                </motion.div>
 
-                <p
-                    className={cn(
-                        "text-sm sm:text-base md:text-lg text-white/80 max-w-xl mx-auto mb-8 sm:mb-10",
-                        "transition-all duration-700 delay-200",
-                        isVisible ? "opacity-100" : "opacity-0"
-                    )}
+                <motion.p
+                    variants={itemVariants}
+                    className="text-sm sm:text-base md:text-lg text-white/80 max-w-xl mx-auto mb-8 sm:mb-10"
                 >
                     {subtitle}
-                </p>
+                </motion.p>
 
-                <Link
-                    href={buttonHref}
-                    className={cn(
-                        "inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-3.5 border border-white/30 text-white text-[11px] sm:text-xs font-medium tracking-[0.2em] uppercase backdrop-blur-sm bg-white/5 hover:bg-white/15 hover:border-white/50 transition-all duration-500",
-                        "transition-all duration-700 delay-300",
-                        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-                    )}
-                >
-                    {buttonText}
-                </Link>
-            </div>
+                <motion.div variants={itemVariants}>
+                    <Link
+                        href={buttonHref}
+                        className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-3.5 border border-white/30 text-white text-[11px] sm:text-xs font-medium tracking-[0.2em] uppercase backdrop-blur-sm bg-white/5 hover:bg-white/15 hover:border-white/50 transition-all duration-500"
+                    >
+                        {buttonText}
+                    </Link>
+                </motion.div>
+            </motion.div>
         </section>
     );
 }

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getReviews, addReview, deleteReview } from "@/lib/db";
+import { getReviews, addReview, deleteReview, createServerClient } from "@/lib/db";
 
 export async function GET() {
     try {
@@ -24,6 +24,29 @@ export async function POST(request: Request) {
     } catch (error) {
         console.error("Error adding review:", error);
         return NextResponse.json({ error: "Failed to add review" }, { status: 500 });
+    }
+}
+
+export async function PUT(request: Request) {
+    try {
+        const { id, ...updates } = await request.json();
+
+        // We'll use direct supabase update here or add a helper in db.ts
+        // Since we didn't check for updateReview in db.ts, let's use createServerClient directly here
+        // to ensure it works without modifying db.ts again
+        const supabase = createServerClient();
+
+        const { error } = await supabase
+            .from("reviews")
+            .update(updates)
+            .eq("id", id);
+
+        if (error) throw error;
+
+        return NextResponse.json({ message: "Review updated successfully" });
+    } catch (error) {
+        console.error("Error updating review:", error);
+        return NextResponse.json({ error: "Failed to update review" }, { status: 500 });
     }
 }
 

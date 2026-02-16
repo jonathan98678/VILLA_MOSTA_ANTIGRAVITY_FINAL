@@ -4,6 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Star, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface Review {
     id: string;
@@ -101,60 +102,59 @@ export function ReviewsSection({
     reviews = defaultReviews,
     className,
 }: ReviewsSectionProps) {
-    const sectionRef = React.useRef<HTMLElement>(null);
-    const [isVisible, setIsVisible] = React.useState(false);
-
-    React.useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                }
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1,
+                delayChildren: 0.2,
             },
-            { threshold: 0.1 }
-        );
+        },
+    };
 
-        if (sectionRef.current) {
-            observer.observe(sectionRef.current);
-        }
-
-        return () => observer.disconnect();
-    }, []);
+    const itemVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.6, ease: "easeOut" },
+        },
+    };
 
     return (
         <section
-            ref={sectionRef}
             className={cn("py-20 sm:py-24 md:py-32 bg-[var(--color-warm-white)]", className)}
         >
-            <div className="container">
+            <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+                className="container"
+            >
                 {/* Header */}
                 <div className="text-center mb-10 sm:mb-14">
-                    <span
-                        className={cn(
-                            "block text-[10px] sm:text-[11px] font-medium tracking-[0.3em] uppercase text-[var(--color-accent)] mb-3 sm:mb-4",
-                            "transition-all duration-700",
-                            isVisible ? "opacity-100" : "opacity-0"
-                        )}
+                    <motion.span
+                        variants={itemVariants}
+                        className="block text-[10px] sm:text-[11px] font-medium tracking-[0.3em] uppercase text-[var(--color-accent)] mb-3 sm:mb-4"
                     >
                         TESTIMONIALS
-                    </span>
-                    <h2
-                        className={cn(
-                            "font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-stone-800 mb-5 sm:mb-6",
-                            "transition-all duration-700 delay-100",
-                            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                        )}
+                    </motion.span>
+                    <motion.h2
+                        variants={itemVariants}
+                        className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-stone-800 mb-5 sm:mb-6"
                     >
                         {title}
-                    </h2>
+                    </motion.h2>
 
                     {/* Rating badge */}
-                    <div
-                        className={cn(
-                            "inline-flex items-center gap-3 sm:gap-4 bg-white px-4 sm:px-6 py-3 sm:py-4 shadow-sm border border-stone-100",
-                            "transition-all duration-700 delay-200",
-                            isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
-                        )}
+                    <motion.div
+                        variants={{
+                            hidden: { scale: 0.95, opacity: 0 },
+                            visible: { scale: 1, opacity: 1, transition: { duration: 0.6 } }
+                        }}
+                        className="inline-flex items-center gap-3 sm:gap-4 bg-white px-4 sm:px-6 py-3 sm:py-4 shadow-sm border border-stone-100"
                     >
                         <span className="font-serif text-3xl sm:text-4xl text-stone-800 leading-none">{rating}</span>
                         <div className="h-8 w-px bg-stone-200" />
@@ -166,19 +166,16 @@ export function ReviewsSection({
                             </div>
                             <span className="text-[var(--color-text-muted)] text-xs sm:text-sm">{reviewCount} reviews on Booking.com</span>
                         </div>
-                    </div>
+                    </motion.div>
                 </div>
 
                 {/* Reviews Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                    {reviews.slice(0, 6).map((review, index) => (
-                        <div
+                    {reviews.slice(0, 6).map((review) => (
+                        <motion.div
                             key={review.id}
-                            className={cn(
-                                "bg-white p-5 sm:p-7 border border-stone-100 hover:shadow-md hover:shadow-stone-100 transition-all duration-500",
-                                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-                            )}
-                            style={{ transitionDelay: `${300 + index * 100}ms` }}
+                            variants={itemVariants}
+                            className="bg-white p-5 sm:p-7 border border-stone-100 hover:shadow-md hover:shadow-stone-100 transition-shadow duration-500"
                         >
                             {/* Quote mark */}
                             <span className="block font-serif text-3xl sm:text-4xl text-[var(--color-honey)] leading-none mb-2 sm:mb-3">&ldquo;</span>
@@ -197,15 +194,15 @@ export function ReviewsSection({
                                     <span className="text-stone-400 text-[10px] sm:text-xs">/10</span>
                                 </div>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
                 </div>
 
                 {/* View All */}
-                <div className={cn(
-                    "text-center mt-10 sm:mt-14 transition-all duration-700 delay-700",
-                    isVisible ? "opacity-100" : "opacity-0"
-                )}>
+                <motion.div
+                    variants={itemVariants}
+                    className="text-center mt-10 sm:mt-14"
+                >
                     <Link
                         href="/reviews"
                         className="inline-flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 border border-stone-300 text-stone-700 text-[10px] sm:text-xs font-medium tracking-[0.1em] uppercase hover:bg-stone-800 hover:text-white hover:border-stone-800 transition-all duration-400"
@@ -213,8 +210,8 @@ export function ReviewsSection({
                         <span>Read All Reviews</span>
                         <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                     </Link>
-                </div>
-            </div>
+                </motion.div>
+            </motion.div>
         </section>
     );
 }

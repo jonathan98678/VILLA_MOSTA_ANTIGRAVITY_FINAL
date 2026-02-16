@@ -2,25 +2,35 @@
 
 import * as React from "react";
 import Image from "next/image";
-import { Plus, Edit2, Trash2, Save, X, Loader2 } from "lucide-react";
+import { Edit2, Save, X, Loader2, Users, Maximize, Check, Info } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface Room {
     id: string;
     name: string;
     slug: string;
     short_description: string;
+    long_description: string[];
     base_price: number;
     max_guests: number;
+    size: string;
     images: string[];
     features: string[];
+    is_active: boolean;
 }
 
 export default function AdminRoomsPage() {
     const [rooms, setRooms] = React.useState<Room[]>([]);
     const [loading, setLoading] = React.useState(true);
-    const [editingId, setEditingId] = React.useState<string | null>(null);
-    const [editForm, setEditForm] = React.useState<Partial<Room>>({});
+    const [editingRoom, setEditingRoom] = React.useState<Room | null>(null);
     const [saving, setSaving] = React.useState(false);
+
+    // Form state helpers
+    const [formContent, setFormContent] = React.useState<{
+        featuresString: string;
+        imagesString: string;
+        longDescString: string;
+    }>({ featuresString: "", imagesString: "", longDescString: "" });
 
     // Load rooms from API
     React.useEffect(() => {
@@ -29,7 +39,7 @@ export default function AdminRoomsPage() {
                 const res = await fetch("/api/admin/rooms");
                 if (res.ok) {
                     const data = await res.json();
-                    setRooms(data);
+                    setRooms(data.sort((a: Room, b: Room) => a.name.localeCompare(b.name)));
                 }
             } catch (error) {
                 console.error("Error fetching rooms:", error);
@@ -41,202 +51,275 @@ export default function AdminRoomsPage() {
     }, []);
 
     const handleEdit = (room: Room) => {
-        setEditingId(room.id);
-        setEditForm(room);
+        setEditingRoom(room);
+        setFormContent({
+            featuresString: room.features?.join(", ") || "",
+            imagesString: room.images?.join("\n") || "",
+            longDescString: room.long_description?.join("\n\n") || "",
+        });
     };
 
-    const handleSave = async () => {
-        if (editingId && editForm) {
-            setSaving(true);
-            try {
-                const res = await fetch("/api/admin/rooms", {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ id: editingId, ...editForm }),
-                });
+    const handleCloseEdit = () => {
+        setEditingRoom(null);
+    };
 
-                if (res.ok) {
-                    setRooms(rooms.map(r => r.id === editingId ? { ...r, ...editForm } as Room : r));
-                    setEditingId(null);
-                    setEditForm({});
-                } else {
-                    alert("Failed to save room");
-                }
-            } catch (error) {
-                console.error("Error saving room:", error);
+    const handleSave = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!editingRoom) return;
+
+        setSaving(true);
+
+        // Process form data back into arrays
+        const updatedRoom = {
+            ...editingRoom,
+            features: formContent.featuresString.split(",").map(s => s.trim()).filter(Boolean),
+            images: formContent.imagesString.split("\n").map(s => s.trim()).filter(Boolean),
+            long_description: formContent.longDescString.split("\n\n").map(s => s.trim()).filter(Boolean),
+        };
+
+        try {
+            const res = await fetch("/api/admin/rooms", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(updatedRoom),
+            });
+
+            if (res.ok) {
+                setRooms(rooms.map(r => r.id === updatedRoom.id ? updatedRoom : r));
+                setEditingRoom(null);
+            } else {
                 alert("Failed to save room");
-            } finally {
-                setSaving(false);
             }
-        }
-    };
-
-    const handleCancel = () => {
-        setEditingId(null);
-        setEditForm({});
-    };
-
-    const handleDelete = async (id: string) => {
-        if (confirm("Are you sure you want to delete this room?")) {
-            try {
-                const res = await fetch("/api/admin/rooms", {
-                    method: "DELETE",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ id }),
-                });
-
-                if (res.ok) {
-                    setRooms(rooms.filter(r => r.id !== id));
-                } else {
-                    alert("Failed to delete room");
-                }
-            } catch (error) {
-                console.error("Error deleting room:", error);
-                alert("Failed to delete room");
-            }
+        } catch (error) {
+            console.error("Error saving room:", error);
+            alert("Failed to save room");
+        } finally {
+            setSaving(false);
         }
     };
 
     if (loading) {
         return (
             <div className="flex items-center justify-center h-64">
-                <Loader2 className="w-8 h-8 animate-spin text-stone-400" />
+                <Loader2 className="w-8 h-8 animate-spin text-[var(--admin-text-muted)]" />
             </div>
         );
     }
 
     return (
         <>
-            <header className="bg-white border-b border-stone-200 px-6 py-4 flex items-center justify-between">
+            <header className="mb-8 flex items-center justify-between">
                 <div>
-                    <h1 className="text-xl font-semibold text-stone-800">Rooms</h1>
-                    <p className="text-stone-500 text-sm">Manage your room listings</p>
+                    <h1 className="text-2xl font-serif text-[var(--admin-text)]">Rooms</h1>
+                    <p className="text-[var(--admin-text-muted)] text-sm mt-1">Manage room details, pricing, and content.</p>
                 </div>
-                <button className="flex items-center gap-2 bg-amber-600 text-white px-4 py-2 rounded-lg hover:bg-amber-700 transition-colors">
-                    <Plus className="w-4 h-4" />
-                    <span>Add Room</span>
-                </button>
+                <div className="px-3 py-1 bg-amber-100 text-amber-800 text-xs font-medium rounded-full border border-amber-200">
+                    {rooms.length} Active Rooms
+                </div>
             </header>
 
-            <div className="p-6">
-                {rooms.length === 0 ? (
-                    <div className="bg-white rounded-lg shadow-sm p-8 text-center">
-                        <p className="text-stone-500">No rooms found. Run the database seed to add initial rooms.</p>
-                    </div>
-                ) : (
-                    <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-                        <table className="w-full">
-                            <thead className="bg-stone-50">
-                                <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-stone-500 uppercase">Room</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-stone-500 uppercase">Price/Night</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-stone-500 uppercase">Max Guests</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-stone-500 uppercase">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-stone-100">
-                                {rooms.map((room) => (
-                                    <tr key={room.id} className="hover:bg-stone-50">
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center gap-4">
-                                                <div className="relative w-16 h-12 rounded overflow-hidden flex-shrink-0 bg-stone-100">
-                                                    {room.images?.[0] && (
-                                                        <Image
-                                                            src={room.images[0]}
-                                                            alt={room.name}
-                                                            fill
-                                                            className="object-cover"
-                                                        />
-                                                    )}
-                                                </div>
-                                                <div>
-                                                    {editingId === room.id ? (
-                                                        <input
-                                                            type="text"
-                                                            value={editForm.name || ""}
-                                                            onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
-                                                            className="border border-stone-300 rounded px-2 py-1 text-sm w-full"
-                                                        />
-                                                    ) : (
-                                                        <p className="font-medium text-stone-800">{room.name}</p>
-                                                    )}
-                                                    <p className="text-stone-500 text-sm truncate max-w-xs">{room.short_description}</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            {editingId === room.id ? (
-                                                <input
-                                                    type="number"
-                                                    value={editForm.base_price || ""}
-                                                    onChange={(e) => setEditForm({ ...editForm, base_price: Number(e.target.value) })}
-                                                    className="border border-stone-300 rounded px-2 py-1 text-sm w-20"
-                                                />
-                                            ) : (
-                                                <span className="text-stone-800">€{room.base_price}</span>
-                                            )}
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            {editingId === room.id ? (
-                                                <input
-                                                    type="number"
-                                                    value={editForm.max_guests || ""}
-                                                    onChange={(e) => setEditForm({ ...editForm, max_guests: Number(e.target.value) })}
-                                                    className="border border-stone-300 rounded px-2 py-1 text-sm w-16"
-                                                />
-                                            ) : (
-                                                <span className="text-stone-600">{room.max_guests}</span>
-                                            )}
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center gap-2">
-                                                {editingId === room.id ? (
-                                                    <>
-                                                        <button
-                                                            onClick={handleSave}
-                                                            disabled={saving}
-                                                            className="p-2 text-green-600 hover:bg-green-50 rounded disabled:opacity-50"
-                                                        >
-                                                            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                                                        </button>
-                                                        <button
-                                                            onClick={handleCancel}
-                                                            className="p-2 text-stone-500 hover:bg-stone-100 rounded"
-                                                        >
-                                                            <X className="w-4 h-4" />
-                                                        </button>
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <button
-                                                            onClick={() => handleEdit(room)}
-                                                            className="p-2 text-stone-500 hover:bg-stone-100 rounded"
-                                                        >
-                                                            <Edit2 className="w-4 h-4" />
-                                                        </button>
-                                                        <button
-                                                            onClick={() => handleDelete(room.id)}
-                                                            className="p-2 text-red-500 hover:bg-red-50 rounded"
-                                                        >
-                                                            <Trash2 className="w-4 h-4" />
-                                                        </button>
-                                                    </>
-                                                )}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                )}
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                {rooms.map((room) => (
+                    <div key={room.id} className="admin-card rounded-xl overflow-hidden flex flex-col group">
+                        {/* Image Preview */}
+                        <div className="relative h-48 bg-stone-200">
+                            {room.images?.[0] ? (
+                                <Image
+                                    src={room.images[0]}
+                                    alt={room.name}
+                                    fill
+                                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                />
+                            ) : (
+                                <div className="flex items-center justify-center h-full text-stone-400">
+                                    <Info className="w-8 h-8" />
+                                </div>
+                            )}
+                            <div className="absolute top-3 right-3 bg-black/60 text-white text-xs px-2 py-1 rounded backdrop-blur-sm">
+                                €{room.base_price}/night
+                            </div>
+                        </div>
 
-                <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
-                    <p className="text-green-800 text-sm">
-                        <strong>✓ Connected to Supabase:</strong> Room changes are saved to your database.
-                    </p>
-                </div>
+                        {/* Content */}
+                        <div className="p-5 flex-1 flex flex-col">
+                            <h3 className="font-semibold text-lg text-[var(--admin-text)] mb-2 line-clamp-1" title={room.name}>
+                                {room.name}
+                            </h3>
+                            <p className="text-[var(--admin-text-muted)] text-sm line-clamp-2 mb-4 flex-1">
+                                {room.short_description}
+                            </p>
+
+                            <div className="flex items-center gap-4 text-xs text-[var(--admin-text-muted)] mb-5">
+                                <div className="flex items-center gap-1.5">
+                                    <Users className="w-3.5 h-3.5" />
+                                    <span>Max {room.max_guests}</span>
+                                </div>
+                                <div className="flex items-center gap-1.5">
+                                    <Maximize className="w-3.5 h-3.5" />
+                                    <span>{room.size}</span>
+                                </div>
+                            </div>
+
+                            <button
+                                onClick={() => handleEdit(room)}
+                                className="w-full py-2.5 flex items-center justify-center gap-2 border border-[var(--admin-border)] rounded-lg hover:border-[var(--admin-accent)] hover:text-[var(--admin-accent)] transition-colors text-sm font-medium"
+                            >
+                                <Edit2 className="w-4 h-4" />
+                                Edit Details
+                            </button>
+                        </div>
+                    </div>
+                ))}
             </div>
+
+            {/* Edit Modal */}
+            {editingRoom && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+                    <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={handleCloseEdit} />
+                    <div className="relative w-full max-w-4xl max-h-[90vh] bg-[var(--admin-card)] rounded-2xl shadow-2xl overflow-hidden flex flex-col animate-slide-up">
+                        {/* Modal Header */}
+                        <div className="px-6 py-4 border-b border-[var(--admin-border)] flex items-center justify-between bg-[var(--admin-bg)]">
+                            <h2 className="text-lg font-semibold text-[var(--admin-text)]">Edit {editingRoom.name}</h2>
+                            <button onClick={handleCloseEdit} className="text-[var(--admin-text-muted)] hover:text-[var(--admin-text)] transition-colors">
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
+
+                        {/* Scrollable Form Content */}
+                        <div className="flex-1 overflow-y-auto p-6 sm:p-8">
+                            <form id="edit-room-form" onSubmit={handleSave} className="space-y-8">
+                                {/* Section 1: Basic Info */}
+                                <div className="space-y-4">
+                                    <h3 className="text-sm font-medium text-[var(--admin-text-muted)] uppercase tracking-wider">Basic Information</h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div className="space-y-1.5">
+                                            <label className="text-sm font-medium text-[var(--admin-text)]">Room Name</label>
+                                            <input
+                                                type="text"
+                                                value={editingRoom.name}
+                                                onChange={(e) => setEditingRoom({ ...editingRoom, name: e.target.value })}
+                                                className="w-full px-3 py-2 rounded-lg border border-[var(--admin-border)] bg-[var(--admin-bg)] focus:ring-2 focus:ring-[var(--admin-accent)] focus:border-transparent outline-none transition-all"
+                                                required
+                                            />
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <label className="text-sm font-medium text-[var(--admin-text)]">Slug (URL)</label>
+                                            <input
+                                                type="text"
+                                                value={editingRoom.slug}
+                                                disabled
+                                                className="w-full px-3 py-2 rounded-lg border border-[var(--admin-border)] bg-stone-100/50 text-stone-400 cursor-not-allowed"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-1.5">
+                                        <label className="text-sm font-medium text-[var(--admin-text)]">Short Description</label>
+                                        <textarea
+                                            value={editingRoom.short_description}
+                                            onChange={(e) => setEditingRoom({ ...editingRoom, short_description: e.target.value })}
+                                            className="w-full px-3 py-2 rounded-lg border border-[var(--admin-border)] bg-[var(--admin-bg)] focus:ring-2 focus:ring-[var(--admin-accent)] focus:border-transparent outline-none transition-all min-h-[80px]"
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Section 2: Pricing & Specs */}
+                                <div className="space-y-4">
+                                    <h3 className="text-sm font-medium text-[var(--admin-text-muted)] uppercase tracking-wider border-t border-[var(--admin-border)] pt-6">Pricing & Specifications</h3>
+                                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                        <div className="space-y-1.5">
+                                            <label className="text-sm font-medium text-[var(--admin-text)]">Base Price (€)</label>
+                                            <input
+                                                type="number"
+                                                value={editingRoom.base_price}
+                                                onChange={(e) => setEditingRoom({ ...editingRoom, base_price: Number(e.target.value) })}
+                                                className="w-full px-3 py-2 rounded-lg border border-[var(--admin-border)] bg-[var(--admin-bg)] focus:ring-2 focus:ring-[var(--admin-accent)] focus:border-transparent outline-none transition-all"
+                                            />
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <label className="text-sm font-medium text-[var(--admin-text)]">Max Guests</label>
+                                            <input
+                                                type="number"
+                                                value={editingRoom.max_guests}
+                                                onChange={(e) => setEditingRoom({ ...editingRoom, max_guests: Number(e.target.value) })}
+                                                className="w-full px-3 py-2 rounded-lg border border-[var(--admin-border)] bg-[var(--admin-bg)] focus:ring-2 focus:ring-[var(--admin-accent)] focus:border-transparent outline-none transition-all"
+                                            />
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <label className="text-sm font-medium text-[var(--admin-text)]">Size</label>
+                                            <input
+                                                type="text"
+                                                value={editingRoom.size}
+                                                onChange={(e) => setEditingRoom({ ...editingRoom, size: e.target.value })}
+                                                className="w-full px-3 py-2 rounded-lg border border-[var(--admin-border)] bg-[var(--admin-bg)] focus:ring-2 focus:ring-[var(--admin-accent)] focus:border-transparent outline-none transition-all"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Section 3: Detailed Content */}
+                                <div className="space-y-4">
+                                    <h3 className="text-sm font-medium text-[var(--admin-text-muted)] uppercase tracking-wider border-t border-[var(--admin-border)] pt-6">Detailed Content</h3>
+
+                                    <div className="space-y-1.5">
+                                        <label className="text-sm font-medium text-[var(--admin-text)]">Long Description (Paragraphs)</label>
+                                        <p className="text-xs text-[var(--admin-text-muted)] mb-2">Separate paragraphs with a double new line.</p>
+                                        <textarea
+                                            value={formContent.longDescString}
+                                            onChange={(e) => setFormContent({ ...formContent, longDescString: e.target.value })}
+                                            className="w-full px-3 py-2 rounded-lg border border-[var(--admin-border)] bg-[var(--admin-bg)] focus:ring-2 focus:ring-[var(--admin-accent)] focus:border-transparent outline-none transition-all min-h-[150px]"
+                                        />
+                                    </div>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div className="space-y-1.5">
+                                            <label className="text-sm font-medium text-[var(--admin-text)]">Features</label>
+                                            <p className="text-xs text-[var(--admin-text-muted)] mb-2">Comma-separated list (e.g. WiFi, AC, Balcony)</p>
+                                            <textarea
+                                                value={formContent.featuresString}
+                                                onChange={(e) => setFormContent({ ...formContent, featuresString: e.target.value })}
+                                                className="w-full px-3 py-2 rounded-lg border border-[var(--admin-border)] bg-[var(--admin-bg)] focus:ring-2 focus:ring-[var(--admin-accent)] focus:border-transparent outline-none transition-all min-h-[120px]"
+                                            />
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <label className="text-sm font-medium text-[var(--admin-text)]">Image URLs</label>
+                                            <p className="text-xs text-[var(--admin-text-muted)] mb-2">One URL per line.</p>
+                                            <textarea
+                                                value={formContent.imagesString}
+                                                onChange={(e) => setFormContent({ ...formContent, imagesString: e.target.value })}
+                                                className="w-full px-3 py-2 rounded-lg border border-[var(--admin-border)] bg-[var(--admin-bg)] focus:ring-2 focus:ring-[var(--admin-accent)] focus:border-transparent outline-none transition-all min-h-[120px] font-mono text-xs"
+                                            />
+                                            <div className="mt-2 text-xs text-amber-600 bg-amber-50 p-2 rounded">
+                                                Tip: Use images from <code>/public/images/rooms/</code>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        {/* Footer Actions */}
+                        <div className="px-6 py-4 border-t border-[var(--admin-border)] bg-[var(--admin-bg)] flex justify-end gap-3 safe-area-bottom">
+                            <button
+                                type="button"
+                                onClick={handleCloseEdit}
+                                className="px-4 py-2 text-sm font-medium text-[var(--admin-text)] hover:bg-[var(--admin-border)] rounded-lg transition-colors"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="submit"
+                                form="edit-room-form"
+                                disabled={saving}
+                                className="px-6 py-2 text-sm font-medium text-white bg-[var(--admin-accent)] hover:bg-[var(--admin-accent-hover)] rounded-lg shadow-lg shadow-amber-900/20 transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                                Save Changes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 }

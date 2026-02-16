@@ -1,15 +1,40 @@
-import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+const { createClient } = require('@supabase/supabase-js');
+const fs = require('fs');
+const path = require('path');
 
-export async function POST() {
+// Load .env.local manually
+const envPath = path.resolve(process.cwd(), '.env.local');
+const envContent = fs.readFileSync(envPath, 'utf8');
+const envVars = {};
+envContent.split('\n').forEach(line => {
+    const [key, value] = line.split('=');
+    if (key && value) {
+        envVars[key.trim()] = value.trim();
+    }
+});
+
+const supabaseUrl = envVars.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = envVars.SUPABASE_SERVICE_ROLE_KEY || envVars.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseKey) {
+    console.error('Missing Supabase credentials in .env.local');
+    process.exit(1);
+}
+
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+async function seed() {
+    console.log('Seeding database...');
+
     try {
         // 1. Clear existing data
-        // Order matters due to foreign keys if any (none currently, but good practice)
+        console.log('Clearing existing data...');
         await supabase.from("reviews").delete().neq("id", "00000000-0000-0000-0000-000000000000");
         await supabase.from("rooms").delete().neq("id", "00000000-0000-0000-0000-000000000000");
         await supabase.from("site_settings").delete().neq("id", "00000000-0000-0000-0000-000000000000");
 
         // 2. Insert Settings
+        console.log('Inserting settings...');
         const settings = [
             { setting_key: 'site_name', setting_value: 'Villa Mosta', setting_type: 'string', description: 'Name of the property' },
             { setting_key: 'site_tagline', setting_value: 'A Traditional Maltese Home', setting_type: 'string', description: 'Tagline appearing in hero/header' },
@@ -30,6 +55,7 @@ export async function POST() {
         if (settingsError) throw settingsError;
 
         // 3. Insert Rooms
+        console.log('Inserting rooms...');
         const rooms = [
             {
                 slug: 'deluxe-double-room',
@@ -88,6 +114,7 @@ export async function POST() {
         if (roomsError) throw roomsError;
 
         // 4. Insert Reviews
+        console.log('Inserting reviews...');
         const reviews = [
             { guest_name: 'Elizabeth', guest_country: 'United Kingdom', rating: 10, review_text: 'Very welcoming host. Well equipped. Great location. Quiet.', source: 'Booking.com', review_date: '2025-01-15', is_featured: true, is_published: true },
             { guest_name: 'Inge', guest_country: 'Belgium', rating: 10, review_text: 'Wonderful hospitable owners! Beautiful rooms with a lovely terrace. Mosta is a charming town. We can only praise our stay highly.', source: 'Booking.com', review_date: '2025-01-12', is_featured: true, is_published: true },
@@ -97,19 +124,22 @@ export async function POST() {
             { guest_name: 'Jamie', guest_country: 'United Kingdom', rating: 10, review_text: 'Hosts were very friendly, hospitable and extremely helpful.', source: 'Booking.com', review_date: '2024-12-20', is_featured: true, is_published: true },
             { guest_name: 'Olivera', guest_country: 'Serbia', rating: 10, review_text: 'Great location to explore everything. The house is lovely, very clean, had a great view from my room and the owner is amazing!', source: 'Booking.com', review_date: '2024-12-15', is_featured: true, is_published: true },
             { guest_name: 'Tamara', guest_country: 'Slovakia', rating: 10, review_text: 'We loved everything! Host was kind and helpful with great recommendations. The room is spacious and terrace is outstanding.', source: 'Booking.com', review_date: '2024-12-10', is_featured: true, is_published: true },
-            { guest_name: 'Agnė', guest_country: 'Lithuania', rating: 10, review_text: 'The host was incredibly nice, offered guidance and accommodated our needs. The place was clean and spacious.', source: 'Booking.com', review_date: '2024-12-05', is_featured: true, is_published: true },
+            { guest_name: 'Agnė', guest_country: 'Lithuania', rating: 10, review_text: 'The host was incredibly nice, offered guidance and accommodated our needs. The place was clean and spacious.', source: 'Booking.com', 'review_date': '2024-12-05', is_featured: true, is_published: true },
             { guest_name: 'Emmanouil', guest_country: 'United Kingdom', rating: 10, review_text: 'Host was really friendly, providing recommendations and proactively communicating throughout the process.', source: 'Booking.com', review_date: '2024-11-30', is_featured: true, is_published: true }
         ];
 
         const { error: reviewsError } = await supabase.from("reviews").insert(reviews);
         if (reviewsError) throw reviewsError;
 
-        return NextResponse.json({ message: "Database seeded successfully" });
+        console.log('Database seeded successfully!');
     } catch (error) {
-        console.error("Error seeding database:", error);
-        return NextResponse.json(
-            { error: "Failed to seed database" },
-            { status: 500 }
-        );
+        console.error('Error seeding database:', JSON.stringify(error, null, 2));
+        if (error.cause) console.error('Caused by:', error.cause);
+        if (error.message) console.error('Message:', error.message);
+        if (error.details) console.error('Details:', error.details);
+        if (error.hint) console.error('Hint:', error.hint);
+        process.exit(1);
     }
 }
+
+seed();
