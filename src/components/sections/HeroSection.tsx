@@ -67,12 +67,9 @@ export function HeroSection({
     }, []);
 
     React.useEffect(() => {
-        const tag = document.createElement("script");
-        tag.src = "https://www.youtube.com/iframe_api";
-        const firstScriptTag = document.getElementsByTagName("script")[0];
-        firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
+        const initPlayer = () => {
+            if (playerRef.current) return; // Already initialized
 
-        window.onYouTubeIframeAPIReady = () => {
             playerRef.current = new window.YT.Player("hero-video", {
                 videoId: videoId,
                 playerVars: {
@@ -88,6 +85,7 @@ export function HeroSection({
                     fs: 0,
                     iv_load_policy: 3,
                     disablekb: 1,
+                    origin: typeof window !== 'undefined' ? window.location.origin : '',
                 },
                 events: {
                     onReady: (event) => {
@@ -121,6 +119,19 @@ export function HeroSection({
                 },
             });
         };
+
+        // Check if YouTube API is already loaded
+        if (window.YT && window.YT.Player) {
+            initPlayer();
+        } else {
+            // Load the YouTube IFrame API
+            const tag = document.createElement("script");
+            tag.src = "https://www.youtube.com/iframe_api";
+            const firstScriptTag = document.getElementsByTagName("script")[0];
+            firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
+
+            window.onYouTubeIframeAPIReady = initPlayer;
+        }
 
         return () => {
             if (intervalRef.current) {
