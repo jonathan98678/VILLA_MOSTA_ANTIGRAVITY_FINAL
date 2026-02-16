@@ -2,15 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Smooth scroll for whole page */
-html {
-  scroll-behavior: smooth;
+/* ===========================
+   CSS Custom Properties — Maltese Villa Theme
+   =========================== */
+:root {
+  /* Warm Maltese limestone palette */
+  --color-honey: #D4A853;
+  --color-honey-light: #E8C97A;
+  --color-limestone: #C4A882;
+  --color-terracotta: #B87333;
+  --color-warm-cream: #FAF5ED;
+  --color-warm-white: #FDF9F3;
+  --color-stone-dark: #2C2520;
+  --color-stone-mid: #44382E;
+  --color-text: #1f1f1f;
+  --color-text-muted: #6B5E54;
+  --color-accent: #C09A47;
 }
 
-/* Base styles */
+/* ===========================
+   Smooth scroll
+   =========================== */
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===========================
+   Base styles
+   =========================== */
 body {
-  background-color: #faf9f7;
-  color: #1f1f1f;
+  background-color: var(--color-warm-cream);
+  color: var(--color-text);
   font-family: var(--font-inter), system-ui, sans-serif;
 }
 
@@ -24,7 +48,9 @@ h6 {
   font-weight: 400;
 }
 
-/* Container */
+/* ===========================
+   Container
+   =========================== */
 .container {
   max-width: 1280px;
   margin: 0 auto;
@@ -39,15 +65,26 @@ h6 {
   }
 }
 
-/* Hero video overlay */
-.hero-overlay {
-  background: linear-gradient(to bottom,
-      rgba(0, 0, 0, 0.4) 0%,
-      rgba(0, 0, 0, 0.2) 50%,
-      rgba(0, 0, 0, 0.5) 100%);
+/* ===========================
+   Hero — slow zoom animation
+   =========================== */
+.hero-image-zoom {
+  animation: heroZoom 20s ease-out forwards;
 }
 
-/* Button styles */
+@keyframes heroZoom {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1.08);
+  }
+}
+
+/* ===========================
+   Button styles
+   =========================== */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -57,22 +94,24 @@ h6 {
   font-weight: 500;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-ghost {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.1);
   color: white;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(8px);
 }
 
 .btn-ghost:hover {
-  background: rgba(255, 255, 255, 0.25);
-  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
-/* Smooth scroll animations */
+/* ===========================
+   Section reveal animations
+   =========================== */
 @keyframes fade-in-up {
   from {
     opacity: 0;
@@ -107,6 +146,18 @@ h6 {
   }
 }
 
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 .animate-fade-in-up {
   animation: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
@@ -117,6 +168,10 @@ h6 {
 
 .animate-slide-up {
   animation: slide-up 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Stagger animation delays */
@@ -140,7 +195,49 @@ h6 {
   animation-delay: 500ms;
 }
 
-/* Reduced motion */
+/* ===========================
+   Maltese decorative elements
+   =========================== */
+.maltese-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.maltese-divider::before,
+.maltese-divider::after {
+  content: "";
+  height: 1px;
+  width: 3rem;
+  background: linear-gradient(to var(--dir, right), transparent, var(--color-honey));
+}
+
+.maltese-divider::after {
+  --dir: left;
+}
+
+/* ===========================
+   Section spacing with Maltese feel
+   =========================== */
+.section-accent {
+  position: relative;
+}
+
+.section-accent::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 3rem;
+  background: linear-gradient(to bottom, var(--color-honey), transparent);
+}
+
+/* ===========================
+   Accessibility — reduced motion
+   =========================== */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -152,20 +249,40 @@ h6 {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+
+  .hero-image-zoom {
+    animation: none;
+  }
 }
 
-/* Focus styles */
+/* ===========================
+   Focus & selection
+   =========================== */
 :focus-visible {
-  outline: 2px solid #b08f4f;
+  outline: 2px solid var(--color-honey);
   outline-offset: 2px;
 }
 
-/* Selection */
 ::selection {
-  background-color: rgba(176, 143, 79, 0.2);
+  background-color: rgba(212, 168, 83, 0.2);
 }
 
-/* Hide YouTube branding */
-.youtube-container iframe {
-  pointer-events: none;
+/* ===========================
+   Scrollbar styling
+   =========================== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-warm-cream);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-limestone);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-honey);
 }

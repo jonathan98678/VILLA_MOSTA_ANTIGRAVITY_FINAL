@@ -76,7 +76,7 @@ export default function AdminLayout({
             )}>
                 <div className="p-6 flex items-center justify-between">
                     <div>
-                        <Link href="/" className="font-serif text-xl">Villa Mosta</Link>
+                        <a href="https://villamosta.com" target="_blank" rel="noopener noreferrer" className="font-serif text-xl">Villa Mosta</a>
                         <p className="text-stone-400 text-xs mt-1">Admin Dashboard</p>
                     </div>
                     <button
@@ -112,13 +112,15 @@ export default function AdminLayout({
                 </nav>
 
                 <div className="absolute bottom-0 left-0 w-full p-4 border-t border-stone-700 space-y-2">
-                    <Link
-                        href="/"
+                    <a
+                        href="https://villamosta.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="flex items-center gap-2 text-stone-400 hover:text-white text-sm transition-colors"
                     >
                         <Home className="w-4 h-4" />
-                        <span>Back to Site</span>
-                    </Link>
+                        <span>View Website</span>
+                    </a>
                     <button
                         onClick={handleLogout}
                         className="flex items-center gap-2 text-stone-400 hover:text-red-400 text-sm transition-colors w-full"

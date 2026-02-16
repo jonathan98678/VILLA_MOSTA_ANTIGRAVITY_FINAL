@@ -9,136 +9,26 @@ import { ChevronDown } from "lucide-react";
 interface HeroSectionProps {
     title?: string;
     subtitle?: string;
-    description?: string;
-    videoId?: string;
-    videoStart?: number;
-    videoEnd?: number;
+    address?: string;
+    heroImage?: string;
     showScrollIndicator?: boolean;
     className?: string;
-}
-
-declare global {
-    interface Window {
-        YT: {
-            Player: new (
-                elementId: string,
-                config: {
-                    videoId: string;
-                    playerVars: Record<string, number | string>;
-                    events: {
-                        onReady: (event: { target: YouTubePlayer }) => void;
-                        onStateChange: (event: { data: number; target: YouTubePlayer }) => void;
-                    };
-                }
-            ) => YouTubePlayer;
-        };
-        onYouTubeIframeAPIReady: () => void;
-    }
-}
-
-interface YouTubePlayer {
-    playVideo: () => void;
-    pauseVideo: () => void;
-    seekTo: (seconds: number, allowSeekAhead: boolean) => void;
-    getCurrentTime: () => number;
-    mute: () => void;
 }
 
 export function HeroSection({
     title = "VILLA MOSTA",
     subtitle = "A Traditional Maltese Home",
-    description = "Experience authentic Maltese hospitality in the heart of Mosta.",
-    videoId = "9mg8FOQi6bI",
-    videoStart = 121,
-    videoEnd = 124.5,
+    address = "51 Triq Il-Kungress Ewkaristiku, Mosta, Malta",
+    heroImage = "/images/villa/hero-rotunda.jpg",
     showScrollIndicator = true,
     className,
 }: HeroSectionProps) {
     const [isLoaded, setIsLoaded] = React.useState(false);
-    const [videoReady, setVideoReady] = React.useState(false);
-    const [showFreezeFrame, setShowFreezeFrame] = React.useState(false);
-    const playerRef = React.useRef<YouTubePlayer | null>(null);
-    const intervalRef = React.useRef<NodeJS.Timeout | null>(null);
-    const hasPausedRef = React.useRef(false);
 
     React.useEffect(() => {
-        const timer = setTimeout(() => setIsLoaded(true), 300);
+        const timer = setTimeout(() => setIsLoaded(true), 200);
         return () => clearTimeout(timer);
     }, []);
-
-    React.useEffect(() => {
-        const initPlayer = () => {
-            if (playerRef.current) return; // Already initialized
-
-            playerRef.current = new window.YT.Player("hero-video", {
-                videoId: videoId,
-                playerVars: {
-                    autoplay: 1,
-                    mute: 1,
-                    controls: 0,
-                    showinfo: 0,
-                    rel: 0,
-                    modestbranding: 1,
-                    playsinline: 1,
-                    start: videoStart,
-                    enablejsapi: 1,
-                    fs: 0,
-                    iv_load_policy: 3,
-                    disablekb: 1,
-                    origin: typeof window !== 'undefined' ? window.location.origin : '',
-                },
-                events: {
-                    onReady: (event) => {
-                        event.target.mute();
-                        event.target.seekTo(videoStart, true);
-                        event.target.playVideo();
-
-                        intervalRef.current = setInterval(() => {
-                            if (hasPausedRef.current) return;
-
-                            const currentTime = event.target.getCurrentTime();
-                            if (currentTime >= videoEnd) {
-                                event.target.pauseVideo();
-                                hasPausedRef.current = true;
-
-                                // Show the freeze frame screenshot
-                                setShowFreezeFrame(true);
-
-                                if (intervalRef.current) {
-                                    clearInterval(intervalRef.current);
-                                }
-                            }
-                        }, 100);
-                    },
-                    onStateChange: (event) => {
-                        // Video is playing (state 1)
-                        if (event.data === 1) {
-                            setVideoReady(true);
-                        }
-                    },
-                },
-            });
-        };
-
-        // Check if YouTube API is already loaded
-        if (window.YT && window.YT.Player) {
-            initPlayer();
-        } else {
-            // Load the YouTube IFrame API
-            const tag = document.createElement("script");
-            tag.src = "https://www.youtube.com/iframe_api";
-            const firstScriptTag = document.getElementsByTagName("script")[0];
-            firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
-
-            window.onYouTubeIframeAPIReady = initPlayer;
-        }
-
-        return () => {
-            if (intervalRef.current) {
-                clearInterval(intervalRef.current);
-            }
-        };
-    }, [videoId, videoStart, videoEnd]);
 
     const scrollToContent = () => {
         const nextSection = document.getElementById("intro");
@@ -151,94 +41,111 @@ export function HeroSection({
         <section
             className={cn(
                 "relative flex items-center justify-center overflow-hidden bg-stone-900",
-                "mt-14",
-                "h-[calc(100vh-56px)] min-h-[500px]",
+                "h-screen min-h-[600px]",
                 className
             )}
         >
-            {/* Video Background - hidden after freeze frame shows */}
-            <div className={cn(
-                "absolute inset-0 pointer-events-none overflow-hidden transition-opacity duration-300",
-                showFreezeFrame ? "opacity-0" : "opacity-100"
-            )}>
-                <div
-                    className="absolute left-1/2 w-[177.78vh] min-w-full"
-                    style={{
-                        aspectRatio: "16/9",
-                        bottom: "-50px",
-                        transform: "translate(-50%, 0)"
-                    }}
-                >
-                    <div id="hero-video" className="w-full h-full" />
-                </div>
+            {/* Background Image with slow zoom */}
+            <div className="absolute inset-0 hero-image-zoom">
+                <Image
+                    src={heroImage}
+                    alt="Mosta Rotunda, Malta"
+                    fill
+                    className="object-cover"
+                    priority
+                    sizes="100vw"
+                    quality={90}
+                />
             </div>
 
-            {/* Fallback image - shows while video loads AND after video ends */}
-            <div className={cn(
-                "absolute inset-0 transition-opacity duration-500",
-                (showFreezeFrame || !videoReady) ? "opacity-100" : "opacity-0"
-            )}>
-                <div
-                    className="absolute left-1/2 w-[177.78vh] min-w-full"
-                    style={{
-                        aspectRatio: "16/9",
-                        bottom: "-50px",
-                        transform: "translate(-50%, 0)"
-                    }}
-                >
-                    <Image
-                        src="/images/villa/hero-freeze.png"
-                        alt="Mosta Rotunda"
-                        fill
-                        className="object-cover"
-                        priority
-                    />
-                </div>
-            </div>
+            {/* Gradient overlay — cinematic */}
+            <div
+                className="absolute inset-0"
+                style={{
+                    background:
+                        "linear-gradient(to bottom, rgba(15,12,8,0.35) 0%, rgba(15,12,8,0.15) 40%, rgba(15,12,8,0.55) 100%)",
+                }}
+            />
 
-            {/* Light overlay for text readability */}
-            <div className="absolute inset-0 bg-black/30" style={{ zIndex: 2 }} />
+            {/* Decorative top line */}
+            <div
+                className={cn(
+                    "absolute top-0 left-1/2 -translate-x-1/2 w-px bg-gradient-to-b from-transparent via-white/40 to-transparent transition-all duration-[2000ms] ease-out",
+                    isLoaded ? "h-20 opacity-100" : "h-0 opacity-0"
+                )}
+            />
 
             {/* Content */}
-            <div className="relative text-center px-6 max-w-4xl mx-auto" style={{ zIndex: 10 }}>
+            <div className="relative z-10 text-center px-6 w-full max-w-6xl mx-auto">
+                {/* Overline */}
+                <span
+                    className={cn(
+                        "block text-[10px] md:text-xs font-medium tracking-[0.35em] uppercase text-white/60 mb-6",
+                        "transition-all duration-1000 ease-out delay-300",
+                        isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                    )}
+                >
+                    Est. Mosta, Malta
+                </span>
+
+                {/* Main Title — ultra-wide luxury typography */}
                 <h1
                     className={cn(
-                        "font-serif text-5xl md:text-6xl lg:text-7xl text-white tracking-tight mb-4",
-                        "transition-all duration-1000 ease-out",
-                        isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                        "hero-title font-serif font-bold text-white",
+                        "text-[clamp(3rem,10vw,8rem)] leading-[0.9] tracking-[0.15em] md:tracking-[0.25em]",
+                        "transition-all duration-[1400ms] ease-out delay-500",
+                        isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
                     )}
                 >
                     {title}
                 </h1>
 
+                {/* Decorative divider */}
+                <div
+                    className={cn(
+                        "mx-auto my-6 md:my-8 flex items-center justify-center gap-4 transition-all duration-1000 ease-out delay-700",
+                        isLoaded ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"
+                    )}
+                >
+                    <div className="h-px w-12 md:w-20 bg-gradient-to-r from-transparent to-amber-400/60" />
+                    <div className="w-1.5 h-1.5 rotate-45 border border-amber-400/60" />
+                    <div className="h-px w-12 md:w-20 bg-gradient-to-l from-transparent to-amber-400/60" />
+                </div>
+
+                {/* Subtitle */}
                 <p
                     className={cn(
-                        "text-white/90 text-lg md:text-xl mb-2",
-                        "transition-all duration-1000 ease-out delay-150",
-                        isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                        "text-white/80 text-base md:text-lg font-light tracking-wide max-w-lg mx-auto",
+                        "transition-all duration-1000 ease-out delay-[900ms]",
+                        isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
                     )}
                 >
                     {subtitle}
                 </p>
 
+                {/* Address */}
                 <p
                     className={cn(
-                        "text-white/70 text-base md:text-lg max-w-lg mx-auto",
-                        "transition-all duration-1000 ease-out delay-300",
-                        isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                        "text-white/50 text-xs md:text-sm tracking-[0.15em] uppercase mt-3",
+                        "transition-all duration-1000 ease-out delay-[1100ms]",
+                        isLoaded ? "opacity-100" : "opacity-0"
                     )}
                 >
-                    {description}
+                    {address}
                 </p>
 
+                {/* CTA Button */}
                 <div
                     className={cn(
-                        "mt-8 transition-all duration-1000 ease-out delay-500",
-                        isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                        "mt-10 md:mt-12 transition-all duration-1000 ease-out delay-[1300ms]",
+                        isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
                     )}
                 >
-                    <Link href="/book" className="btn btn-ghost">
-                        Book Your Stay
+                    <Link
+                        href="/book"
+                        className="group inline-flex items-center justify-center px-8 py-3.5 border border-white/30 text-white text-xs font-medium tracking-[0.2em] uppercase backdrop-blur-sm bg-white/5 hover:bg-white/15 hover:border-white/50 transition-all duration-500"
+                    >
+                        <span>Book Your Stay</span>
                     </Link>
                 </div>
             </div>
@@ -248,14 +155,15 @@ export function HeroSection({
                 <button
                     onClick={scrollToContent}
                     className={cn(
-                        "absolute bottom-8 left-1/2 -translate-x-1/2 text-white/60 hover:text-white",
-                        "transition-all duration-500 ease-out cursor-pointer",
-                        "flex flex-col items-center gap-2"
+                        "absolute bottom-8 left-1/2 -translate-x-1/2 text-white/50 hover:text-white",
+                        "transition-all duration-700 ease-out cursor-pointer",
+                        "flex flex-col items-center gap-2",
+                        isLoaded ? "opacity-100 delay-[1600ms]" : "opacity-0"
                     )}
                     style={{ zIndex: 10 }}
                     aria-label="Scroll to content"
                 >
-                    <span className="text-xs tracking-[0.2em] uppercase">Discover</span>
+                    <span className="text-[10px] tracking-[0.3em] uppercase">Discover</span>
                     <ChevronDown className="w-4 h-4 animate-bounce" />
                 </button>
             )}

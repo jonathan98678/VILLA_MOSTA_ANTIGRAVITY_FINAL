@@ -31,6 +31,9 @@ export function Footer() {
                             A charming Maltese home offering elegant accommodations with
                             stunning terraces and personalized service.
                         </p>
+                        <p className="text-stone-400 text-sm mb-4">
+                            51 Triq Il-Kungress Ewkaristiku, Mosta, Malta
+                        </p>
                         <div className="space-y-1.5 text-sm text-stone-300">
                             <p>
                                 <span className="text-white">Email:</span>{" "}

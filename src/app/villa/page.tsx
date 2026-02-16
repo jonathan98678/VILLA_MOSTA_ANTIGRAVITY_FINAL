@@ -17,9 +17,9 @@ export default function VillaPage() {
             <main>
                 {/* Hero */}
                 <HeroSection
-                    title="The Villa"
-                    subtitle="Our Story"
-                    description="A passion project born from a love of Mediterranean beauty, thoughtful design, and the art of true hospitality."
+                    title="THE VILLA"
+                    subtitle="A passion project born from a love of Mediterranean beauty, thoughtful design, and the art of true hospitality."
+                    heroImage="/images/villa/terrace-view.jpg"
                     showScrollIndicator={true}
                 />
 

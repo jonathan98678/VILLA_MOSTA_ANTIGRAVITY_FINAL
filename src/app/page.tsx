@@ -8,10 +8,12 @@ import { CTASection } from "@/components/sections/CTASection";
 
 import { getRooms } from "@/lib/db";
 
+// Force dynamic rendering so data is always fresh from Supabase
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
     const dbRooms = await getRooms();
 
-    // Limit to 3 rooms for homepage if needed, or just map all
     const rooms = dbRooms.slice(0, 3).map(room => ({
         id: room.id,
         slug: room.slug,
@@ -26,19 +28,18 @@ export default async function HomePage() {
         <>
             <Header />
             <main>
-                {/* Hero with YouTube video of Mosta Rotunda */}
+                {/* Hero — full-screen image of Mosta Rotunda */}
                 <HeroSection
                     title="VILLA MOSTA"
                     subtitle="A Traditional Maltese Home"
-                    description="Experience authentic Maltese hospitality in the heart of Mosta."
-                    videoId="9mg8FOQi6bI"
-                    videoStart={122}
+                    address="51 Triq Il-Kungress Ewkaristiku, Mosta, Malta"
+                    heroImage="/images/villa/hero-rotunda.jpg"
                 />
 
                 {/* Intro */}
                 <IntroSection />
 
-                {/* Rooms - using different images */}
+                {/* Rooms */}
                 <RoomsSection rooms={rooms} />
 
                 {/* Reviews */}
