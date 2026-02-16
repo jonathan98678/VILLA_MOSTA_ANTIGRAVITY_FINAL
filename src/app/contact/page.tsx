@@ -20,9 +20,33 @@ export default function ContactPage() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsSubmitting(true);
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-        setIsSubmitting(false);
-        setIsSubmitted(true);
+
+        const formData = new FormData(e.currentTarget);
+        const data = {
+            name: formData.get("name"),
+            email: formData.get("email"),
+            subject: formData.get("subject"),
+            message: formData.get("message"),
+        };
+
+        try {
+            const res = await fetch("/api/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+            });
+
+            if (res.ok) {
+                setIsSubmitted(true);
+            } else {
+                alert("Something went wrong. Please try again.");
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Error sending message.");
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -61,9 +85,9 @@ export default function ContactPage() {
                 </section>
 
                 {/* Contact Content */}
-                <section className="section bg-[var(--color-warm-cream)]">
+                <section className="section bg-[var(--color-warm-cream)] py-12 sm:py-20 lg:py-24">
                     <div className="container">
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-16">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-16 lg:gap-20">
                             {/* Contact Form */}
                             <div>
                                 <h2 className="font-serif text-xl sm:text-2xl md:text-3xl text-stone-800 mb-5 sm:mb-6">

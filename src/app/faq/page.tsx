@@ -139,7 +139,7 @@ export default function FAQPage() {
                                 )}
                                 style={{ transitionDelay: `${400 + catIdx * 150}ms` }}
                             >
-                                <h2 className="font-serif text-xl sm:text-2xl text-stone-800 mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-stone-200">
+                                <h2 className="font-serif text-2xl sm:text-3xl text-stone-800 mb-6 sm:mb-8 pb-4 border-b border-stone-200">
                                     {category}
                                 </h2>
 
@@ -147,34 +147,34 @@ export default function FAQPage() {
                                     {categoryFaqs.map((faq) => (
                                         <div
                                             key={faq.id}
-                                            className="bg-white border border-stone-100 overflow-hidden hover:border-stone-200 transition-colors"
+                                            className="bg-white border border-stone-100 rounded-lg overflow-hidden hover:border-stone-300 hover:shadow-md transition-all duration-300"
                                         >
                                             <button
                                                 onClick={() => setOpenId(openId === faq.id ? null : faq.id)}
-                                                className="w-full px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between text-left"
+                                                className="w-full px-5 sm:px-7 py-4 sm:py-5 flex items-center justify-between text-left group"
                                             >
-                                                <span className="text-sm sm:text-base font-medium text-stone-800 pr-4">
+                                                <span className="text-base sm:text-lg font-medium text-stone-800 pr-6 group-hover:text-[var(--color-accent)] transition-colors">
                                                     {faq.question}
                                                 </span>
                                                 <ChevronDown
                                                     className={cn(
-                                                        "w-4 h-4 sm:w-5 sm:h-5 text-stone-400 flex-shrink-0 transition-transform duration-300",
-                                                        openId === faq.id && "rotate-180"
+                                                        "w-5 h-5 text-stone-400 flex-shrink-0 transition-transform duration-300",
+                                                        openId === faq.id && "rotate-180 text-[var(--color-accent)]"
                                                     )}
                                                 />
                                             </button>
 
                                             <div
                                                 className={cn(
-                                                    "grid transition-all duration-300",
+                                                    "grid transition-all duration-300 ease-in-out",
                                                     openId === faq.id
                                                         ? "grid-rows-[1fr] opacity-100"
                                                         : "grid-rows-[0fr] opacity-0"
                                                 )}
                                             >
                                                 <div className="overflow-hidden">
-                                                    <div className="px-4 sm:px-6 pb-3 sm:pb-4">
-                                                        <p className="text-sm text-stone-500 leading-relaxed">
+                                                    <div className="px-5 sm:px-7 pb-5 sm:pb-6 pt-0">
+                                                        <p className="text-base text-stone-500 leading-relaxed">
                                                             {faq.answer}
                                                         </p>
                                                     </div>

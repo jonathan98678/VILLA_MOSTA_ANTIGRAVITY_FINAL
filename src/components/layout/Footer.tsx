@@ -30,7 +30,7 @@ export function Footer() {
                         </Link>
                         <p className="text-stone-300 text-sm sm:text-base max-w-md mb-5 sm:mb-6 leading-relaxed">
                             A spacious traditional Maltese home with beautiful terraces,
-                            central location, and genuine hospitality. Hosted by Andreas.
+                            central location, and genuine hospitality. Hosted by Minja and Andreas.
                         </p>
                         <p className="text-stone-400 text-xs sm:text-sm mb-4">
                             51 Triq Il-Kungress Ewkaristiku, Mosta, Malta
@@ -88,7 +88,7 @@ export function Footer() {
             {/* Bottom */}
             <div className="border-t border-stone-700">
                 <div className="container py-4 sm:py-5 flex flex-col sm:flex-row justify-between items-center gap-3 text-[10px] sm:text-xs text-stone-400">
-                    <p>© {currentYear} Villa Mosta. All rights reserved. License: 61700A</p>
+                    <p>© {currentYear} Villa Mosta. All rights reserved.</p>
                     <div className="flex gap-5">
                         <Link href="/privacy" className="hover:text-white transition-colors">
                             Privacy Policy
