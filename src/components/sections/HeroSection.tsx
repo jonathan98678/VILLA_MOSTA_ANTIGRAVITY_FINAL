@@ -30,7 +30,8 @@ export function HeroSection({
         offset: ["start start", "end start"],
     });
 
-    const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+    const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]); // Reduced parallax distance
+    const scale = useTransform(scrollYProgress, [0, 1], [1.1, 1]); // Zoom out on scroll
     const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
     const scrollToContent = () => {
@@ -72,20 +73,25 @@ export function HeroSection({
                 className
             )}
         >
-            {/* Background Image with Parallax */}
+            {/* Background Image with Parallax & Scale */}
             <motion.div
-                style={{ y, opacity }}
+                style={{ y, opacity, scale }}
+                initial={{ scale: 1.2 }} // Start zoomed in
+                animate={{ scale: 1.1 }} // Animate to 1.1 (the start of scroll transform)
+                transition={{ duration: 10, ease: "easeOut" }} // Slow "Ken Burns" entry
                 className="absolute inset-0 z-0"
             >
-                <div className="absolute inset-0 bg-stone-900/10" /> {/* Reduced tint */}
+                <div className="absolute inset-0 bg-stone-900/20" /> {/* Slightly darker for best text contrast */}
                 <Image
-                    src={heroImage}
+                    src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=2070&auto=format&fit=crop" // High Res Villa Image
+                    // Fallback to prop if provided and not default, but prioritizing high-res for now
+                    // src={heroImage === "/images/villa/hero-rotunda.jpg" ? "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=2070&auto=format&fit=crop" : heroImage} 
                     alt="Villa Mosta, Malta"
                     fill
                     className="object-cover"
                     priority
                     sizes="100vw"
-                    quality={90}
+                    quality={100} // Max quality
                 />
             </motion.div>
 
