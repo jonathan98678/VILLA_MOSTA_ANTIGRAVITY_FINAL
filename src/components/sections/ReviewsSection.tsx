@@ -1,8 +1,9 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { Star } from "lucide-react";
+import { Star, ArrowRight } from "lucide-react";
 
 interface Review {
     id: string;
@@ -82,7 +83,7 @@ export function ReviewsSection({
                     setIsVisible(true);
                 }
             },
-            { threshold: 0.15 }
+            { threshold: 0.1 }
         );
 
         if (sectionRef.current) {
@@ -95,14 +96,14 @@ export function ReviewsSection({
     return (
         <section
             ref={sectionRef}
-            className={cn("py-20 md:py-28 bg-white", className)}
+            className={cn("py-24 md:py-32 bg-[var(--color-warm-white)]", className)}
         >
             <div className="container">
                 {/* Header */}
-                <div className="text-center mb-12">
+                <div className="text-center mb-14">
                     <span
                         className={cn(
-                            "block text-xs font-semibold tracking-[0.2em] uppercase text-amber-700 mb-3",
+                            "block text-[11px] font-medium tracking-[0.3em] uppercase text-[var(--color-accent)] mb-4",
                             "transition-all duration-700",
                             isVisible ? "opacity-100" : "opacity-0"
                         )}
@@ -119,22 +120,23 @@ export function ReviewsSection({
                         {title}
                     </h2>
 
-                    {/* Rating */}
+                    {/* Rating badge */}
                     <div
                         className={cn(
-                            "inline-flex items-center gap-3 bg-stone-100 px-5 py-3",
+                            "inline-flex items-center gap-4 bg-white px-6 py-4 shadow-sm border border-stone-100",
                             "transition-all duration-700 delay-200",
-                            isVisible ? "opacity-100" : "opacity-0"
+                            isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
                         )}
                     >
-                        <span className="font-serif text-3xl text-stone-800">{rating}</span>
+                        <span className="font-serif text-4xl text-stone-800 leading-none">{rating}</span>
+                        <div className="h-8 w-px bg-stone-200" />
                         <div className="text-left">
-                            <div className="flex gap-0.5 text-amber-500">
+                            <div className="flex gap-0.5 text-[var(--color-honey)]">
                                 {[...Array(5)].map((_, i) => (
                                     <Star key={i} className="w-4 h-4 fill-current" />
                                 ))}
                             </div>
-                            <span className="text-stone-500 text-sm">{reviewCount} reviews on Booking.com</span>
+                            <span className="text-[var(--color-text-muted)] text-sm">{reviewCount} reviews on Booking.com</span>
                         </div>
                     </div>
                 </div>
@@ -145,21 +147,24 @@ export function ReviewsSection({
                         <div
                             key={review.id}
                             className={cn(
-                                "bg-stone-50 p-6 transition-all duration-700",
+                                "bg-white p-7 border border-stone-100 hover:shadow-md hover:shadow-stone-100 transition-all duration-500",
                                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
                             )}
-                            style={{ transitionDelay: `${300 + index * 80}ms` }}
+                            style={{ transitionDelay: `${300 + index * 100}ms` }}
                         >
-                            <p className="text-stone-700 leading-relaxed mb-5">
-                                &ldquo;{review.text}&rdquo;
+                            {/* Quote mark */}
+                            <span className="block font-serif text-4xl text-[var(--color-honey)] leading-none mb-3">&ldquo;</span>
+
+                            <p className="text-stone-700 leading-[1.8] mb-6 text-[15px]">
+                                {review.text}
                             </p>
 
-                            <div className="flex items-center justify-between">
+                            <div className="flex items-center justify-between pt-4 border-t border-stone-100">
                                 <div>
                                     <p className="font-medium text-stone-800 text-sm">{review.guestName}</p>
                                     <p className="text-stone-400 text-xs">{review.country}</p>
                                 </div>
-                                <div className="flex items-center gap-1 bg-white px-2.5 py-1">
+                                <div className="flex items-center gap-1.5 bg-stone-50 px-3 py-1.5">
                                     <span className="font-serif text-lg text-stone-800">{review.rating}</span>
                                     <span className="text-stone-400 text-xs">/10</span>
                                 </div>
@@ -170,16 +175,16 @@ export function ReviewsSection({
 
                 {/* View All */}
                 <div className={cn(
-                    "text-center mt-10 transition-all duration-700 delay-700",
+                    "text-center mt-14 transition-all duration-700 delay-700",
                     isVisible ? "opacity-100" : "opacity-0"
                 )}>
-                    <a
+                    <Link
                         href="/reviews"
-                        className="inline-flex items-center gap-2 text-stone-700 font-medium hover:text-amber-700 transition-colors"
+                        className="inline-flex items-center gap-2 px-6 py-3 border border-stone-300 text-stone-700 text-xs font-medium tracking-[0.1em] uppercase hover:bg-stone-800 hover:text-white hover:border-stone-800 transition-all duration-400"
                     >
                         <span>Read All Reviews</span>
-                        <span>→</span>
-                    </a>
+                        <ArrowRight className="w-4 h-4" />
+                    </Link>
                 </div>
             </div>
         </section>

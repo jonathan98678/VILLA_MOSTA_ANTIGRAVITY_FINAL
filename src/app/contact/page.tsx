@@ -191,10 +191,10 @@ export default function ContactPage() {
                                         <div>
                                             <h3 className="text-body font-medium text-text mb-1">Email</h3>
                                             <a
-                                                href="mailto:hello@villamosta.com"
+                                                href="mailto:info@villamosta.com"
                                                 className="text-body-lg text-text-muted hover:text-accent transition-colors"
                                             >
-                                                hello@villamosta.com
+                                                info@villamosta.com
                                             </a>
                                         </div>
                                     </div>
@@ -225,7 +225,7 @@ export default function ContactPage() {
                                             <h3 className="text-body font-medium text-text mb-1">Address</h3>
                                             <p className="text-body-lg text-text-muted">
                                                 Villa Mosta<br />
-                                                123 Mediterranean Lane<br />
+                                                51 Triq Il-Kungress Ewkaristiku<br />
                                                 Mosta, Malta
                                             </p>
                                         </div>

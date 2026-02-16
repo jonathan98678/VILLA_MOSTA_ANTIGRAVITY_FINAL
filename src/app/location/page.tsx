@@ -79,8 +79,8 @@ export default function LocationPage() {
                             Villa Mosta
                         </h3>
                         <p className="text-body text-text-muted mb-4">
-                            123 Mediterranean Lane<br />
-                            Mosta MST 1234<br />
+                            51 Triq Il-Kungress Ewkaristiku<br />
+                            Mosta, MST 2201<br />
                             Malta
                         </p>
                         <a

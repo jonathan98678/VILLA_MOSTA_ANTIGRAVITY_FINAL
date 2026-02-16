@@ -40,14 +40,22 @@ export function IntroSection({
         <section
             ref={sectionRef}
             id="intro"
-            className={cn("py-20 md:py-28 bg-white", className)}
+            className={cn("relative py-24 md:py-32 bg-[var(--color-warm-white)]", className)}
         >
+            {/* Decorative top accent */}
+            <div
+                className={cn(
+                    "absolute top-0 left-1/2 -translate-x-1/2 w-px bg-gradient-to-b from-[var(--color-honey)] to-transparent transition-all duration-1000",
+                    isVisible ? "h-16 opacity-100" : "h-0 opacity-0"
+                )}
+            />
+
             <div className="container">
                 <div className="max-w-3xl mx-auto text-center">
                     {/* Overline */}
                     <span
                         className={cn(
-                            "block text-xs font-semibold tracking-[0.2em] uppercase text-amber-700 mb-4",
+                            "block text-[11px] font-medium tracking-[0.3em] uppercase text-[var(--color-accent)] mb-5",
                             "transition-all duration-700 ease-out",
                             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                         )}
@@ -58,7 +66,7 @@ export function IntroSection({
                     {/* Title */}
                     <h2
                         className={cn(
-                            "font-serif text-3xl md:text-4xl lg:text-5xl text-stone-800 mb-6",
+                            "font-serif text-3xl md:text-4xl lg:text-5xl text-stone-800 mb-5",
                             "transition-all duration-700 ease-out delay-100",
                             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                         )}
@@ -66,11 +74,23 @@ export function IntroSection({
                         {title}
                     </h2>
 
+                    {/* Maltese decorative divider */}
+                    <div
+                        className={cn(
+                            "flex items-center justify-center gap-4 my-6 transition-all duration-700 ease-out delay-200",
+                            isVisible ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"
+                        )}
+                    >
+                        <div className="h-px w-12 md:w-16 bg-gradient-to-r from-transparent to-[var(--color-honey)]" />
+                        <div className="w-1.5 h-1.5 rotate-45 bg-[var(--color-honey)]" />
+                        <div className="h-px w-12 md:w-16 bg-gradient-to-l from-transparent to-[var(--color-honey)]" />
+                    </div>
+
                     {/* Description */}
                     <p
                         className={cn(
-                            "text-stone-600 text-lg leading-relaxed",
-                            "transition-all duration-700 ease-out delay-200",
+                            "text-[var(--color-text-muted)] text-lg leading-[1.85] max-w-2xl mx-auto",
+                            "transition-all duration-700 ease-out delay-300",
                             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                         )}
                     >

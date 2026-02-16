@@ -173,7 +173,7 @@ export default function FAQPage() {
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <a
-                                href="mailto:hello@villamosta.com"
+                                href="mailto:info@villamosta.com"
                                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-stone text-cream-100 rounded hover:bg-stone/90 transition-colors"
                             >
                                 Email Us
