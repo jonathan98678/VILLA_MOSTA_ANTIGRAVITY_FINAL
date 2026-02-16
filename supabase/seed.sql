@@ -16,68 +16,52 @@ INSERT INTO public.rooms (
         display_order
     )
 VALUES (
-        'terrace-suite',
-        'The Terrace Suite',
-        'A spacious retreat with private terrace overlooking the Mediterranean.',
+        'deluxe-double-room',
+        'Deluxe Double Room with Shower',
+        'Elegant room with city views and modern amenities.',
         ARRAY [
-        'The Terrace Suite is our crown jewel—a generous 45m² space designed for those who appreciate waking up to the sound of birdsong and the sight of the Mediterranean stretching to the horizon.',
-        'Floor-to-ceiling windows flood the room with natural light, while the private terrace offers the perfect setting for morning coffee or evening aperitivos. The king-size bed features premium linens, and the en-suite bathroom includes both a rainfall shower and a deep soaking tub.',
-        'Every detail has been considered, from the locally crafted furniture to the curated selection of books and local wines awaiting your arrival.'
-    ],
-        280.00,
+            'Experience comfort in our Deluxe Double Room. This air-conditioned room features a private balcony with city views, perfect for enjoying the local atmosphere.',
+            'The room includes a private bathroom with a walk-in shower, free toiletries, and a hairdryer. Entertainment is provided via a flat-screen TV with streaming services.',
+            'Guests can enjoy the convenience of a tea and coffee maker, minibar, and free WiFi throughout their stay.'
+        ],
+        120.00,
         2,
-        '45m²',
-        ARRAY ['Private Terrace', 'Mediterranean Sea View', 'King-Size Bed', 'En-suite Bathroom', 'Rainfall Shower', 'Soaking Tub', 'Mini Bar', 'Nespresso Machine', 'Air Conditioning', 'Complimentary WiFi', 'Smart TV', 'Safe'],
-        ARRAY ['/images/rooms/terrace-suite-1.jpg', '/images/rooms/terrace-suite-2.jpg', '/images/rooms/terrace-suite-3.jpg'],
+        '25m²',
+        ARRAY ['Balcony', 'City View', 'Air Conditioning', 'Private Bathroom', 'Flat-screen TV', 'Minibar', 'Free WiFi', 'Non-smoking'],
+        ARRAY ['/images/rooms/deluxe-double-1.jpg', '/images/rooms/deluxe-double-2.jpg', '/images/rooms/deluxe-double-3.jpg'],
         1
     ),
     (
-        'garden-room',
-        'The Garden Room',
-        'Nestled among olive trees with direct garden access.',
+        'double-twin-garden',
+        'Double or Twin Room with Garden View',
+        'Peaceful retreat overlooking the lush garden.',
         ARRAY [
-        'The Garden Room offers an intimate connection with nature. Step directly from your private terrace into our Mediterranean garden, where ancient olive trees and fragrant herbs create a peaceful sanctuary.',
-        'At 35m², this ground-floor retreat features a comfortable queen bed, a dedicated workspace for those who need to stay connected, and an en-suite bathroom with a luxurious rainfall shower.',
-        'Mornings here are magical—enjoy your breakfast on the terrace while watching the garden come alive with butterflies and birdsong.'
-    ],
-        220.00,
+            'Relax in our Double or Twin Room, offering serene views of the garden. This room provides a flexible sleeping arrangement with either a large double bed or two single beds.',
+            'Enjoy the fresh air from your private balcony or terrace. The room is equipped with air conditioning, a desk, and a private bathroom with a shower.',
+            'Additional amenities include a wardrobe, electric kettle, and access to the shared sun terrace.'
+        ],
+        135.00,
         2,
-        '35m²',
-        ARRAY ['Direct Garden Access', 'Private Terrace', 'Queen-Size Bed', 'En-suite Bathroom', 'Rainfall Shower', 'Workspace', 'Nespresso Machine', 'Air Conditioning', 'Complimentary WiFi', 'Smart TV'],
-        ARRAY ['/images/rooms/garden-room-1.jpg', '/images/rooms/garden-room-2.jpg', '/images/rooms/garden-room-3.jpg'],
+        '28m²',
+        ARRAY ['Garden View', 'Terrace', 'Air Conditioning', 'Private Bathroom', 'Flat-screen TV', 'Soundproofing', 'Free WiFi', 'Outdoor Furniture'],
+        ARRAY ['/images/rooms/garden-view-1.jpg', '/images/rooms/garden-view-2.jpg', '/images/rooms/garden-view-3.jpg'],
         2
     ),
     (
-        'sunset-chamber',
-        'The Sunset Chamber',
-        'West-facing room with golden hour views and balcony.',
+        'family-room-terrace',
+        'Family Room with Terrace',
+        'Spacious accommodation for families with private outdoor space.',
         ARRAY [
-        'Named for its unparalleled sunset views, the Sunset Chamber captures the magic of Mediterranean evenings. West-facing windows frame the sky as it transforms from blue to gold to rose each evening.',
-        'This 40m² room combines original stone walls with modern luxuries. The king-size bed ensures restful sleep, while a comfortable sofa bed makes this room suitable for families or small groups.',
-        'The private balcony is the perfect spot to end each day—glass of local wine in hand, watching the sun dip below the horizon.'
-    ],
-        260.00,
-        3,
-        '40m²',
-        ARRAY ['Sunset Views', 'Private Balcony', 'King-Size Bed', 'Sofa Bed', 'En-suite Bathroom', 'Bathtub', 'Original Stone Walls', 'Mini Bar', 'Nespresso Machine', 'Air Conditioning', 'Complimentary WiFi', 'Smart TV'],
-        ARRAY ['/images/rooms/sunset-chamber-1.jpg', '/images/rooms/sunset-chamber-2.jpg', '/images/rooms/sunset-chamber-3.jpg'],
+            'Our Family Room is designed for comfort and space, featuring a large double bed and a sofa bed, accommodating up to 4 guests.',
+            'The highlight is the private terrace with outdoor furniture, ideal for family gatherings. The room includes soundproofing, air conditioning, and a private entrance.',
+            'A modern private bathroom, flat-screen TV, and minibar ensure a relaxing stay for the whole family.'
+        ],
+        180.00,
+        4,
+        '35m²',
+        ARRAY ['Private Terrace', 'Sofa Bed', 'Air Conditioning', 'Private Bathroom', 'Flat-screen TV', 'Minibar', 'Free WiFi', 'Family Friendly'],
+        ARRAY ['/images/rooms/family-room-1.jpg', '/images/rooms/family-room-2.jpg', '/images/rooms/family-room-3.jpg'],
         3
-    ),
-    (
-        'heritage-room',
-        'The Heritage Room',
-        'Our most intimate room celebrating the villa''s history.',
-        ARRAY [
-        'The Heritage Room is a love letter to the villa''s past. Original stone features, restored antique furnishings, and carefully preserved architectural details create a space that feels both historic and welcoming.',
-        'At 28m², this is our most intimate accommodation—perfect for solo travelers or couples seeking a cozy, characterful retreat. The queen bed is positioned to catch the morning light through the courtyard-facing window.',
-        'Despite its historic charm, modern comforts abound: climate control, high-speed WiFi, and a beautifully appointed en-suite bathroom ensure your stay is as comfortable as it is atmospheric.'
-    ],
-        200.00,
-        2,
-        '28m²',
-        ARRAY ['Historic Features', 'Antique Furnishings', 'Queen-Size Bed', 'Courtyard View', 'En-suite Bathroom', 'Walk-in Shower', 'Air Conditioning', 'Complimentary WiFi', 'Smart TV'],
-        ARRAY ['/images/rooms/heritage-room-1.jpg', '/images/rooms/heritage-room-2.jpg', '/images/rooms/heritage-room-3.jpg'],
-        4
     );
 -- ============================================
 -- REVIEWS

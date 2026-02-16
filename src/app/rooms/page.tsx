@@ -1,57 +1,28 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { RoomsSection } from "@/components/sections/RoomsSection";
+import { getRooms } from "@/lib/db";
 
 export const metadata = {
     title: "Our Rooms",
     description: "Explore our thoughtfully designed accommodations at Villa Mosta. Each room offers a unique Mediterranean experience.",
 };
 
-// This would be fetched from Supabase in production
-const rooms = [
-    {
-        id: "1",
-        name: "The Terrace Suite",
-        slug: "terrace-suite",
-        description: "A spacious retreat with private terrace overlooking the Mediterranean, featuring floor-to-ceiling windows, a king-size bed, and stunning sunset views.",
-        basePrice: 280,
-        maxGuests: 2,
-        features: ["Private Terrace", "Sea View", "King Bed", "En-suite Bath", "Mini Bar", "Air Conditioning"],
-        image: "https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=800&q=80",
-    },
-    {
-        id: "2",
-        name: "The Garden Room",
-        slug: "garden-room",
-        description: "Nestled among olive trees, this ground-floor room offers direct garden access, a queen bed, and a serene atmosphere perfect for peaceful mornings.",
-        basePrice: 220,
-        maxGuests: 2,
-        features: ["Garden Access", "Queen Bed", "Rainfall Shower", "Workspace", "Coffee Machine"],
-        image: "https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=800&q=80",
-    },
-    {
-        id: "3",
-        name: "The Sunset Chamber",
-        slug: "sunset-chamber",
-        description: "West-facing windows capture golden hour perfectly. Features traditional stone walls, modern luxuries, and a private balcony for evening relaxation.",
-        basePrice: 260,
-        maxGuests: 3,
-        features: ["Sunset Views", "King Bed", "Sofa Bed", "Private Balcony", "Bathtub"],
-        image: "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=800&q=80",
-    },
-    {
-        id: "4",
-        name: "The Heritage Room",
-        slug: "heritage-room",
-        description: "Our most intimate room celebrates the villa's history with original stone features, antique furnishings, and modern comforts for a unique stay.",
-        basePrice: 200,
-        maxGuests: 2,
-        features: ["Historic Features", "Queen Bed", "En-suite Shower", "Courtyard View"],
-        image: "https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=800&q=80",
-    },
-];
+export default async function RoomsPage() {
+    const dbRooms = await getRooms();
 
-export default function RoomsPage() {
+    // Map DB rooms to component expected format
+    const rooms = dbRooms.map(room => ({
+        id: room.id,
+        name: room.name,
+        slug: room.slug,
+        description: room.short_description || room.long_description[0] || "",
+        basePrice: room.base_price,
+        maxGuests: room.max_guests,
+        features: room.features,
+        image: room.images[0] || "/images/placeholder.jpg",
+    }));
+
     return (
         <>
             <Header />
@@ -64,7 +35,7 @@ export default function RoomsPage() {
                         </span>
                         <h1 className="font-serif text-display mb-4">Our Rooms</h1>
                         <p className="text-body-lg text-cream-200 max-w-2xl mx-auto">
-                            Four unique spaces, each designed with intention. Choose your sanctuary.
+                            Three unique spaces, each designed with intention. Choose your sanctuary.
                         </p>
                     </div>
                 </section>

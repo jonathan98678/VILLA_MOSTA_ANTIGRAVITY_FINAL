@@ -132,6 +132,7 @@ export default function AdminSettingsPage() {
     const [saving, setSaving] = React.useState(false);
     const [openSections, setOpenSections] = React.useState<Record<string, boolean>>({
         property: true,
+        data: false,
     });
 
     // Load from Supabase on mount
@@ -658,6 +659,45 @@ export default function AdminSettingsPage() {
                         across sessions. Changes apply immediately to the live website.
                     </p>
                 </div>
+
+                {/* Data Management */}
+                <SettingsSection
+                    title="Data Management"
+                    description="manage your site data"
+                    isOpen={openSections.data}
+                    onToggle={() => toggleSection("data")}
+                >
+                    <div className="space-y-4">
+                        <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                            <h4 className="font-medium text-amber-800 mb-2">Reset to Default Data</h4>
+                            <p className="text-amber-700 text-sm mb-4">
+                                This will <strong>permanently delete</strong> all existing rooms and replace them with the default Booking.com room data.
+                                This cannot be undone.
+                            </p>
+                            <button
+                                onClick={async () => {
+                                    if (confirm("Are you sure you want to reset all room data? This cannot be undone.")) {
+                                        try {
+                                            const res = await fetch("/api/admin/seed", { method: "POST" });
+                                            if (res.ok) {
+                                                alert("Data reset successfully!");
+                                                window.location.reload();
+                                            } else {
+                                                alert("Failed to reset data");
+                                            }
+                                        } catch (e) {
+                                            console.error(e);
+                                            alert("Error resetting data");
+                                        }
+                                    }
+                                }}
+                                className="bg-red-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-700 transition-colors"
+                            >
+                                Reset Room Data
+                            </button>
+                        </div>
+                    </div>
+                </SettingsSection>
             </div>
         </>
     );
