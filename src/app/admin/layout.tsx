@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
     Home,
     Bed,
@@ -33,7 +33,19 @@ export default function AdminLayout({
     children: React.ReactNode;
 }) {
     const pathname = usePathname();
+    const router = useRouter();
     const [sidebarOpen, setSidebarOpen] = React.useState(false);
+
+    // Skip admin layout for login page
+    if (pathname === "/admin/login") {
+        return <>{children}</>;
+    }
+
+    const handleLogout = async () => {
+        await fetch("/api/admin/auth", { method: "DELETE" });
+        router.push("/admin/login");
+        router.refresh();
+    };
 
     return (
         <div className="min-h-screen bg-stone-100">
@@ -99,14 +111,21 @@ export default function AdminLayout({
                     })}
                 </nav>
 
-                <div className="absolute bottom-0 left-0 w-full p-4 border-t border-stone-700">
+                <div className="absolute bottom-0 left-0 w-full p-4 border-t border-stone-700 space-y-2">
                     <Link
                         href="/"
                         className="flex items-center gap-2 text-stone-400 hover:text-white text-sm transition-colors"
                     >
-                        <LogOut className="w-4 h-4" />
+                        <Home className="w-4 h-4" />
                         <span>Back to Site</span>
                     </Link>
+                    <button
+                        onClick={handleLogout}
+                        className="flex items-center gap-2 text-stone-400 hover:text-red-400 text-sm transition-colors w-full"
+                    >
+                        <LogOut className="w-4 h-4" />
+                        <span>Logout</span>
+                    </button>
                 </div>
             </aside>
 
