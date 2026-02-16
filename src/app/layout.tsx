@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/lib/utils";
+import { SmoothCursor } from "@/components/ui/SmoothCursor";
 
 // Font configurations
 const inter = Inter({
@@ -74,8 +76,9 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
-            <body className="font-sans antialiased">
+        <html lang="en">
+            <body className={cn("font-sans antialiased", inter.variable, playfair.variable)}>
+                <SmoothCursor />
                 {children}
             </body>
         </html>

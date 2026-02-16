@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { getReviews, addReview, deleteReview, createServerClient } from "@/lib/db";
+import { getReviews, addReview, deleteReview } from "@/lib/db";
+import { createServerClient } from "@/lib/supabase";
 
 export async function GET() {
     try {

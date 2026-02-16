@@ -38,7 +38,7 @@ export async function GET(request: Request) {
         if (blocksError) throw blocksError;
 
         // 3. Generate iCal string
-        const events = [];
+        const events: string[] = [];
 
         // Add Bookings
         bookings?.forEach(b => {

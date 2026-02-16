@@ -52,12 +52,12 @@ export function HeroSection({
     };
 
     const itemVariants = {
-        hidden: { opacity: 0, y: 30 },
+        hidden: { opacity: 0, y: 20 },
         visible: {
             opacity: 1,
             y: 0,
             transition: {
-                duration: 1,
+                duration: 1.2,
                 ease: [0.22, 1, 0.36, 1], // Custom cubic bezier for smooth effect
             },
         },
@@ -77,7 +77,7 @@ export function HeroSection({
                 style={{ y, opacity }}
                 className="absolute inset-0 z-0"
             >
-                <div className="absolute inset-0 bg-stone-900/20" /> {/* Extra tint if needed */}
+                <div className="absolute inset-0 bg-stone-900/10" /> {/* Reduced tint */}
                 <Image
                     src={heroImage}
                     alt="Villa Mosta, Malta"
@@ -89,31 +89,31 @@ export function HeroSection({
                 />
             </motion.div>
 
-            {/* Gradient overlay — cinematic */}
+            {/* Gradient overlay - cinematic */}
             <div
                 className="absolute inset-0 z-0 pointer-events-none"
                 style={{
                     background:
-                        "linear-gradient(to bottom, rgba(15,12,8,0.4) 0%, rgba(15,12,8,0.1) 40%, rgba(15,12,8,0.6) 100%)",
+                        "linear-gradient(to bottom, rgba(15,12,8,0.3) 0%, rgba(15,12,8,0.1) 40%, rgba(15,12,8,0.5) 100%)",
                 }}
             />
 
-            {/* Content — pushed higher */}
+            {/* Content - pushed higher */}
             <motion.div
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
-                className="relative z-10 text-center px-4 sm:px-6 w-full max-w-6xl mx-auto pt-[28vh] sm:pt-[30vh]"
+                className="relative z-10 text-center px-4 sm:px-6 w-full max-w-6xl mx-auto pt-[25vh] sm:pt-[28vh]"
             >
                 {/* Overline */}
                 <motion.span
                     variants={itemVariants}
-                    className="block text-[10px] sm:text-xs font-medium tracking-[0.35em] uppercase text-white/60 mb-4 sm:mb-6"
+                    className="block text-[10px] sm:text-xs font-medium tracking-[0.35em] uppercase text-white/70 mb-4 sm:mb-6"
                 >
                     Est. Mosta, Malta
                 </motion.span>
 
-                {/* Main Title — single line, lighter weight */}
+                {/* Main Title - single line, lighter weight */}
                 <motion.div variants={itemVariants}>
                     <h1
                         className={cn(
@@ -138,7 +138,7 @@ export function HeroSection({
                 {/* Subtitle */}
                 <motion.p
                     variants={itemVariants}
-                    className="text-white/80 text-sm sm:text-base md:text-lg font-light tracking-wide max-w-md mx-auto"
+                    className="text-white/90 text-sm sm:text-base md:text-lg font-light tracking-wide max-w-md mx-auto"
                 >
                     {subtitle}
                 </motion.p>
@@ -146,7 +146,7 @@ export function HeroSection({
                 {/* Address */}
                 <motion.p
                     variants={itemVariants}
-                    className="text-white/50 text-[10px] sm:text-xs md:text-sm tracking-[0.12em] sm:tracking-[0.15em] uppercase mt-2 sm:mt-3"
+                    className="text-white/60 text-[10px] sm:text-xs md:text-sm tracking-[0.12em] sm:tracking-[0.15em] uppercase mt-2 sm:mt-3"
                 >
                     {address}
                 </motion.p>
@@ -158,7 +158,7 @@ export function HeroSection({
                 >
                     <Link
                         href="/book"
-                        className="group inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-3.5 border border-white/30 text-white text-[11px] sm:text-xs font-medium tracking-[0.2em] uppercase backdrop-blur-sm bg-white/5 hover:bg-white/15 hover:border-white/50 transition-all duration-500"
+                        className="group inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-3.5 border border-white/30 text-white text-[11px] sm:text-xs font-medium tracking-[0.2em] uppercase backdrop-blur-sm bg-white/5 hover:bg-white/15 hover:border-white/50 transition-all duration-500 rounded-full"
                     >
                         <span>Book Your Stay</span>
                     </Link>

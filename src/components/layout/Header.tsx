@@ -10,6 +10,8 @@ const navLinks = [
     { label: "The Villa", href: "/villa" },
     { label: "Rooms", href: "/rooms" },
     { label: "Location", href: "/location" },
+    { label: "Blog", href: "/blog" },
+    { label: "FAQ", href: "/faq" },
     { label: "Reviews", href: "/reviews" },
     { label: "Contact", href: "/contact" },
 ];

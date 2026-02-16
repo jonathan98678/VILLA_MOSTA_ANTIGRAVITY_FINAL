@@ -5,6 +5,7 @@ const footerLinks = {
         { label: "The Villa", href: "/villa" },
         { label: "Our Rooms", href: "/rooms" },
         { label: "Location", href: "/location" },
+        { label: "Blog", href: "/blog" },
         { label: "Reviews", href: "/reviews" },
     ],
     info: [
