@@ -2,9 +2,9 @@
 
 import * as React from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { BookButton } from "@/components/ui/BookButton";
 
 interface CTASectionProps {
     title?: string;
@@ -111,12 +111,9 @@ export function CTASection({
                 </motion.p>
 
                 <motion.div variants={itemVariants}>
-                    <Link
-                        href={buttonHref}
-                        className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-3.5 border border-white/30 text-white text-[11px] sm:text-xs font-medium tracking-[0.2em] uppercase backdrop-blur-sm bg-white/5 hover:bg-white/15 hover:border-white/50 transition-all duration-500"
-                    >
+                    <BookButton variant="outline" size="lg" href={buttonHref}>
                         {buttonText}
-                    </Link>
+                    </BookButton>
                 </motion.div>
             </motion.div>
         </section>

@@ -12,7 +12,12 @@ import { getRooms } from "@/lib/db";
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-    const dbRooms = await getRooms();
+    let dbRooms: Awaited<ReturnType<typeof getRooms>> = [];
+    try {
+        dbRooms = await getRooms();
+    } catch (e) {
+        console.error("Failed to fetch rooms:", e);
+    }
 
     const rooms = dbRooms.slice(0, 3).map(room => ({
         id: room.id,
@@ -28,7 +33,7 @@ export default async function HomePage() {
         <>
             <Header />
             <main>
-                {/* Hero — full-screen image of Mosta Rotunda */}
+                {/* Hero - full-screen image of Mosta Rotunda */}
                 <HeroSection
                     title="VILLA MOSTA"
                     subtitle="A Traditional Maltese Home"

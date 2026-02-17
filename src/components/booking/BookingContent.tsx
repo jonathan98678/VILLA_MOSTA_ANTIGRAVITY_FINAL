@@ -252,6 +252,7 @@ export function BookingContent({ rooms }: { rooms: BookingRoom[] }) {
                                                 const isCheckIn = checkIn && isSameDay(day, checkIn);
                                                 const isCheckOut = checkOut && isSameDay(day, checkOut);
                                                 const inRange = isDateInRange(day);
+                                                const isBlocked = disabled && isAfter(day, new Date()) && (!selectedRoomData || isDateBooked(day, selectedRoomData.id));
 
                                                 return (
                                                     <button
@@ -259,17 +260,31 @@ export function BookingContent({ rooms }: { rooms: BookingRoom[] }) {
                                                         onClick={() => handleDateClick(day)}
                                                         disabled={disabled}
                                                         className={cn(
-                                                            "h-10 rounded text-body-sm transition-colors",
-                                                            disabled
-                                                                ? "text-cream-400 cursor-not-allowed"
-                                                                : "hover:bg-cream-300",
-                                                            isCheckIn && "bg-stone text-cream-100",
-                                                            isCheckOut && "bg-stone text-cream-100",
-                                                            inRange && "bg-cream-300",
+                                                            "h-10 rounded text-body-sm transition-all relative overflow-hidden",
+                                                            // Disabled/Blocked State
+                                                            isBlocked
+                                                                ? "bg-stone-100 text-stone-300 cursor-not-allowed opacity-60 decoration-slice line-through"
+                                                                : disabled
+                                                                    ? "text-cream-400 cursor-not-allowed"
+                                                                    : "hover:bg-cream-300",
+
+                                                            // Selected States
+                                                            isCheckIn && "bg-stone text-cream-100 z-10 shadow-md scale-105",
+                                                            isCheckOut && "bg-stone text-cream-100 z-10 shadow-md scale-105",
+
+                                                            // Range State
+                                                            inRange && "bg-stone/10 text-stone font-medium rounded-none first:rounded-l last:rounded-r mx-[-1px]",
+
+                                                            // Normal State
                                                             !disabled && !isCheckIn && !isCheckOut && !inRange && "text-text"
                                                         )}
                                                     >
                                                         {format(day, "d")}
+                                                        {isBlocked && (
+                                                            <span className="absolute inset-0 flex items-center justify-center">
+                                                                <div className="w-full h-px bg-stone-300 -rotate-45" />
+                                                            </span>
+                                                        )}
                                                     </button>
                                                 );
                                             })}
@@ -286,8 +301,10 @@ export function BookingContent({ rooms }: { rooms: BookingRoom[] }) {
                                                 In range
                                             </span>
                                             <span className="flex items-center gap-2">
-                                                <div className="w-4 h-4 bg-cream-100 border border-cream-400 rounded" />
-                                                Unavailable
+                                                <div className="w-4 h-4 bg-stone-100 border border-stone-200 relative overflow-hidden rounded">
+                                                    <div className="absolute inset-0 bg-stone-300/50 -rotate-45 h-px top-1/2" />
+                                                </div>
+                                                Booked / Disabled
                                             </span>
                                         </div>
                                     </div>

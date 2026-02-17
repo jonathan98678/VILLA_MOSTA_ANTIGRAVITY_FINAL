@@ -87,6 +87,26 @@ const defaultReviews: Review[] = [
     },
 ];
 
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1,
+            delayChildren: 0.2,
+        },
+    },
+};
+
+const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+    },
+};
+
 interface ReviewsSectionProps {
     title?: string;
     rating?: number;
@@ -102,29 +122,9 @@ export function ReviewsSection({
     reviews = defaultReviews,
     className,
 }: ReviewsSectionProps) {
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.1,
-                delayChildren: 0.2,
-            },
-        },
-    };
-
-    const itemVariants = {
-        hidden: { opacity: 0, y: 20 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: { duration: 0.6, ease: "easeOut" },
-        },
-    };
-
     return (
         <section
-            className={cn("py-20 sm:py-24 md:py-32 bg-[var(--color-warm-white)]", className)}
+            className={cn("section bg-white", className)}
         >
             <motion.div
                 variants={containerVariants}
@@ -134,16 +134,16 @@ export function ReviewsSection({
                 className="container"
             >
                 {/* Header */}
-                <div className="text-center mb-10 sm:mb-14">
+                <div className="text-center mb-12 sm:mb-16">
                     <motion.span
                         variants={itemVariants}
-                        className="block text-[10px] sm:text-[11px] font-medium tracking-[0.3em] uppercase text-[var(--color-accent)] mb-3 sm:mb-4"
+                        className="section-overline"
                     >
                         TESTIMONIALS
                     </motion.span>
                     <motion.h2
                         variants={itemVariants}
-                        className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-stone-800 mb-5 sm:mb-6"
+                        className="section-title"
                     >
                         {title}
                     </motion.h2>
@@ -154,44 +154,58 @@ export function ReviewsSection({
                             hidden: { scale: 0.95, opacity: 0 },
                             visible: { scale: 1, opacity: 1, transition: { duration: 0.6 } }
                         }}
-                        className="inline-flex items-center gap-3 sm:gap-4 bg-white px-4 sm:px-6 py-3 sm:py-4 shadow-sm border border-stone-100"
+                        className="inline-flex items-center gap-4 sm:gap-5 bg-stone-50 px-6 sm:px-8 py-4 sm:py-5 rounded-2xl border border-stone-100 mt-6"
                     >
                         <span className="font-serif text-3xl sm:text-4xl text-stone-800 leading-none">{rating}</span>
                         <div className="h-8 w-px bg-stone-200" />
                         <div className="text-left">
-                            <div className="flex gap-0.5 text-[var(--color-honey)]">
+                            <div className="flex gap-0.5 text-amber-400 mb-1">
                                 {[...Array(5)].map((_, i) => (
-                                    <Star key={i} className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-current" />
+                                    <Star key={i} className="w-4 h-4 fill-current" />
                                 ))}
                             </div>
-                            <span className="text-[var(--color-text-muted)] text-xs sm:text-sm">{reviewCount} reviews on Booking.com</span>
+                            <span className="text-stone-400 text-xs sm:text-sm">{reviewCount}+ reviews on Booking.com</span>
                         </div>
                     </motion.div>
                 </div>
 
                 {/* Reviews Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
                     {reviews.slice(0, 6).map((review) => (
                         <motion.div
                             key={review.id}
                             variants={itemVariants}
-                            className="bg-white p-5 sm:p-7 border border-stone-100 hover:shadow-md hover:shadow-stone-100 transition-shadow duration-500"
+                            className="card-premium p-6 sm:p-8 flex flex-col"
                         >
-                            {/* Quote mark */}
-                            <span className="block font-serif text-3xl sm:text-4xl text-[var(--color-honey)] leading-none mb-2 sm:mb-3">&ldquo;</span>
+                            {/* Stars */}
+                            <div className="flex gap-0.5 mb-4">
+                                {[...Array(5)].map((_, i) => (
+                                    <Star key={i} className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+                                ))}
+                            </div>
 
-                            <p className="text-stone-700 leading-[1.7] sm:leading-[1.8] mb-4 sm:mb-6 text-sm sm:text-[15px]">
+                            {/* Quote mark */}
+                            <span className="block font-serif text-3xl text-[var(--color-honey)]/30 leading-none mb-1">&ldquo;</span>
+
+                            <p className="text-stone-700 leading-relaxed mb-6 text-sm sm:text-base flex-grow">
                                 {review.text}
                             </p>
 
-                            <div className="flex items-center justify-between pt-3 sm:pt-4 border-t border-stone-100">
-                                <div>
-                                    <p className="font-medium text-stone-800 text-xs sm:text-sm">{review.guestName}</p>
-                                    <p className="text-stone-400 text-[10px] sm:text-xs">{review.country}</p>
+                            <div className="flex items-center justify-between pt-4 border-t border-stone-100">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-9 h-9 bg-gradient-to-br from-stone-200 to-stone-300 rounded-full flex items-center justify-center">
+                                        <span className="text-xs font-medium text-stone-600">
+                                            {review.guestName.charAt(0)}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <p className="font-medium text-stone-800 text-sm">{review.guestName}</p>
+                                        <p className="text-stone-400 text-xs">{review.country}</p>
+                                    </div>
                                 </div>
-                                <div className="flex items-center gap-1.5 bg-stone-50 px-2.5 sm:px-3 py-1 sm:py-1.5">
-                                    <span className="font-serif text-base sm:text-lg text-stone-800">{review.rating}</span>
-                                    <span className="text-stone-400 text-[10px] sm:text-xs">/10</span>
+                                <div className="inline-flex items-center gap-1 bg-amber-50 px-3 py-1.5 rounded-full">
+                                    <span className="font-serif text-base font-medium text-amber-700">{review.rating}</span>
+                                    <span className="text-xs text-amber-500">/10</span>
                                 </div>
                             </div>
                         </motion.div>
@@ -201,14 +215,14 @@ export function ReviewsSection({
                 {/* View All */}
                 <motion.div
                     variants={itemVariants}
-                    className="text-center mt-10 sm:mt-14"
+                    className="text-center mt-12 sm:mt-16"
                 >
                     <Link
                         href="/reviews"
-                        className="inline-flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 border border-stone-300 text-stone-700 text-[10px] sm:text-xs font-medium tracking-[0.1em] uppercase hover:bg-stone-800 hover:text-white hover:border-stone-800 transition-all duration-400"
+                        className="group inline-flex items-center gap-2 px-7 py-3.5 border border-stone-300 text-stone-700 text-xs font-medium tracking-[0.1em] uppercase rounded-full hover:bg-stone-800 hover:text-white hover:border-stone-800 transition-all duration-300"
                     >
                         <span>Read All Reviews</span>
-                        <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </Link>
                 </motion.div>
             </motion.div>

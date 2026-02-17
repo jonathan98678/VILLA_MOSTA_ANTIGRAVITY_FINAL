@@ -11,8 +11,8 @@ function BookingLoading() {
             <div className="container">
                 <div className="flex items-center justify-center min-h-[400px]">
                     <div className="text-center">
-                        <div className="w-12 h-12 border-4 border-cream-300 border-t-stone rounded-full animate-spin mx-auto mb-4" />
-                        <p className="text-body text-text-muted">Loading booking...</p>
+                        <div className="w-12 h-12 border-4 border-stone-200 border-t-stone-800 rounded-full animate-spin mx-auto mb-4" />
+                        <p className="text-sm text-stone-400">Loading booking...</p>
                     </div>
                 </div>
             </div>
@@ -21,12 +21,17 @@ function BookingLoading() {
 }
 
 export const metadata = {
-    title: "Book Your Stay",
-    description: "Reserve your perfect Mediterranean getaway at Villa Mosta.",
+    title: "Book Your Stay | Villa Mosta",
+    description: "Reserve your stay at Villa Mosta, Mosta, Malta. Choose from three unique rooms and book directly.",
 };
 
 export default async function BookingPage() {
-    const dbRooms = await getRooms();
+    let dbRooms: Awaited<ReturnType<typeof getRooms>> = [];
+    try {
+        dbRooms = await getRooms();
+    } catch (e) {
+        console.error("Failed to fetch rooms:", e);
+    }
 
     const rooms: BookingRoom[] = dbRooms.map((room) => ({
         id: room.id,
@@ -40,7 +45,7 @@ export default async function BookingPage() {
     return (
         <>
             <Header />
-            <main className="pt-20 min-h-screen bg-cream-100">
+            <main className="pt-20 min-h-screen bg-[var(--color-warm-cream)]">
                 <Suspense fallback={<BookingLoading />}>
                     <BookingContent rooms={rooms} />
                 </Suspense>

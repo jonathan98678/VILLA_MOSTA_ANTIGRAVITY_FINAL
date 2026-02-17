@@ -3,21 +3,31 @@
 @tailwind utilities;
 
 /* ===========================
-   CSS Custom Properties — Maltese Villa Theme
+   CSS Custom Properties - Premium Maltese Villa Theme
    =========================== */
 :root {
-  /* Warm Maltese limestone palette */
-  --color-honey: #D4A853;
+  /* Warm Mediterranean palette - richer and bolder */
+  --color-honey: #C8963E;
   --color-honey-light: #E8C97A;
   --color-limestone: #C4A882;
   --color-terracotta: #B87333;
   --color-warm-cream: #FAF5ED;
   --color-warm-white: #FDF9F3;
-  --color-stone-dark: #2C2520;
-  --color-stone-mid: #44382E;
-  --color-text: #1f1f1f;
+  --color-stone-dark: #1A1714;
+  --color-stone-mid: #3A322A;
+  --color-text: #1A1714;
   --color-text-muted: #6B5E54;
-  --color-accent: #C09A47;
+  --color-accent: #C8963E;
+
+  /* Premium spacing scale (8px grid) */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6rem;
+  --space-4xl: 8rem;
 }
 
 /* ===========================
@@ -30,12 +40,13 @@ html {
 }
 
 /* ===========================
-   Base styles
+   Base styles - bolder typography
    =========================== */
 body {
   background-color: var(--color-warm-cream);
   color: var(--color-text);
   font-family: var(--font-inter), system-ui, sans-serif;
+  line-height: 1.7;
 }
 
 h1,
@@ -46,10 +57,25 @@ h5,
 h6 {
   font-family: var(--font-playfair), Georgia, serif;
   font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+/* Bolder headings for visual hierarchy */
+h1 {
+  font-weight: 500;
+}
+
+h2 {
+  font-weight: 400;
+}
+
+p {
+  line-height: 1.75;
 }
 
 /* ===========================
-   Container
+   Container - generous spacing
    =========================== */
 .container {
   max-width: 1280px;
@@ -58,15 +84,93 @@ h6 {
   padding-right: 1.5rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 640px) {
   .container {
     padding-left: 2.5rem;
     padding-right: 2.5rem;
   }
 }
 
+@media (min-width: 1024px) {
+  .container {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+}
+
+/* Standardized section vertical spacing - generous whitespace */
+.section {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+@media (min-width: 640px) {
+  .section {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
+}
+
 /* ===========================
-   Hero — slow zoom animation
+   Section Overline (small accent label)
+   =========================== */
+.section-overline {
+  display: block;
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 640px) {
+  .section-overline {
+    font-size: 0.6875rem;
+  }
+}
+
+/* Section Title */
+.section-title {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: clamp(1.875rem, 4vw, 3.5rem);
+  color: var(--color-stone-dark);
+  margin-bottom: 1.5rem;
+  line-height: 1.1;
+}
+
+/* ===========================
+   Maltese Decorative Divider
+   =========================== */
+.maltese-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.maltese-divider::before,
+.maltese-divider::after {
+  content: "";
+  height: 1px;
+  width: 3rem;
+  background: linear-gradient(to var(--dir, right), transparent, var(--color-honey));
+}
+
+.maltese-divider::after {
+  --dir: left;
+}
+
+/* ===========================
+   Hero - slow zoom animation
    =========================== */
 .hero-image-zoom {
   animation: heroZoom 20s ease-out forwards;
@@ -83,30 +187,34 @@ h6 {
 }
 
 /* ===========================
-   Button styles
+   Premium Button styles
    =========================== */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.875rem 1.75rem;
+  padding: 0.875rem 2rem;
   font-size: 0.8125rem;
   font-weight: 500;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 9999px;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-ghost {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.08);
   color: white;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   backdrop-filter: blur(8px);
+  border-radius: 9999px;
 }
 
 .btn-ghost:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.18);
   border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
 /* ===========================
@@ -196,28 +304,6 @@ h6 {
 }
 
 /* ===========================
-   Maltese decorative elements
-   =========================== */
-.maltese-divider {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.maltese-divider::before,
-.maltese-divider::after {
-  content: "";
-  height: 1px;
-  width: 3rem;
-  background: linear-gradient(to var(--dir, right), transparent, var(--color-honey));
-}
-
-.maltese-divider::after {
-  --dir: left;
-}
-
-/* ===========================
    Section spacing with Maltese feel
    =========================== */
 .section-accent {
@@ -236,7 +322,7 @@ h6 {
 }
 
 /* ===========================
-   Accessibility — reduced motion
+   Accessibility - reduced motion
    =========================== */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -264,7 +350,7 @@ h6 {
 }
 
 ::selection {
-  background-color: rgba(212, 168, 83, 0.2);
+  background-color: rgba(200, 150, 62, 0.2);
 }
 
 /* ===========================
@@ -285,4 +371,117 @@ h6 {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-honey);
+}
+
+/* ===========================
+   Premium Hover Animations
+   =========================== */
+.hover-lift {
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+}
+
+.hover-scale {
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.hover-scale:hover {
+  transform: scale(1.03);
+}
+
+.hover-glow {
+  transition: box-shadow 0.4s ease, transform 0.4s ease;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 20px 50px -10px rgba(200, 150, 62, 0.2);
+  transform: translateY(-4px);
+}
+
+/* ===========================
+   Premium Card Styles
+   =========================== */
+.card-premium {
+  border-radius: 1.25rem;
+  background: white;
+  box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.06),
+    0 1px 3px rgba(0, 0, 0, 0.03);
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-premium:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.12),
+    0 8px 20px -4px rgba(200, 150, 62, 0.08);
+}
+
+.card-glass {
+  border-radius: 1.25rem;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.04);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-glass:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -8px rgba(0, 0, 0, 0.1);
+  border-color: rgba(200, 150, 62, 0.2);
+}
+
+/* Gold shimmer effect for buttons */
+@keyframes goldShimmer {
+  0% {
+    background-position: -200% center;
+  }
+
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.btn-shimmer {
+  background-size: 200% 100%;
+  animation: goldShimmer 3s ease-in-out infinite;
+}
+
+/* Smooth image zoom on card hover */
+.card-image-zoom {
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.group:hover .card-image-zoom {
+  transform: scale(1.06);
+}
+
+/* ===========================
+   Page Hero Sections (subpages)
+   =========================== */
+.page-hero {
+  padding-top: 7rem;
+  padding-bottom: 5rem;
+  background-color: var(--color-stone-dark);
+  color: white;
+}
+
+@media (min-width: 640px) {
+  .page-hero {
+    padding-top: 9rem;
+    padding-bottom: 6rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .page-hero {
+    padding-top: 10rem;
+    padding-bottom: 7rem;
+  }
 }

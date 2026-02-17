@@ -2,10 +2,17 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CTASection } from "@/components/sections/CTASection";
 import { Star } from "lucide-react";
+import Link from "next/link";
 
 export const metadata = {
-    title: "Guest Reviews",
-    description: "Read what our guests say about Villa Mosta. Real reviews from Booking.com — rated 9.4 from 90+ reviews.",
+    title: "Guest Reviews - Rated 9.4 on Booking.com",
+    description: "Read verified guest reviews for Villa Mosta. Rated 9.4 from 90+ reviews on Booking.com. Guests love the hospitality, terraces, and central Mosta location.",
+    keywords: [
+        "villa mosta reviews",
+        "mosta accommodation reviews",
+        "booking.com reviews malta",
+        "villa mosta rating",
+    ],
 };
 
 const reviews = [
@@ -118,78 +125,102 @@ export default function ReviewsPage() {
     return (
         <>
             <Header />
-            <main className="pt-20">
+            <main className="pt-20 min-h-screen">
                 {/* Hero */}
-                <section className="section bg-stone-800 text-white">
-                    <div className="container text-center">
-                        <span className="text-[10px] sm:text-xs font-medium tracking-[0.3em] uppercase text-stone-400 block mb-3 sm:mb-4">
-                            GUEST REVIEWS
-                        </span>
-                        <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-5 sm:mb-6">What Our Guests Say</h1>
+                <section className="page-hero text-center">
+                    <div className="container max-w-4xl mx-auto">
+                        <span className="section-overline text-amber-400">GUEST REVIEWS</span>
+                        <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white mb-8">
+                            What Our Guests Say
+                        </h1>
 
                         {/* Rating Summary */}
-                        <div className="flex items-center justify-center gap-3 sm:gap-4 mb-3 sm:mb-4">
-                            <div className="flex gap-0.5 sm:gap-1">
-                                {[...Array(5)].map((_, i) => (
-                                    <Star
-                                        key={i}
-                                        className="w-5 h-5 sm:w-6 sm:h-6 text-amber-400 fill-amber-400"
-                                    />
-                                ))}
+                        <div className="inline-flex items-center gap-6 bg-white/10 backdrop-blur-sm rounded-2xl px-8 py-5 border border-white/10">
+                            <div className="text-center">
+                                <span className="block text-4xl sm:text-5xl font-serif text-white">{overallRating}</span>
+                                <span className="text-xs text-stone-400 uppercase tracking-wider">Rating</span>
                             </div>
-                            <span className="text-2xl sm:text-3xl font-serif">{overallRating}</span>
+                            <div className="w-px h-10 bg-white/20" />
+                            <div className="text-center">
+                                <div className="flex gap-0.5 mb-1">
+                                    {[...Array(5)].map((_, i) => (
+                                        <Star
+                                            key={i}
+                                            className="w-5 h-5 text-amber-400 fill-amber-400"
+                                        />
+                                    ))}
+                                </div>
+                                <span className="text-xs text-stone-400">{totalReviews}+ reviews on Booking.com</span>
+                            </div>
                         </div>
-                        <p className="text-sm sm:text-base text-stone-300">
-                            Based on {totalReviews} reviews on Booking.com
-                        </p>
                     </div>
                 </section>
 
                 {/* All Reviews */}
                 <section className="section bg-[var(--color-warm-cream)]">
                     <div className="container">
-                        <div className="text-center mb-8 sm:mb-12">
-                            <h2 className="font-serif text-xl sm:text-2xl md:text-3xl text-stone-800">
-                                All Reviews
-                            </h2>
+                        <div className="text-center mb-12 sm:mb-16">
+                            <span className="section-overline">VERIFIED REVIEWS</span>
+                            <h2 className="section-title">Real stories from real guests</h2>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 max-w-5xl mx-auto">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
                             {reviews.map((review) => (
                                 <article
                                     key={review.id}
-                                    className="bg-white border border-stone-100 p-5 sm:p-7 hover:shadow-md transition-shadow duration-300"
+                                    className="card-premium p-7 sm:p-8 flex flex-col"
                                 >
+                                    {/* Stars */}
+                                    <div className="flex gap-0.5 mb-4">
+                                        {[...Array(5)].map((_, i) => (
+                                            <Star key={i} className="w-4 h-4 text-amber-400 fill-amber-400" />
+                                        ))}
+                                    </div>
+
                                     {/* Quote */}
-                                    <span className="block font-serif text-3xl text-[var(--color-honey)] leading-none mb-2">&ldquo;</span>
+                                    <span className="block font-serif text-4xl text-[var(--color-honey)]/30 leading-none mb-1">&ldquo;</span>
 
                                     {/* Review Text */}
-                                    <p className="text-sm sm:text-[15px] text-stone-700 mb-4 sm:mb-5 leading-relaxed">
+                                    <p className="text-base text-stone-700 mb-6 leading-relaxed flex-grow">
                                         {review.reviewText}
                                     </p>
 
                                     {/* Guest Info */}
-                                    <div className="flex items-center justify-between pt-3 sm:pt-4 border-t border-stone-100">
-                                        <div>
-                                            <p className="text-xs sm:text-sm font-medium text-stone-800">
-                                                {review.guestName}
-                                            </p>
-                                            <p className="text-[10px] sm:text-xs text-stone-400">
-                                                {review.stayType} • {review.country}
-                                            </p>
+                                    <div className="flex items-center justify-between pt-5 border-t border-stone-100">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-10 h-10 bg-gradient-to-br from-stone-200 to-stone-300 rounded-full flex items-center justify-center">
+                                                <span className="text-sm font-medium text-stone-600">
+                                                    {review.guestName.charAt(0)}
+                                                </span>
+                                            </div>
+                                            <div>
+                                                <p className="text-sm font-medium text-stone-800">
+                                                    {review.guestName}
+                                                </p>
+                                                <p className="text-xs text-stone-400">
+                                                    {review.country}
+                                                </p>
+                                            </div>
                                         </div>
                                         <div className="text-right">
-                                            <div className="inline-flex items-center gap-1.5 bg-stone-50 px-2.5 py-1">
-                                                <span className="font-serif text-base sm:text-lg text-stone-800">{review.rating}</span>
-                                                <span className="text-[10px] sm:text-xs text-stone-400">/10</span>
+                                            <div className="inline-flex items-center gap-1 bg-amber-50 px-3 py-1.5 rounded-full">
+                                                <span className="font-serif text-base font-medium text-amber-700">{review.rating}</span>
+                                                <span className="text-xs text-amber-500">/10</span>
                                             </div>
-                                            <p className="text-[10px] sm:text-xs text-stone-400 mt-1">
-                                                {review.reviewDate}
-                                            </p>
                                         </div>
                                     </div>
                                 </article>
                             ))}
+                        </div>
+
+                        {/* Internal link */}
+                        <div className="text-center mt-12">
+                            <Link
+                                href="/book"
+                                className="text-sm font-medium text-[var(--color-accent)] hover:text-amber-700 transition-colors uppercase tracking-wider"
+                            >
+                                Join our happy guests. Book your stay &rarr;
+                            </Link>
                         </div>
                     </div>
                 </section>

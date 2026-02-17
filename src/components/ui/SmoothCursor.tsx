@@ -15,8 +15,8 @@ export function SmoothCursor() {
 
     useEffect(() => {
         const moveCursor = (e: MouseEvent) => {
-            cursorX.set(e.clientX - 16);
-            cursorY.set(e.clientY - 16);
+            cursorX.set(e.clientX - (isHovered ? 40 : 12));
+            cursorY.set(e.clientY - (isHovered ? 40 : 12));
         };
 
         const handleMouseOver = (e: MouseEvent) => {
@@ -41,7 +41,7 @@ export function SmoothCursor() {
             window.removeEventListener("mousemove", moveCursor);
             window.removeEventListener("mouseover", handleMouseOver);
         };
-    }, [cursorX, cursorY]);
+    }, [cursorX, cursorY, isHovered]);
 
     // Hide cursor on touch devices
     if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) {
@@ -51,14 +51,14 @@ export function SmoothCursor() {
     return (
         <motion.div
             className={cn(
-                "fixed top-0 left-0 w-4 h-4 rounded-full border border-stone-800 z-[9999] pointer-events-none mix-blend-difference bg-white",
-                isHovered ? "w-12 h-12 bg-white mix-blend-difference" : "w-4 h-4"
+                "fixed top-0 left-0 w-6 h-6 rounded-full border border-white z-[9999] pointer-events-none mix-blend-difference bg-white/10 backdrop-blur-[1px]",
+                isHovered ? "w-20 h-20 bg-white mix-blend-difference border-none" : "w-6 h-6"
             )}
             style={{
                 translateX: cursorXSpring,
                 translateY: cursorYSpring,
             }}
-            transition={{ type: "spring", stiffness: 500, damping: 28 }}
+            transition={{ type: "spring", stiffness: 400, damping: 25 }}
         />
     );
 }

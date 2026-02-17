@@ -21,34 +21,40 @@ const playfair = Playfair_Display({
 // Site metadata
 export const metadata: Metadata = {
     title: {
-        default: "Villa Mosta | Luxury Boutique Accommodation",
+        default: "Villa Mosta | Traditional Maltese Holiday Home in Mosta, Malta",
         template: "%s | Villa Mosta",
     },
     description:
-        "Experience unparalleled luxury at Villa Mosta. A boutique villa offering elegant accommodations, stunning views, and personalized service for an unforgettable stay.",
+        "Stay at Villa Mosta, a charming traditional Maltese home in the heart of Mosta. Beautiful terraces, Rotunda views, authentic hospitality by Minja and Andreas. Rated 9.4 on Booking.com.",
     keywords: [
-        "luxury villa",
-        "boutique accommodation",
-        "vacation rental",
-        "villa booking",
-        "luxury stay",
-        "boutique hotel",
+        "villa mosta",
+        "malta accommodation",
+        "mosta malta",
+        "holiday home malta",
+        "traditional maltese house",
+        "malta vacation rental",
+        "boutique accommodation malta",
+        "mosta rotunda",
+        "stay in mosta",
+        "malta travel",
+        "family holiday malta",
+        "bed and breakfast malta",
     ],
     authors: [{ name: "Villa Mosta" }],
     creator: "Villa Mosta",
     openGraph: {
         type: "website",
-        locale: "en_US",
+        locale: "en_MT",
         siteName: "Villa Mosta",
-        title: "Villa Mosta | Luxury Boutique Accommodation",
+        title: "Villa Mosta | Traditional Maltese Holiday Home",
         description:
-            "Experience unparalleled luxury at Villa Mosta. A boutique villa offering elegant accommodations, stunning views, and personalized service.",
+            "Experience authentic Malta at Villa Mosta. A spacious traditional home with terraces, Rotunda views, and warm hospitality. Rated 9.4 from 90+ reviews.",
     },
     twitter: {
         card: "summary_large_image",
-        title: "Villa Mosta | Luxury Boutique Accommodation",
+        title: "Villa Mosta | Traditional Maltese Holiday Home",
         description:
-            "Experience unparalleled luxury at Villa Mosta. A boutique villa offering elegant accommodations and personalized service.",
+            "Stay in a charming Maltese home in Mosta. Beautiful terraces, central location, rated 9.4 on Booking.com.",
     },
     robots: {
         index: true,

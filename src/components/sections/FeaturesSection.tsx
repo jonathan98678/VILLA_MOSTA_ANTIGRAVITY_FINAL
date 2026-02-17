@@ -4,7 +4,7 @@ import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/Button";
+import { motion } from "framer-motion";
 
 interface Feature {
     title: string;
@@ -21,100 +21,99 @@ interface FeaturesSectionProps {
 
 const defaultFeatures: Feature[] = [
     {
-        title: "Curated Experiences",
-        description: "From private wine tastings to guided coastal walks, we craft bespoke experiences that reveal the authentic character of our region.",
-        image: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800&q=80",
+        title: "Sun-Drenched Terraces",
+        description: "Relax on multiple levels of private terraces with views of the Mosta Rotunda. The perfect spot for morning coffee or evening drinks under the Mediterranean sky.",
+        image: "/images/villa/terrace.jpg",
     },
     {
-        title: "Farm-to-Table Dining",
-        description: "Our kitchen celebrates local traditions with ingredients sourced from neighboring farms and our own garden.",
-        image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80",
+        title: "Authentic Maltese Character",
+        description: "Original Maltese architecture and decor throughout. Limestone walls, traditional tiles, and arched doorways tell the story of centuries of island life.",
+        image: "/images/villa/entrence.jpg",
     },
     {
-        title: "Tranquil Gardens",
-        description: "Wander through olive groves, fragrant herb gardens, and shaded terraces designed for quiet contemplation.",
-        image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80",
+        title: "Heart of Malta Location",
+        description: "Mosta sits at the center of the island, putting every beach, city, and hidden gem within easy reach. Buses, taxis, and walking paths start at our doorstep.",
+        image: "/images/villa/hero-rotunda.jpg",
     },
 ];
+
+const containerVariants = {
+    hidden: {},
+    visible: {
+        transition: {
+            staggerChildren: 0.2,
+        },
+    },
+};
+
+const itemVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+    },
+};
 
 export function FeaturesSection({
     overline = "THE EXPERIENCE",
     title = "More than just a stay",
-    description = "Villa Mosta is designed for those who seek depth in their travels—experiences that nourish, inspire, and leave lasting impressions.",
+    description = "Villa Mosta offers the kind of experience that turns a holiday into a story worth telling.",
     features = defaultFeatures,
 }: FeaturesSectionProps) {
-    const sectionRef = React.useRef<HTMLElement>(null);
-    const [isVisible, setIsVisible] = React.useState(false);
-
-    React.useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                    observer.disconnect();
-                }
-            },
-            { threshold: 0.1 }
-        );
-
-        if (sectionRef.current) {
-            observer.observe(sectionRef.current);
-        }
-
-        return () => observer.disconnect();
-    }, []);
-
     return (
-        <section
-            ref={sectionRef}
-            className="section bg-cream-100"
-        >
+        <section className="section bg-white overflow-hidden">
             <div className="container">
                 {/* Header */}
-                <div className="text-center max-w-2xl mx-auto mb-20">
-                    <span
-                        className={cn(
-                            "text-overline text-text-muted block mb-4 transition-all duration-700",
-                            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-                        )}
+                <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
+                    <motion.span
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="section-overline"
                     >
                         {overline}
-                    </span>
-                    <h2
-                        className={cn(
-                            "font-serif text-heading-1 text-text mb-6 transition-all duration-700 delay-100",
-                            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-                        )}
+                    </motion.span>
+                    <motion.h2
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.1 }}
+                        className="section-title"
                     >
                         {title}
-                    </h2>
-                    <p
-                        className={cn(
-                            "text-body-lg text-text-muted transition-all duration-700 delay-200",
-                            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-                        )}
+                    </motion.h2>
+                    <motion.p
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.2 }}
+                        className="text-stone-500 text-base sm:text-lg leading-relaxed mt-5"
                     >
                         {description}
-                    </p>
+                    </motion.p>
                 </div>
 
-                {/* Features Grid */}
-                <div className="space-y-24">
+                {/* Features - alternating layout */}
+                <motion.div
+                    variants={containerVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-10%" }}
+                    className="space-y-20 sm:space-y-28"
+                >
                     {features.map((feature, index) => (
-                        <div
+                        <motion.div
                             key={feature.title}
+                            variants={itemVariants}
                             className={cn(
-                                "grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center transition-all duration-700",
-                                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12",
-                                // Alternate layout
-                                index % 2 === 1 && "lg:flex-row-reverse"
+                                "grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center"
                             )}
-                            style={{ transitionDelay: `${300 + index * 150}ms` }}
                         >
                             {/* Image */}
                             <div
                                 className={cn(
-                                    "relative aspect-[4/3] rounded-lg overflow-hidden image-reveal",
+                                    "relative aspect-[4/3] rounded-2xl overflow-hidden group shadow-xl",
                                     index % 2 === 1 && "lg:order-2"
                                 )}
                             >
@@ -122,26 +121,33 @@ export function FeaturesSection({
                                     src={feature.image}
                                     alt={feature.title}
                                     fill
-                                    className="object-cover"
+                                    className="object-cover card-image-zoom"
                                     sizes="(max-width: 1024px) 100vw, 50vw"
                                 />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                             </div>
 
                             {/* Content */}
-                            <div className={cn(index % 2 === 1 && "lg:order-1")}>
-                                <h3 className="font-serif text-heading-2 text-text mb-4">
+                            <div className={cn(index % 2 === 1 && "lg:order-1", "group")}>
+                                <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase text-[var(--color-accent)] mb-4">
+                                    0{index + 1}
+                                </span>
+                                <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl text-stone-800 mb-5 leading-tight group-hover:text-[var(--color-accent)] transition-colors duration-300">
                                     {feature.title}
                                 </h3>
-                                <p className="text-body-lg text-text-muted leading-relaxed mb-6">
+                                <p className="text-stone-500 text-base sm:text-lg leading-relaxed mb-8">
                                     {feature.description}
                                 </p>
-                                <Button variant="link" className="p-0 h-auto text-stone hover:text-accent">
-                                    Learn more →
-                                </Button>
+                                <Link
+                                    href="/villa"
+                                    className="inline-flex items-center text-sm font-medium tracking-[0.1em] uppercase text-stone-800 hover:text-[var(--color-accent)] transition-colors group-hover:translate-x-2 duration-300"
+                                >
+                                    Discover more &rarr;
+                                </Link>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
-                </div>
+                </motion.div>
             </div>
         </section>
     );

@@ -11,9 +11,9 @@ interface AboutSectionProps {
 
 export function AboutSection({
     overline = "WHAT LIVES HERE",
-    title = "Villa Mosta is more than a home — it's a living rhythm.",
+    title = "Villa Mosta is more than a home | it's a living rhythm.",
     description = [
-        "Perched on the gentle slopes of the Mediterranean, Villa Mosta offers an escape from the ordinary. Here, time moves differently—mornings begin with golden light filtering through ancient olive trees, and evenings end with the soft whisper of sea breezes.",
+        "Perched on the gentle slopes of the Mediterranean, Villa Mosta offers an escape from the ordinary. Here, time moves differently. Mornings begin with golden light filtering through ancient olive trees, and evenings end with the soft whisper of sea breezes.",
         "Every corner of our villa has been thoughtfully curated to create moments of quiet luxury. From the hand-selected linens to the locally sourced breakfast ingredients, we believe true hospitality lies in the details.",
     ],
 }: AboutSectionProps) {
@@ -62,7 +62,7 @@ export function AboutSection({
                         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
                     )}
                 >
-                    {title.split("—").map((part, index) => (
+                    {title.split("|").map((part, index) => (
                         <React.Fragment key={index}>
                             {index > 0 && (
                                 <>

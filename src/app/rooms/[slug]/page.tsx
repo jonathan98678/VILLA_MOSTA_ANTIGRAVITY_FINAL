@@ -6,11 +6,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { Button } from "@/components/ui/Button";
+import { BookButton } from "@/components/ui/BookButton";
 import { cn } from "@/lib/utils";
-import { Users, Maximize2, ChevronLeft, ChevronRight } from "lucide-react";
+import { Users, ChevronLeft, ChevronRight, Wifi, Wind, Tv, Coffee, UtensilsCrossed, Sun, Shirt, BedDouble } from "lucide-react";
 
-// This would be fetched from Supabase in production
 const roomsData: Record<string, {
     id: string;
     name: string;
@@ -18,134 +17,109 @@ const roomsData: Record<string, {
     longDescription: string[];
     basePrice: number;
     maxGuests: number;
-    size: string;
+    bedType: string;
     features: string[];
     images: string[];
 }> = {
-    "terrace-suite": {
+    "family-room-terrace": {
         id: "1",
-        name: "The Terrace Suite",
-        description: "A spacious retreat with private terrace overlooking the Mediterranean.",
+        name: "Family Room with Terrace",
+        description: "A spacious retreat for families with a private terrace overlooking the Mosta Rotunda.",
         longDescription: [
-            "The Terrace Suite is our crown jewel—a generous 45m² space designed for those who appreciate waking up to the sound of birdsong and the sight of the Mediterranean stretching to the horizon.",
-            "Floor-to-ceiling windows flood the room with natural light, while the private terrace offers the perfect setting for morning coffee or evening aperitivos. The king-size bed features premium linens, and the en-suite bathroom includes both a rainfall shower and a deep soaking tub.",
-            "Every detail has been considered, from the locally crafted furniture to the curated selection of books and local wines awaiting your arrival.",
+            "Our largest room is perfect for families or groups of up to four guests. The Family Room features two comfortable beds and direct access to a private terrace with stunning views of the Mosta Rotunda, one of the largest unsupported church domes in Europe.",
+            "Wake up to morning light flooding through the windows, step out onto your terrace for breakfast, and enjoy the peaceful atmosphere of traditional Maltese architecture. The room is equipped with all modern comforts while retaining its authentic character.",
+            "Children are especially welcome. We provide safety gates and socket covers throughout the property. Cots are available for children aged 0 to 2 years, free of charge.",
         ],
-        basePrice: 280,
-        maxGuests: 2,
-        size: "45m²",
+        basePrice: 85,
+        maxGuests: 4,
+        bedType: "1 Double + 2 Singles",
         features: [
             "Private Terrace",
-            "Mediterranean Sea View",
-            "King-Size Bed",
-            "En-suite Bathroom",
-            "Rainfall Shower",
-            "Soaking Tub",
-            "Mini Bar",
-            "Nespresso Machine",
+            "Rotunda Views",
+            "Free WiFi",
             "Air Conditioning",
-            "Complimentary WiFi",
-            "Smart TV",
-            "Safe",
+            "Flat-screen TV",
+            "Electric Kettle",
+            "Microwave & Fridge",
+            "Hairdryer",
+            "Free Toiletries",
+            "Child Friendly",
         ],
         images: [
-            "https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=1200&q=80",
-            "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1200&q=80",
-            "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=1200&q=80",
-            "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=1200&q=80",
+            "/images/villa/room-3.jpg",
+            "/images/villa/terrace.jpg",
+            "/images/villa/hero-rotunda.jpg",
         ],
     },
-    "garden-room": {
+    "deluxe-double-shower": {
         id: "2",
-        name: "The Garden Room",
-        description: "Nestled among olive trees with direct garden access.",
+        name: "Deluxe Double Room",
+        description: "Elegant comfort with modern amenities and a beautifully appointed en-suite shower room.",
         longDescription: [
-            "The Garden Room offers an intimate connection with nature. Step directly from your private terrace into our Mediterranean garden, where ancient olive trees and fragrant herbs create a peaceful sanctuary.",
-            "At 35m², this ground-floor retreat features a comfortable queen bed, a dedicated workspace for those who need to stay connected, and an en-suite bathroom with a luxurious rainfall shower.",
-            "Mornings here are magical—enjoy your breakfast on the terrace while watching the garden come alive with butterflies and birdsong.",
+            "The Deluxe Double Room offers a perfect balance of traditional Maltese charm and modern comfort. Featuring a comfortable double bed with quality linens, this room is ideal for couples or solo travelers seeking a premium experience.",
+            "The en-suite shower room is modern and well-equipped with complimentary toiletries and a hairdryer. Every detail has been considered to ensure a comfortable stay.",
+            "Relax after a day exploring Malta with streaming services on the flat-screen TV, or prepare a hot drink using the complimentary coffee, sugar, and electric kettle provided in the room.",
         ],
-        basePrice: 220,
+        basePrice: 65,
         maxGuests: 2,
-        size: "35m²",
+        bedType: "1 Double Bed",
         features: [
-            "Direct Garden Access",
-            "Private Terrace",
-            "Queen-Size Bed",
-            "En-suite Bathroom",
-            "Rainfall Shower",
-            "Workspace",
-            "Nespresso Machine",
+            "En-suite Shower",
+            "Free WiFi",
             "Air Conditioning",
-            "Complimentary WiFi",
-            "Smart TV",
+            "Flat-screen TV",
+            "Streaming Services",
+            "Electric Kettle",
+            "Microwave & Fridge",
+            "Hairdryer",
+            "Free Toiletries",
+            "Ironing Facilities",
         ],
         images: [
-            "https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1200&q=80",
-            "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=1200&q=80",
-            "https://images.unsplash.com/photo-1595576508898-0ad5c879a061?w=1200&q=80",
+            "/images/villa/room-1.jpg",
+            "/images/villa/hero-rotunda.jpg",
         ],
     },
-    "sunset-chamber": {
+    "double-twin-garden-view": {
         id: "3",
-        name: "The Sunset Chamber",
-        description: "West-facing room with golden hour views and balcony.",
+        name: "Garden View Double",
+        description: "A charming retreat overlooking the lush garden, perfect for a peaceful getaway.",
         longDescription: [
-            "Named for its unparalleled sunset views, the Sunset Chamber captures the magic of Mediterranean evenings. West-facing windows frame the sky as it transforms from blue to gold to rose each evening.",
-            "This 40m² room combines original stone walls with modern luxuries. The king-size bed ensures restful sleep, while a comfortable sofa bed makes this room suitable for families or small groups.",
-            "The private balcony is the perfect spot to end each day—glass of local wine in hand, watching the sun dip below the horizon.",
+            "The Garden View Double is a peaceful haven that overlooks the property's lush garden. This room offers a serene setting for guests who value quiet and privacy, with natural light and garden views creating a calming atmosphere.",
+            "The room can be configured with either a double bed or two single beds, making it versatile for couples or friends traveling together. Like all rooms at Villa Mosta, it comes fully equipped with modern amenities.",
+            "Enjoy the tranquility of your garden outlook while being just steps away from the vibrant town center of Mosta, with its charming cafes, shops, and the magnificent Rotunda.",
         ],
-        basePrice: 260,
-        maxGuests: 3,
-        size: "40m²",
-        features: [
-            "Sunset Views",
-            "Private Balcony",
-            "King-Size Bed",
-            "Sofa Bed",
-            "En-suite Bathroom",
-            "Bathtub",
-            "Original Stone Walls",
-            "Mini Bar",
-            "Nespresso Machine",
-            "Air Conditioning",
-            "Complimentary WiFi",
-            "Smart TV",
-        ],
-        images: [
-            "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=1200&q=80",
-            "https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=1200&q=80",
-            "https://images.unsplash.com/photo-1598928506311-c55ez89a2cc8?w=1200&q=80",
-        ],
-    },
-    "heritage-room": {
-        id: "4",
-        name: "The Heritage Room",
-        description: "Our most intimate room celebrating the villa's history.",
-        longDescription: [
-            "The Heritage Room is a love letter to the villa's past. Original stone features, restored antique furnishings, and carefully preserved architectural details create a space that feels both historic and welcoming.",
-            "At 28m², this is our most intimate accommodation—perfect for solo travelers or couples seeking a cozy, characterful retreat. The queen bed is positioned to catch the morning light through the courtyard-facing window.",
-            "Despite its historic charm, modern comforts abound: climate control, high-speed WiFi, and a beautifully appointed en-suite bathroom ensure your stay is as comfortable as it is atmospheric.",
-        ],
-        basePrice: 200,
+        basePrice: 60,
         maxGuests: 2,
-        size: "28m²",
+        bedType: "1 Double or 2 Singles",
         features: [
-            "Historic Features",
-            "Antique Furnishings",
-            "Queen-Size Bed",
-            "Courtyard View",
-            "En-suite Bathroom",
-            "Walk-in Shower",
+            "Garden View",
+            "Flexible Bed Config",
+            "Free WiFi",
             "Air Conditioning",
-            "Complimentary WiFi",
-            "Smart TV",
+            "Flat-screen TV",
+            "Electric Kettle",
+            "Microwave & Fridge",
+            "Hairdryer",
+            "Free Toiletries",
+            "Drying Rack",
         ],
         images: [
-            "https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=1200&q=80",
-            "https://images.unsplash.com/photo-1560185007-c5ca9d2c014d?w=1200&q=80",
-            "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80",
+            "/images/villa/room-2.jpg",
+            "/images/villa/terrace.jpg",
         ],
     },
+};
+
+const featureIcons: Record<string, React.ReactNode> = {
+    "Free WiFi": <Wifi className="w-4 h-4" />,
+    "Air Conditioning": <Wind className="w-4 h-4" />,
+    "Flat-screen TV": <Tv className="w-4 h-4" />,
+    "Streaming Services": <Tv className="w-4 h-4" />,
+    "Electric Kettle": <Coffee className="w-4 h-4" />,
+    "Microwave & Fridge": <UtensilsCrossed className="w-4 h-4" />,
+    "Ironing Facilities": <Shirt className="w-4 h-4" />,
+    "Drying Rack": <Shirt className="w-4 h-4" />,
 };
 
 interface RoomPageProps {
@@ -157,6 +131,12 @@ export default function RoomPage({ params }: RoomPageProps) {
     const room = roomsData[resolvedParams.slug];
 
     const [activeImageIndex, setActiveImageIndex] = React.useState(0);
+    const [isVisible, setIsVisible] = React.useState(false);
+
+    React.useEffect(() => {
+        const timer = setTimeout(() => setIsVisible(true), 100);
+        return () => clearTimeout(timer);
+    }, []);
 
     if (!room) {
         notFound();
@@ -173,26 +153,27 @@ export default function RoomPage({ params }: RoomPageProps) {
     return (
         <>
             <Header />
-            <main className="pt-20">
+            <main className="pt-20 min-h-screen">
                 {/* Breadcrumb */}
                 <div className="container py-4">
-                    <nav className="text-body-sm text-text-muted">
-                        <Link href="/" className="hover:text-text transition-colors">Home</Link>
+                    <nav aria-label="Breadcrumb" className="text-sm text-stone-400">
+                        <Link href="/" className="hover:text-stone-800 transition-colors">Home</Link>
                         <span className="mx-2">/</span>
-                        <Link href="/rooms" className="hover:text-text transition-colors">Rooms</Link>
+                        <Link href="/rooms" className="hover:text-stone-800 transition-colors">Rooms</Link>
                         <span className="mx-2">/</span>
-                        <span className="text-text">{room.name}</span>
+                        <span className="text-stone-800">{room.name}</span>
                     </nav>
                 </div>
 
                 {/* Image Gallery */}
-                <section className="relative h-[60vh] min-h-[500px] bg-cream-200">
+                <section className="relative h-[50vh] sm:h-[60vh] min-h-[400px] bg-stone-100">
                     <Image
                         src={room.images[activeImageIndex]}
-                        alt={`${room.name} - Image ${activeImageIndex + 1}`}
+                        alt={`${room.name} at Villa Mosta, image ${activeImageIndex + 1}`}
                         fill
-                        className="object-cover"
+                        className="object-cover transition-opacity duration-500"
                         priority
+                        sizes="100vw"
                     />
 
                     {/* Gallery Navigation */}
@@ -200,17 +181,17 @@ export default function RoomPage({ params }: RoomPageProps) {
                         <>
                             <button
                                 onClick={prevImage}
-                                className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-cream-100/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-cream-100 transition-colors"
+                                className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors shadow-lg"
                                 aria-label="Previous image"
                             >
-                                <ChevronLeft className="w-6 h-6 text-stone" />
+                                <ChevronLeft className="w-5 h-5 text-stone-800" />
                             </button>
                             <button
                                 onClick={nextImage}
-                                className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-cream-100/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-cream-100 transition-colors"
+                                className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors shadow-lg"
                                 aria-label="Next image"
                             >
-                                <ChevronRight className="w-6 h-6 text-stone" />
+                                <ChevronRight className="w-5 h-5 text-stone-800" />
                             </button>
 
                             {/* Dots */}
@@ -220,10 +201,10 @@ export default function RoomPage({ params }: RoomPageProps) {
                                         key={index}
                                         onClick={() => setActiveImageIndex(index)}
                                         className={cn(
-                                            "w-2 h-2 rounded-full transition-all",
+                                            "h-2 rounded-full transition-all duration-300",
                                             index === activeImageIndex
-                                                ? "bg-cream-100 w-6"
-                                                : "bg-cream-100/50 hover:bg-cream-100/70"
+                                                ? "bg-white w-8 shadow-md"
+                                                : "bg-white/50 w-2 hover:bg-white/80"
                                         )}
                                         aria-label={`View image ${index + 1}`}
                                     />
@@ -234,51 +215,67 @@ export default function RoomPage({ params }: RoomPageProps) {
                 </section>
 
                 {/* Room Details */}
-                <section className="section bg-cream-100">
-                    <div className="container">
+                <section className="section bg-[var(--color-warm-cream)]">
+                    <div className="container max-w-6xl mx-auto">
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
                             {/* Main Content */}
                             <div className="lg:col-span-2">
-                                <span className="text-overline text-text-muted block mb-4">
+                                <span
+                                    className={cn(
+                                        "section-overline transition-all duration-700",
+                                        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                                    )}
+                                >
                                     ACCOMMODATION
                                 </span>
-                                <h1 className="font-serif text-display text-text mb-6">
+                                <h1
+                                    className={cn(
+                                        "font-serif text-3xl sm:text-4xl md:text-5xl text-stone-800 mb-6 transition-all duration-700 delay-100",
+                                        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+                                    )}
+                                >
                                     {room.name}
                                 </h1>
 
-                                {/* Meta */}
-                                <div className="flex flex-wrap gap-6 mb-8 text-body text-text-muted">
-                                    <span className="flex items-center gap-2">
-                                        <Users className="w-5 h-5" />
+                                {/* Meta badges */}
+                                <div className="flex flex-wrap gap-3 mb-8">
+                                    <span className="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full text-sm text-stone-600 border border-stone-100">
+                                        <Users className="w-4 h-4 text-[var(--color-accent)]" />
                                         Up to {room.maxGuests} guests
                                     </span>
-                                    <span className="flex items-center gap-2">
-                                        <Maximize2 className="w-5 h-5" />
-                                        {room.size}
+                                    <span className="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full text-sm text-stone-600 border border-stone-100">
+                                        <BedDouble className="w-4 h-4 text-[var(--color-accent)]" />
+                                        {room.bedType}
+                                    </span>
+                                    <span className="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full text-sm text-stone-600 border border-stone-100">
+                                        <Sun className="w-4 h-4 text-[var(--color-accent)]" />
+                                        {room.features[0]}
                                     </span>
                                 </div>
 
                                 {/* Description */}
-                                <div className="prose-villa mb-12">
+                                <div className="space-y-5 mb-12">
                                     {room.longDescription.map((paragraph, index) => (
-                                        <p key={index} className="text-body-lg text-text-muted leading-relaxed mb-4">
+                                        <p key={index} className="text-base sm:text-lg text-stone-600 leading-relaxed">
                                             {paragraph}
                                         </p>
                                     ))}
                                 </div>
 
-                                {/* Features */}
+                                {/* Features Grid */}
                                 <div>
-                                    <h2 className="font-serif text-heading-3 text-text mb-6">
+                                    <h2 className="font-serif text-xl sm:text-2xl text-stone-800 mb-6">
                                         Room Amenities
                                     </h2>
                                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                                         {room.features.map((feature) => (
                                             <div
                                                 key={feature}
-                                                className="flex items-center gap-3 text-body text-text"
+                                                className="flex items-center gap-3 p-3 rounded-xl bg-white border border-stone-100 text-sm text-stone-700"
                                             >
-                                                <span className="w-1.5 h-1.5 bg-accent rounded-full" />
+                                                <span className="text-[var(--color-accent)]">
+                                                    {featureIcons[feature] || <span className="w-4 h-4 block rounded-full bg-amber-100" />}
+                                                </span>
                                                 {feature}
                                             </div>
                                         ))}
@@ -288,34 +285,67 @@ export default function RoomPage({ params }: RoomPageProps) {
 
                             {/* Booking Card */}
                             <div className="lg:col-span-1">
-                                <div className="sticky top-28 bg-cream-200 rounded-lg p-6">
+                                <div className="sticky top-28 card-premium p-7 sm:p-8">
                                     <div className="mb-6">
-                                        <span className="text-body-sm text-text-muted">From</span>
+                                        <span className="text-sm text-stone-400">From</span>
                                         <div className="flex items-baseline gap-1">
-                                            <span className="font-serif text-heading-2 text-text">
-                                                €{room.basePrice}
+                                            <span className="font-serif text-4xl text-stone-800">
+                                                &euro;{room.basePrice}
                                             </span>
-                                            <span className="text-body text-text-muted">/ night</span>
+                                            <span className="text-base text-stone-400">/ night</span>
                                         </div>
                                     </div>
 
-                                    <Button size="xl" asChild className="w-full mb-4">
-                                        <Link href={`/book?room=${resolvedParams.slug}`}>
-                                            Book This Room
-                                        </Link>
-                                    </Button>
+                                    <BookButton variant="primary" size="lg" href={`/book?room=${resolvedParams.slug}`} className="w-full mb-4">
+                                        Book This Room
+                                    </BookButton>
 
-                                    <Button variant="secondary" size="lg" asChild className="w-full">
-                                        <Link href="/contact">
-                                            Ask a Question
-                                        </Link>
-                                    </Button>
+                                    <Link
+                                        href="/contact"
+                                        className="block w-full text-center px-6 py-3.5 border border-stone-200 text-stone-700 text-sm font-medium rounded-full hover:bg-stone-50 transition-colors"
+                                    >
+                                        Ask a Question
+                                    </Link>
 
-                                    <p className="text-caption text-text-muted text-center mt-4">
-                                        Free cancellation up to 7 days before check-in
+                                    <p className="text-xs text-stone-400 text-center mt-5 leading-relaxed">
+                                        Cancellation and prepayment policies vary by accommodation type. Check conditions when making your selection.
                                     </p>
+
+                                    {/* Maltese divider */}
+                                    <div className="maltese-divider my-6" />
+
+                                    <div className="text-center">
+                                        <p className="text-xs text-stone-400 mb-1">License number</p>
+                                        <p className="text-sm font-medium text-stone-600">61700A</p>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Other Rooms */}
+                <section className="section bg-white">
+                    <div className="container max-w-4xl mx-auto text-center">
+                        <span className="section-overline">EXPLORE MORE</span>
+                        <h2 className="font-serif text-2xl sm:text-3xl text-stone-800 mb-8">
+                            Other Rooms
+                        </h2>
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                            {Object.entries(roomsData)
+                                .filter(([slug]) => slug !== resolvedParams.slug)
+                                .map(([slug, otherRoom]) => (
+                                    <Link
+                                        key={slug}
+                                        href={`/rooms/${slug}`}
+                                        className="group card-premium p-5 text-left flex-1"
+                                    >
+                                        <h3 className="font-serif text-lg text-stone-800 mb-1 group-hover:text-[var(--color-accent)] transition-colors">
+                                            {otherRoom.name}
+                                        </h3>
+                                        <p className="text-sm text-stone-400">From &euro;{otherRoom.basePrice} / night</p>
+                                    </Link>
+                                ))}
                         </div>
                     </div>
                 </section>

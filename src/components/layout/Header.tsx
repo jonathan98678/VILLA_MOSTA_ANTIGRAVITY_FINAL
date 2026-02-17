@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
+import { BookButton } from "@/components/ui/BookButton";
 
 const navLinks = [
     { label: "The Villa", href: "/villa" },
@@ -99,17 +100,10 @@ export function Header() {
 
                     {/* Desktop CTA */}
                     <div className="hidden lg:block">
-                        <Link
-                            href="/book"
-                            className={cn(
-                                "text-[11px] xl:text-xs font-medium tracking-[0.15em] uppercase px-5 xl:px-6 py-2 xl:py-2.5 border transition-all duration-500",
-                                scrolled
-                                    ? "bg-amber-600 border-amber-600 text-white hover:bg-amber-700 hover:border-amber-700"
-                                    : "border-white/40 text-white bg-white/5 backdrop-blur-sm hover:bg-white/15 hover:border-white/60"
-                            )}
-                        >
-                            Book Now
-                        </Link>
+                        <BookButton
+                            size="sm"
+                            variant={scrolled ? "primary" : "outline"}
+                        />
                     </div>
 
                     {/* Mobile Button */}
@@ -123,7 +117,7 @@ export function Header() {
                 </div>
             </header>
 
-            {/* Mobile Menu — full screen overlay */}
+            {/* Mobile Menu - full screen overlay */}
             <div
                 className={cn(
                     "fixed inset-0 z-50 bg-stone-900 transition-all duration-500 lg:hidden",
@@ -175,13 +169,14 @@ export function Header() {
                         )}
                         style={{ transitionDelay: isMobileMenuOpen ? "600ms" : "0ms" }}
                     >
-                        <Link
-                            href="/book"
+                        <BookButton
+                            size="default"
+                            variant="primary"
+                            className="w-full"
                             onClick={() => setIsMobileMenuOpen(false)}
-                            className="inline-flex items-center justify-center w-full py-3.5 sm:py-4 bg-amber-600 text-white font-medium text-sm uppercase tracking-[0.15em]"
                         >
                             Book Your Stay
-                        </Link>
+                        </BookButton>
                     </div>
                 </nav>
             </div>

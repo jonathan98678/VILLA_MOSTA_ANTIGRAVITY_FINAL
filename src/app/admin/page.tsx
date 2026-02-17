@@ -32,7 +32,7 @@ export default async function AdminDashboard() {
     const reviewCount = reviews?.length || 0;
     const avgRating = reviewCount > 0
         ? (reviews!.reduce((acc, r) => acc + r.rating, 0) / reviewCount).toFixed(1)
-        : "—";
+        : "-";
 
     // Fetch Rooms Count
     const { count: roomsCount } = await supabase

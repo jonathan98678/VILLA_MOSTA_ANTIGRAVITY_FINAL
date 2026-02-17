@@ -28,7 +28,7 @@ const defaultReviews: Review[] = [
         country: "United Kingdom",
         source: "Booking.com",
         rating: 5,
-        reviewText: "An absolutely magical experience. From the moment we arrived, we felt completely at home. The attention to detail is extraordinary—fresh flowers in every room, handmade soaps, and the most incredible breakfast we've ever had. We've already booked our return.",
+        reviewText: "An absolutely magical experience. From the moment we arrived, we felt completely at home. The attention to detail is extraordinary: fresh flowers in every room, handmade soaps, and the most incredible breakfast we've ever had. We've already booked our return.",
         stayType: "Couple",
         isFeatured: true,
     },
