@@ -16,7 +16,10 @@ import {
     X,
     Moon,
     Sun,
-    LayoutDashboard
+    LayoutDashboard,
+    FileText,
+    Monitor,
+    ExternalLink
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import "./admin.css";
@@ -27,6 +30,7 @@ const navItems = [
     { icon: Calendar, label: "Bookings", href: "/admin/bookings" },
     { icon: MessageSquare, label: "Reviews", href: "/admin/reviews" },
     { icon: ImageIcon, label: "Gallery", href: "/admin/gallery" },
+    { icon: FileText, label: "Blog", href: "/admin/blog" },
     { icon: Users, label: "Guests", href: "/admin/guests" },
     { icon: Settings, label: "Settings", href: "/admin/settings" },
 ];
@@ -70,10 +74,30 @@ export default function AdminLayout({
         router.refresh();
     };
 
+    const [showPreview, setShowPreview] = React.useState(true);
+
+    // Handle messages from the preview iframe
+    React.useEffect(() => {
+        const handleMessage = (event: MessageEvent) => {
+            // Security check - ensure message is from expected origin if possible, 
+            // but for same-domain iframe it's less critical.
+            if (event.data && event.data.type === 'ADMIN_NAVIGATE') {
+                const targetPath = event.data.path;
+                if (targetPath) {
+                    router.push(targetPath);
+                    // Optionally flash the preview border or show a toast
+                }
+            }
+        };
+
+        window.addEventListener('message', handleMessage);
+        return () => window.removeEventListener('message', handleMessage);
+    }, [router]);
+
     if (!mounted) return null; // Prevent hydration mismatch
 
     return (
-        <div className="min-h-screen admin-bg transition-theme font-sans" data-theme={theme}>
+        <div className="min-h-screen admin-bg transition-theme font-sans flex overflow-hidden" data-theme={theme}>
             {/* Mobile sidebar overlay */}
             {sidebarOpen && (
                 <div
@@ -82,48 +106,26 @@ export default function AdminLayout({
                 />
             )}
 
-            {/* Mobile Header */}
-            <header className="lg:hidden fixed top-0 left-0 right-0 z-30 bg-stone-900/90 backdrop-blur-md text-white px-4 py-3 flex items-center justify-between border-b border-white/10">
-                <div className="flex items-center gap-3">
-                    <button
-                        onClick={() => setSidebarOpen(true)}
-                        className="text-white hover:text-amber-400 transition-colors"
-                    >
-                        <Menu className="w-6 h-6" />
-                    </button>
-                    <span className="font-serif text-lg tracking-wide">Villa Mosta</span>
-                </div>
-                <button
-                    onClick={toggleTheme}
-                    className="p-2 rounded-full hover:bg-white/10 transition-colors"
-                >
-                    {theme === "light" ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5 text-amber-400" />}
-                </button>
-            </header>
-
             {/* Sidebar */}
             <aside className={cn(
-                "fixed inset-y-0 left-0 z-50 w-72 glass-sidebar transform transition-transform duration-300 ease-out",
-                "lg:translate-x-0",
+                "fixed inset-y-0 left-0 z-50 w-64 glass-sidebar transform transition-transform duration-300 ease-out lg:relative lg:translate-x-0",
                 sidebarOpen ? "translate-x-0" : "-translate-x-full"
             )}>
                 <div className="h-full flex flex-col">
-                    <div className="p-8 flex items-center justify-between">
+                    <div className="p-6 flex items-center justify-between">
                         <div>
-                            <a href="https://villamosta.com" target="_blank" rel="noopener noreferrer" className="font-serif text-2xl text-white tracking-wide hover:text-amber-400 transition-colors">
-                                Villa Mosta
-                            </a>
-                            <p className="text-stone-400 text-xs mt-1 uppercase tracking-wider">Admin Dashboard</p>
+                            <span className="font-serif text-xl text-[var(--admin-sidebar-text)] tracking-wide">Villa Mosta</span>
+                            <p className="text-[var(--admin-sidebar-text)] opacity-60 text-xs mt-0.5 uppercase tracking-wider">Admin</p>
                         </div>
                         <button
                             onClick={() => setSidebarOpen(false)}
                             className="lg:hidden text-stone-400 hover:text-white transition-colors"
                         >
-                            <X className="w-6 h-6" />
+                            <X className="w-5 h-5" />
                         </button>
                     </div>
 
-                    <nav className="flex-1 px-4 space-y-1 overflow-y-auto">
+                    <nav className="flex-1 px-3 space-y-0.5 overflow-y-auto">
                         {navItems.map((item) => {
                             const isActive = pathname === item.href ||
                                 (item.href !== "/admin" && pathname.startsWith(item.href));
@@ -134,66 +136,112 @@ export default function AdminLayout({
                                     href={item.href}
                                     onClick={() => setSidebarOpen(false)}
                                     className={cn(
-                                        "flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all duration-200 group relative",
+                                        "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 group relative",
                                         isActive
-                                            ? "bg-gradient-to-r from-amber-600 to-amber-700 text-white shadow-lg shadow-amber-900/20"
-                                            : "text-stone-400 hover:bg-white/5 hover:text-white"
+                                            ? "bg-[var(--admin-accent)] text-white shadow-md shadow-[var(--admin-accent)]/20"
+                                            : "text-[var(--admin-sidebar-text)] opacity-70 hover:bg-white/5 hover:opacity-100"
                                     )}
                                 >
                                     <item.icon className={cn(
-                                        "w-5 h-5 transition-colors",
+                                        "w-4 h-4 transition-colors",
                                         isActive ? "text-white" : "text-stone-500 group-hover:text-amber-400"
                                     )} />
                                     <span>{item.label}</span>
-                                    {isActive && (
-                                        <div className="absolute right-2 w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-                                    )}
                                 </Link>
                             );
                         })}
                     </nav>
 
-                    <div className="p-4 border-t border-white/5 space-y-2 bg-black/20">
-                        <div className="flex items-center justify-between px-4 py-2">
-                            <span className="text-xs text-stone-500 uppercase tracking-wider font-semibold">Preferences</span>
+                    <div className="p-4 border-t border-white/5 space-y-2 bg-black/20 text-xs">
+                        <div className="flex items-center justify-between px-2 mb-2">
+                            <span className="text-stone-500 font-semibold uppercase tracking-wider">Display</span>
                             <button
                                 onClick={toggleTheme}
-                                className="p-1.5 rounded-lg text-stone-400 hover:text-white hover:bg-white/10 transition-colors"
-                                title="Toggle Theme"
+                                className="p-1.5 rounded-md hover:bg-white/10 text-stone-400 hover:text-amber-400 transition-colors"
                             >
-                                {theme === "light" ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4 text-amber-400" />}
+                                {theme === "light" ? <Moon className="w-3.5 h-3.5" /> : <Sun className="w-3.5 h-3.5" />}
                             </button>
                         </div>
-                        <a
-                            href="https://villamosta.com"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-3 px-4 py-2.5 text-stone-400 hover:text-white hover:bg-white/5 rounded-xl transition-all text-sm"
-                        >
-                            <Home className="w-4 h-4" />
-                            <span>View Live Website</span>
-                            <div className="ml-auto flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-green-500/10 border border-green-500/20">
-                                <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                                <span className="text-[10px] text-green-400 font-medium">Live</span>
-                            </div>
-                        </a>
+
+                        <div className="flex items-center justify-between px-2 mb-2">
+                            <span className="text-stone-500 font-semibold uppercase tracking-wider">Preview</span>
+                            <button
+                                onClick={() => setShowPreview(!showPreview)}
+                                className={cn(
+                                    "p-1.5 rounded-md transition-colors",
+                                    showPreview ? "text-green-400 bg-green-900/20" : "text-stone-400 hover:text-white"
+                                )}
+                            >
+                                <Monitor className="w-3.5 h-3.5" />
+                            </button>
+                        </div>
+
                         <button
                             onClick={handleLogout}
-                            className="flex items-center gap-3 px-4 py-2.5 text-stone-400 hover:text-red-400 hover:bg-red-950/30 rounded-xl transition-all w-full text-sm group"
+                            className="flex items-center gap-2 px-3 py-2 text-[var(--admin-sidebar-text)] opacity-70 hover:opacity-100 hover:text-red-400 hover:bg-red-950/30 rounded-lg transition-all w-full group"
                         >
-                            <LogOut className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                            <LogOut className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                             <span>Sign Out</span>
                         </button>
                     </div>
                 </div>
             </aside>
 
-            {/* Main Content */}
-            <div className="lg:ml-72 min-h-screen transition-all duration-300">
-                <div className="h-16 lg:hidden" /> {/* Spacer for mobile header */}
-                <main className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto animate-fade-in">
-                    {children}
-                </main>
+            {/* Main Content Area */}
+            <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden relative">
+
+                {/* Mobile Header */}
+                <header className="lg:hidden flex-none bg-stone-900/95 backdrop-blur-md text-white px-4 py-3 flex items-center justify-between border-b border-white/10 z-30">
+                    <div className="flex items-center gap-3">
+                        <button onClick={() => setSidebarOpen(true)}>
+                            <Menu className="w-5 h-5" />
+                        </button>
+                        <span className="font-serif tracking-wide">Mosta Admin</span>
+                    </div>
+                    <button onClick={() => setShowPreview(!showPreview)}>
+                        <Monitor className={cn("w-5 h-5", showPreview ? "text-amber-400" : "text-stone-400")} />
+                    </button>
+                </header>
+
+                <div className="flex-1 flex overflow-hidden">
+                    {/* Admin Page Content */}
+                    <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 scroll-smooth hover:scroll-auto">
+                        <div className="max-w-4xl mx-auto animate-fade-in">
+                            {children}
+                        </div>
+                    </main>
+
+                    {/* Live Preview Pane */}
+                    {showPreview && (
+                        <div className="hidden md:flex w-[400px] xl:w-[480px] flex-col border-l border-[var(--admin-border)] bg-[var(--admin-bg)] shadow-2xl z-20 transition-all duration-300 transform">
+                            <div className="flex-none p-2 border-b border-[var(--admin-border)] flex items-center justify-between bg-[var(--admin-card)]">
+                                <div className="flex items-center gap-2">
+                                    <div className="flex gap-1.5 px-2">
+                                        <div className="w-2.5 h-2.5 rounded-full bg-red-500/80"></div>
+                                        <div className="w-2.5 h-2.5 rounded-full bg-amber-500/80"></div>
+                                        <div className="w-2.5 h-2.5 rounded-full bg-green-500/80"></div>
+                                    </div>
+                                    <span className="text-xs font-medium text-[var(--admin-text-muted)]">Live Interactive View</span>
+                                </div>
+                                <a href="/" target="_blank" className="text-[var(--admin-text-muted)] hover:text-[var(--admin-text)]">
+                                    <ExternalLink className="w-3.5 h-3.5" />
+                                </a>
+                            </div>
+                            <div className="flex-1 bg-stone-100 dark:bg-stone-950 relative">
+                                <iframe
+                                    src="/" // Loads the homepage
+                                    className="absolute inset-0 w-full h-full"
+                                    title="Live Website"
+                                // Sandbox attributes if needed, but same-origin is fine
+                                />
+                                {/* Overlay hint */}
+                                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/60 backdrop-blur-md text-white px-3 py-1.5 rounded-full text-[10px] pointer-events-none opacity-0 hover:opacity-100 transition-opacity">
+                                    Double-click elements to edit
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );

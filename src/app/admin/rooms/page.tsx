@@ -4,6 +4,7 @@ import * as React from "react";
 import Image from "next/image";
 import { Edit2, Save, X, Loader2, Users, Maximize, Check, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ImageUpload } from "@/components/admin/ImageUpload";
 
 interface Room {
     id: string;
@@ -28,9 +29,9 @@ export default function AdminRoomsPage() {
     // Form state helpers
     const [formContent, setFormContent] = React.useState<{
         featuresString: string;
-        imagesString: string;
+        images: string[];
         longDescString: string;
-    }>({ featuresString: "", imagesString: "", longDescString: "" });
+    }>({ featuresString: "", images: [], longDescString: "" });
 
     // Load rooms from API
     React.useEffect(() => {
@@ -54,7 +55,7 @@ export default function AdminRoomsPage() {
         setEditingRoom(room);
         setFormContent({
             featuresString: room.features?.join(", ") || "",
-            imagesString: room.images?.join("\n") || "",
+            images: room.images || [],
             longDescString: room.long_description?.join("\n\n") || "",
         });
     };
@@ -73,7 +74,7 @@ export default function AdminRoomsPage() {
         const updatedRoom = {
             ...editingRoom,
             features: formContent.featuresString.split(",").map(s => s.trim()).filter(Boolean),
-            images: formContent.imagesString.split("\n").map(s => s.trim()).filter(Boolean),
+            images: formContent.images,
             long_description: formContent.longDescString.split("\n\n").map(s => s.trim()).filter(Boolean),
         };
 
@@ -122,7 +123,7 @@ export default function AdminRoomsPage() {
                 {rooms.map((room) => (
                     <div key={room.id} className="admin-card rounded-xl overflow-hidden flex flex-col group">
                         {/* Image Preview */}
-                        <div className="relative h-48 bg-stone-200">
+                        <div className="relative h-48 bg-[var(--admin-bg)] border-b border-[var(--admin-border)]">
                             {room.images?.[0] ? (
                                 <Image
                                     src={room.images[0]}
@@ -131,7 +132,7 @@ export default function AdminRoomsPage() {
                                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                                 />
                             ) : (
-                                <div className="flex items-center justify-center h-full text-stone-400">
+                                <div className="flex items-center justify-center h-full text-[var(--admin-text-muted)] opacity-50">
                                     <Info className="w-8 h-8" />
                                 </div>
                             )}
@@ -208,7 +209,7 @@ export default function AdminRoomsPage() {
                                                 type="text"
                                                 value={editingRoom.slug}
                                                 disabled
-                                                className="w-full px-3 py-2 rounded-lg border border-[var(--admin-border)] bg-stone-100/50 text-stone-400 cursor-not-allowed"
+                                                className="w-full px-3 py-2 rounded-lg border border-[var(--admin-border)] bg-[var(--admin-bg)] opacity-50 text-[var(--admin-text-muted)] cursor-not-allowed"
                                             />
                                         </div>
                                     </div>
@@ -282,16 +283,13 @@ export default function AdminRoomsPage() {
                                             />
                                         </div>
                                         <div className="space-y-1.5">
-                                            <label className="text-sm font-medium text-[var(--admin-text)]">Image URLs</label>
-                                            <p className="text-xs text-[var(--admin-text-muted)] mb-2">One URL per line.</p>
-                                            <textarea
-                                                value={formContent.imagesString}
-                                                onChange={(e) => setFormContent({ ...formContent, imagesString: e.target.value })}
-                                                className="w-full px-3 py-2 rounded-lg border border-[var(--admin-border)] bg-[var(--admin-bg)] focus:ring-2 focus:ring-[var(--admin-accent)] focus:border-transparent outline-none transition-all min-h-[120px] font-mono text-xs"
+                                            <label className="text-sm font-medium text-[var(--admin-text)]">Room Images</label>
+                                            <p className="text-xs text-[var(--admin-text-muted)] mb-2">Upload or manage images.</p>
+                                            <ImageUpload
+                                                value={formContent.images}
+                                                onChange={(urls) => setFormContent({ ...formContent, images: urls })}
+                                                onRemove={(url) => setFormContent({ ...formContent, images: formContent.images.filter((current) => current !== url) })}
                                             />
-                                            <div className="mt-2 text-xs text-amber-600 bg-amber-50 p-2 rounded">
-                                                Tip: Use images from <code>/public/images/rooms/</code>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -30,9 +30,10 @@ export function HeroSection({
         offset: ["start start", "end start"],
     });
 
-    const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-    const scale = useTransform(scrollYProgress, [0, 1], [1.1, 1]);
-    const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+    // Simplified parallax - less aggressive
+    const y = useTransform(scrollYProgress, [0, 1], ["0%", "10%"]);
+    const scale = useTransform(scrollYProgress, [0, 1], [1.02, 1]); // Subtle scale
+    const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]); // Fade out faster
 
     const scrollToContent = () => {
         const nextSection = document.getElementById("intro");
@@ -41,26 +42,21 @@ export function HeroSection({
         }
     };
 
+    // Removed complex stagger for simpler, faster load
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
             opacity: 1,
-            transition: {
-                staggerChildren: 0.25,
-                delayChildren: 0.3,
-            },
+            transition: { duration: 0.8 }
         },
     };
 
     const itemVariants = {
-        hidden: { opacity: 0, y: 30 },
+        hidden: { opacity: 0, y: 10 },
         visible: {
             opacity: 1,
             y: 0,
-            transition: {
-                duration: 1.2,
-                ease: [0.22, 1, 0.36, 1],
-            },
+            transition: { duration: 0.8, ease: "easeOut" }
         },
     };
 
@@ -73,13 +69,10 @@ export function HeroSection({
                 className
             )}
         >
-            {/* Background Image with Parallax & Scale */}
+            {/* Background Image with Parallax — single scroll-driven transform only */}
             <motion.div
                 style={{ y, opacity, scale }}
-                initial={{ scale: 1.2 }}
-                animate={{ scale: 1.1 }}
-                transition={{ duration: 10, ease: "easeOut" }}
-                className="absolute inset-0 z-0"
+                className="absolute inset-0 z-0 will-change-transform"
             >
                 <div className="absolute inset-0 bg-stone-900/20" />
                 <Image
@@ -89,11 +82,11 @@ export function HeroSection({
                     className="object-cover"
                     priority
                     sizes="100vw"
-                    quality={100}
+                    quality={85}
                 />
             </motion.div>
 
-            {/* Gradient overlay - cinematic */}
+            {/* Gradient overlay — cinematic */}
             <div
                 className="absolute inset-0 z-0 pointer-events-none"
                 style={{
@@ -102,14 +95,15 @@ export function HeroSection({
                 }}
             />
 
-            {/* Content - centered vertically */}
+            {/* Content — centered vertically */}
             <motion.div
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
                 className="relative z-10 text-center px-6 sm:px-8 w-full max-w-5xl mx-auto"
+                data-admin-edit="/admin/settings"
             >
-                {/* Main Title - VILLA MOSTA */}
+                {/* Main Title */}
                 <motion.div variants={itemVariants}>
                     <h1
                         className={cn(
@@ -131,7 +125,7 @@ export function HeroSection({
                     <div className="h-px w-16 sm:w-24 md:w-32 bg-gradient-to-l from-transparent to-amber-400/60" />
                 </motion.div>
 
-                {/* Subtitle - larger and more visible */}
+                {/* Subtitle */}
                 <motion.p
                     variants={itemVariants}
                     className="text-white text-lg sm:text-xl md:text-2xl lg:text-3xl font-serif font-light tracking-wide max-w-3xl mx-auto"
@@ -139,7 +133,7 @@ export function HeroSection({
                     {subtitle}
                 </motion.p>
 
-                {/* Address - larger and more visible */}
+                {/* Address */}
                 <motion.p
                     variants={itemVariants}
                     className="text-white/85 text-sm sm:text-base md:text-lg tracking-[0.12em] sm:tracking-[0.18em] uppercase mt-4 sm:mt-6"
@@ -147,7 +141,7 @@ export function HeroSection({
                     {address}
                 </motion.p>
 
-                {/* CTA Button - Unified BookButton */}
+                {/* CTA Button */}
                 <motion.div
                     variants={itemVariants}
                     className="mt-10 sm:mt-12"

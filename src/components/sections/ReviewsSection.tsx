@@ -91,19 +91,16 @@ const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
         opacity: 1,
-        transition: {
-            staggerChildren: 0.1,
-            delayChildren: 0.2,
-        },
+        transition: { duration: 0.6 } // No stagger, just fade in
     },
 };
 
 const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 20 },
     visible: {
         opacity: 1,
         y: 0,
-        transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+        transition: { duration: 0.6, ease: "easeOut" },
     },
 };
 
@@ -130,7 +127,7 @@ export function ReviewsSection({
                 variants={containerVariants}
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
+                viewport={{ once: true, margin: "-50px" }}
                 className="container"
             >
                 {/* Header */}
@@ -170,7 +167,10 @@ export function ReviewsSection({
                 </div>
 
                 {/* Reviews Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+                <div
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6"
+                    data-admin-edit="/admin/reviews"
+                >
                     {reviews.slice(0, 6).map((review) => (
                         <motion.div
                             key={review.id}

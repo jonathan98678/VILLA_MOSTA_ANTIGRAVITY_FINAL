@@ -25,7 +25,7 @@ const defaultRooms: Room[] = [
         description: "Spacious sanctuary featuring a private terrace with breathtaking views of the Rotunda.",
         basePrice: 85,
         maxGuests: 4,
-        image: "/images/villa/room-3.jpg",
+        image: "/images/villa/room-new-1.jpg",
     },
     {
         id: "2",
@@ -34,7 +34,7 @@ const defaultRooms: Room[] = [
         description: "Elegant comfort with modern amenities and a beautifully appointed en-suite shower.",
         basePrice: 65,
         maxGuests: 2,
-        image: "/images/villa/room-1.jpg",
+        image: "/images/villa/street-view.jpg",
     },
     {
         id: "3",
@@ -43,7 +43,7 @@ const defaultRooms: Room[] = [
         description: "Charming retreat overlooking the lush garden, perfect for a peaceful getaway.",
         basePrice: 60,
         maxGuests: 2,
-        image: "/images/villa/room-2.jpg",
+        image: "/images/villa/terrace-table.jpg",
     },
 ];
 
@@ -135,6 +135,7 @@ export function RoomsSection({
                     whileInView="visible"
                     viewport={{ once: true, margin: "-10%" }}
                     className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
+                    data-admin-edit="/admin/rooms"
                 >
                     {rooms.slice(0, 3).map((room, index) => (
                         <motion.div

@@ -43,10 +43,7 @@ export function IntroSection({
                             {title}
                         </h2>
 
-                        <div className="flex items-center justify-center lg:justify-start gap-4 mb-8">
-                            <div className="h-px w-12 bg-[var(--color-honey)]" />
-                            <div className="w-1.5 h-1.5 rotate-45 bg-[var(--color-honey)]" />
-                        </div>
+                        {/* Decorative elements removed to prevent artifacts */}
 
                         <p className="text-stone-600 text-base sm:text-lg leading-relaxed mb-10">
                             {description}
@@ -89,7 +86,7 @@ export function IntroSection({
                         >
                             <div className="relative w-full h-full overflow-hidden rounded-2xl shadow-2xl">
                                 <Image
-                                    src="/images/villa/terrace.jpg"
+                                    src="/images/villa/terrace-sun.jpg"
                                     alt="Villa Mosta sun terrace with outdoor furniture and Rotunda views"
                                     fill
                                     className="object-cover hover:scale-105 transition-transform duration-700"
@@ -110,15 +107,13 @@ export function IntroSection({
                                     src="/images/villa/entrence.jpg"
                                     alt="Traditional Maltese entrance to Villa Mosta with limestone archway"
                                     fill
-                                    className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                                    className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                                     sizes="(max-width: 768px) 100vw, 50vw"
                                 />
                             </div>
                         </motion.div>
 
-                        {/* Premium decorative accent */}
-                        <div className="absolute top-[15%] left-[10%] w-20 h-20 border border-[var(--color-honey)]/20 rounded-full pointer-events-none" />
-                        <div className="absolute bottom-[15%] right-[10%] w-32 h-32 border border-stone-300/20 rounded-full pointer-events-none" />
+
                     </div>
                 </div>
             </div>

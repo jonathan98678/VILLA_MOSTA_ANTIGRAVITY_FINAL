@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { SmoothCursor } from "@/components/ui/SmoothCursor";
 
 // Font configurations
 const inter = Inter({
@@ -76,6 +75,10 @@ export const viewport: Viewport = {
     maximumScale: 5,
 };
 
+import { AdminPreviewListener } from "@/components/admin/AdminPreviewListener";
+
+// ... existing code ...
+
 export default function RootLayout({
     children,
 }: Readonly<{
@@ -84,7 +87,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={cn("font-sans antialiased", inter.variable, playfair.variable)}>
-                <SmoothCursor />
+                <AdminPreviewListener />
                 {children}
             </body>
         </html>

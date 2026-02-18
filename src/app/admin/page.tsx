@@ -127,18 +127,22 @@ export default async function AdminDashboard() {
             {/* Live Preview Section */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-2 space-y-6">
-                    <div className="admin-card rounded-xl overflow-hidden border border-[var(--admin-border)]">
-                        <div className="bg-[var(--admin-card)] border-b border-[var(--admin-border)] p-4 flex items-center justify-between">
-                            <h2 className="font-medium text-[var(--admin-text)]">Live Website Preview</h2>
-                            <div className="flex items-center gap-2">
-                                <div className="flex gap-1.5">
-                                    <div className="w-3 h-3 rounded-full bg-red-500/20 border border-red-500/40"></div>
-                                    <div className="w-3 h-3 rounded-full bg-amber-500/20 border border-amber-500/40"></div>
-                                    <div className="w-3 h-3 rounded-full bg-green-500/20 border border-green-500/40"></div>
-                                </div>
+                    <div className="admin-card rounded-xl overflow-hidden border border-[var(--admin-border)] shadow-sm">
+                        <div className="bg-stone-100 dark:bg-stone-800 border-b border-[var(--admin-border)] p-3 flex items-center gap-4">
+                            <div className="flex gap-1.5">
+                                <div className="w-3 h-3 rounded-full bg-red-400 border border-red-500/30"></div>
+                                <div className="w-3 h-3 rounded-full bg-amber-400 border border-amber-500/30"></div>
+                                <div className="w-3 h-3 rounded-full bg-green-400 border border-green-500/30"></div>
                             </div>
+                            <div className="flex-1 bg-white dark:bg-stone-900 rounded-md border border-[var(--admin-border)] px-3 py-1 flex items-center justify-center">
+                                <span className="text-xs text-[var(--admin-text-muted)] flex items-center gap-1">
+                                    <span className="w-2 h-2 rounded-full bg-green-500"></span>
+                                    villamosta.com
+                                </span>
+                            </div>
+                            <div className="w-8"></div> {/* Spacer */}
                         </div>
-                        <div className="relative aspect-video bg-stone-100 dark:bg-stone-900">
+                        <div className="relative aspect-video bg-stone-100 dark:bg-stone-900 group">
                             <div className="absolute inset-0 flex items-center justify-center">
                                 <p className="text-stone-400 text-sm">Preview available on deployment</p>
                             </div>
@@ -176,6 +180,28 @@ export default async function AdminDashboard() {
                                     <div>
                                         <p className="text-sm font-medium text-[var(--admin-text)] group-hover:text-[var(--admin-accent)] transition-colors">Block Dates</p>
                                         <p className="text-xs text-[var(--admin-text-muted)]">Update availability calendar</p>
+                                    </div>
+                                </div>
+                            </Link>
+                            <Link href="/admin/blog" className="block w-full p-3 text-left rounded-lg hover:bg-[var(--admin-bg)] transition-colors border border-[var(--admin-border)] hover:border-[var(--admin-accent)] group">
+                                <div className="flex items-center gap-3">
+                                    <div className="p-2 bg-amber-100 dark:bg-amber-900/20 text-amber-600 rounded-md">
+                                        <Smartphone className="w-4 h-4" />
+                                    </div>
+                                    <div>
+                                        <p className="text-sm font-medium text-[var(--admin-text)] group-hover:text-[var(--admin-accent)] transition-colors">Create Post</p>
+                                        <p className="text-xs text-[var(--admin-text-muted)]">Share news & updates</p>
+                                    </div>
+                                </div>
+                            </Link>
+                            <Link href="/admin/gallery" className="block w-full p-3 text-left rounded-lg hover:bg-[var(--admin-bg)] transition-colors border border-[var(--admin-border)] hover:border-[var(--admin-accent)] group">
+                                <div className="flex items-center gap-3">
+                                    <div className="p-2 bg-stone-100 dark:bg-stone-800 text-stone-600 rounded-md">
+                                        <Monitor className="w-4 h-4" />
+                                    </div>
+                                    <div>
+                                        <p className="text-sm font-medium text-[var(--admin-text)] group-hover:text-[var(--admin-accent)] transition-colors">Upload Image</p>
+                                        <p className="text-xs text-[var(--admin-text-muted)]">Add to gallery</p>
                                     </div>
                                 </div>
                             </Link>

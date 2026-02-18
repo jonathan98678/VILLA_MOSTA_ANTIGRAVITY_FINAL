@@ -44,17 +44,17 @@ export function BookButton({
 
     if (onClick) {
         return (
-            <button onClick={onClick} className={baseStyles}>
+            <button onClick={onClick} className={cn(baseStyles, "group")}>
                 <span className="relative z-10">{children}</span>
                 {variant === "primary" && (
-                    <span className="absolute inset-0 rounded-full bg-gradient-to-r from-amber-400/0 via-amber-300/20 to-amber-400/0 opacity-0 hover:opacity-100 transition-opacity duration-500" />
+                    <span className="absolute inset-0 rounded-full bg-gradient-to-r from-amber-400/0 via-amber-300/20 to-amber-400/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 )}
             </button>
         );
     }
 
     return (
-        <Link href={href} className={baseStyles}>
+        <Link href={href} className={cn(baseStyles, "group")}>
             <span className="relative z-10">{children}</span>
             {variant === "primary" && (
                 <span className="absolute inset-0 rounded-full bg-gradient-to-r from-amber-400/0 via-amber-300/20 to-amber-400/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />

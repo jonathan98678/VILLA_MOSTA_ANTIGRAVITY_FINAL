@@ -32,7 +32,7 @@ export default async function HomePage() {
     return (
         <>
             <Header />
-            <main>
+            <main className="min-h-screen">
                 {/* Hero - full-screen image of Mosta Rotunda */}
                 <HeroSection
                     title="VILLA MOSTA"

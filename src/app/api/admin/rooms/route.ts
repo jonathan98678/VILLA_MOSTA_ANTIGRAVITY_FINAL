@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { getRooms, updateRoom, deleteRoom } from "@/lib/db";
 
 export async function GET() {
@@ -17,6 +18,9 @@ export async function PUT(request: Request) {
         const success = await updateRoom(id, updates);
 
         if (success) {
+            revalidatePath("/rooms");
+            revalidatePath("/");
+            revalidatePath("/admin/rooms");
             return NextResponse.json({ message: "Room updated successfully" });
         } else {
             return NextResponse.json({ error: "Failed to update room" }, { status: 500 });
@@ -33,6 +37,9 @@ export async function DELETE(request: Request) {
         const success = await deleteRoom(id);
 
         if (success) {
+            revalidatePath("/rooms");
+            revalidatePath("/");
+            revalidatePath("/admin/rooms");
             return NextResponse.json({ message: "Room deleted successfully" });
         } else {
             return NextResponse.json({ error: "Failed to delete room" }, { status: 500 });

@@ -90,12 +90,11 @@ export default function AdminSettingsPage() {
                                     value={settings['contact_email'] || ""}
                                     onChange={(e) => handleChange('contact_email', e.target.value)}
                                     placeholder="info@villamosta.com"
-                                    className="w-full pl-10 pr-3 py-2 rounded-lg border border-[var(--admin-border)] bg-[var(--admin-bg)] focus:ring-2 focus:ring-[var(--admin-accent)] outline-none"
+                                    className="w-full pl-10 pr-3 py-2 rounded-lg border border-[var(--admin-border)] bg-[var(--admin-bg)] focus:ring-2 focus:ring-[var(--admin-accent)] outline-none text-[var(--admin-text)]"
                                 />
                             </div>
                             <p className="text-xs text-[var(--admin-text-muted)]">Displayed on the Contact page.</p>
                         </div>
-                        {/* Removed Phone Number as requested */}
                     </div>
                 </section>
 
@@ -119,7 +118,7 @@ export default function AdminSettingsPage() {
                                 value={settings['stripe_publishable_key'] || ""}
                                 onChange={(e) => handleChange('stripe_publishable_key', e.target.value)}
                                 placeholder="pk_test_..."
-                                className="w-full px-3 py-2 rounded-lg border border-[var(--admin-border)] bg-[var(--admin-bg)] focus:ring-2 focus:ring-[var(--admin-accent)] outline-none font-mono text-sm"
+                                className="w-full px-3 py-2 rounded-lg border border-[var(--admin-border)] bg-[var(--admin-bg)] focus:ring-2 focus:ring-[var(--admin-accent)] outline-none font-mono text-sm text-[var(--admin-text)]"
                             />
                         </div>
 
@@ -131,7 +130,7 @@ export default function AdminSettingsPage() {
                                     value={settings['stripe_secret_key'] || ""}
                                     onChange={(e) => handleChange('stripe_secret_key', e.target.value)}
                                     placeholder="sk_test_..."
-                                    className="w-full pl-3 pr-10 py-2 rounded-lg border border-[var(--admin-border)] bg-[var(--admin-bg)] focus:ring-2 focus:ring-[var(--admin-accent)] outline-none font-mono text-sm"
+                                    className="w-full pl-3 pr-10 py-2 rounded-lg border border-[var(--admin-border)] bg-[var(--admin-bg)] focus:ring-2 focus:ring-[var(--admin-accent)] outline-none font-mono text-sm text-[var(--admin-text)]"
                                 />
                                 <button
                                     type="button"
@@ -160,7 +159,7 @@ export default function AdminSettingsPage() {
                         </div>
                     </div>
 
-                    <div className="bg-stone-50 dark:bg-stone-900/50 p-4 rounded-lg border border-[var(--admin-border)] text-sm text-[var(--admin-text-muted)]">
+                    <div className="bg-[var(--admin-bg)] p-4 rounded-lg border border-[var(--admin-border)] text-sm text-[var(--admin-text-muted)]">
                         <p>
                             To manage iCal import URLs for specific rooms, please visit the <a href="/admin/bookings" className="text-[var(--admin-accent)] hover:underline">Bookings</a> page.
                         </p>
