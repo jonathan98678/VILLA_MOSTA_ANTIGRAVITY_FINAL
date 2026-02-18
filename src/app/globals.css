@@ -51,21 +51,6 @@ button,
   cursor: pointer;
 }
 
-/* SNIPER CSS: The user confirmed these exact classes exist in the DOM. */
-/* We force-hide them regardless of origin. */
-[class*="z-[9999]"],
-[class*="backdrop-blur-[1px]"],
-[class*="mix-blend-difference"] {
-  display: none !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-  visibility: hidden !important;
-  width: 0 !important;
-  height: 0 !important;
-  position: static !important;
-  /* Break fixed positioning */
-}
-
 /* ===========================
    Base styles - bolder typography
    =========================== */
